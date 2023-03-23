@@ -12,17 +12,36 @@
 .dropdown-item{
     color:#1F4591;
 }
-
-
+.dropdown-item:hover{
+    color:#1F4591;
+}
 /* dropdown on hover */
 .dropdown:hover .dropdown-menu{
     display:block;
 }
 
-.dropdown-item{
+.button{
+    align-content: center;
+}
+
+.img{
+    width:100%;
+    height:auto;
+}
+
+.img-container{
+    margin-top:50px;
+    margin-inline:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    margin-top: 50px;
+    margin-inline: 20px;
+}
+.card-footer{
+    background-color: #BFD7ED;
+    font-size: large;
     color:#1F4591;
 }
 
-.navbar-nav{
-    font-size: large;
-}
