@@ -29,20 +29,22 @@
                 <button id="deleteButton" class="btn btn-danger mb-3 adminActionAlwaysOn">Διαγραφή</button>
             </div>
 
+            <!-- title and description div -->
             <div class="mb-3">
                 <input id="title" class="form-control adminInput mb-3" type="text" placeholder="Όνομα" disabled>
                 <textarea id="descpiption" class="form-control adminInput" placeholder="Περιγραφή" disabled></textarea>
             </div>
             
+            <!-- import/preview photo -->
             <div class="input-group mb-3 adminAction" id="importPhoto">
                 <input type="file" class="form-control" id="inputGroupFile" aria-describedby="inputGroupFileAddon04" >
                 <button class="btn btn-outline-secondary" type="button" id="previewButton">Preview</button>
             </div>
 
-            <!-- preview image -->
-            <div class="text-center mb-3">
-                <img id="previewImage" class="rounded mx-auto d-block">
-            </div>
+            <!--images container-->
+            <div class="input-group mb-3 justify-content-center" id="imagesContainer"></div>
+
+
             
             <!-- add parapraph button -->
             <button id="addButton" class="btn btn-primary mb-3 adminAction">Πρόσθεσε Πληροφορίες</button>
@@ -52,11 +54,38 @@
             
             <!--Google map-->
             <h4 class="text mb-3">Χάρτης</h4>
-            <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+            <div id="map-container-google-1" class="z-depth-1-half map-container mb-3" style="height: 500px">
                 <iframe src="https://maps.google.com/maps?q=koufonisia&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
                 style="border:0" allowfullscreen></iframe>
             </div>
-  
+            
+            <!-- reviews -->
+            <h4>Αξιολογήσεις</h4>
+            <div id="reviewContainer">
+                <div class="card mb-3 shadow p-3">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <!-- user name -->
+                            <div class="d-flex align-items-center h-100">
+                              <p class="card-text md-3 mx-auto">Όνομα Χρήστη</p>
+                            </div>
+                        </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Βαθμολογία</h5>
+                          <p class="card-text">Η παραλία αυτή είναι εξαιρετική.</p>
+                          <p class="card-text"><small class="text-body-secondary">Ημερομηνία Δημιοσίευσης 28/02/2020</small></p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+              
+            <!-- button add review -->
+            <button id="addReview" class="btn btn-primary mb-3 userInput">Πρόσθεσε Αξιολόγηση</button>
+
+            <br><br><br>
         </form>
 
     </div>
