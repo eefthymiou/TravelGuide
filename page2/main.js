@@ -50,9 +50,7 @@ function previewPhoto() {
 }
 
 addButton.addEventListener("click", function() {
-    let addButton = document.getElementById("addButton");
-    let container = document.getElementById("container");
-
+    const container = document.getElementById("container");
 
     // Prevent the default action
     event.preventDefault();
@@ -67,18 +65,18 @@ addButton.addEventListener("click", function() {
     }
 
     // Create a new div element
-    var newRow = document.createElement("div");
-    newRow.className = "row mb-3";
+    const newRow = document.createElement("div");
+    newRow.className = "mb-3";
 
     // Create a new textarea element
-    var newTextarea = document.createElement("textarea");
+    const newTextarea = document.createElement("textarea");
     newTextarea.className = "form-control adminInput mb-3";
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
 
     // Create a new delete button element
-    var newDeleteButton = document.createElement("button");
+    const newDeleteButton = document.createElement("button");
     newDeleteButton.className = "btn btn-danger adminAction";
-    newDeleteButton.innerText = "Delete";
+    newDeleteButton.innerText = "Διαγραφή";
 
     newDeleteButton.addEventListener("click", function() {
         // Prevent the default action
@@ -114,14 +112,14 @@ function hideAllAdminAction() {
 }
 
 function showAdminAction() {
-    let elements = document.getElementsByClassName("adminAction");
+    const elements = document.getElementsByClassName("adminAction");
     for (let i = 0; i < elements.length; i++){
         elements[i].style.display = "";
     }
 }
 
 function editButtonClicked(callback) {
-    let editButton = document.getElementById("editButton");
+    const editButton = document.getElementById("editButton");
     editButton.addEventListener("click", function() {
         // Prevent the default action
         event.preventDefault();
@@ -168,7 +166,7 @@ function main(){
     both()
 
     // then check if the user is an admin or not
-    const admin = true;
+    const admin = true ;
     if (admin){
         // if the user is an admin, call the admin_page function
         admin_page()
