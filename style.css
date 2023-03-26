@@ -64,3 +64,13 @@
     margin: 80px 0 3px; 
     padding: 2px; 
 }
+
+
+/*---------------MODALS---------------------------*/
+.modal-content{
+    color: #1F4591;
+}
+.modal .btn{
+    background-color:#BFD7ED;
+    color:#1F4591;
+}
