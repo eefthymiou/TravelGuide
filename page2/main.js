@@ -221,25 +221,89 @@ function showAdminAction() {
     }
 }
 
+function nonEditMode(){
+    // hide save button
+    saveButton.style.display = "none";
+
+    // hide delete button
+    deleteButton.style.display = "none";
+
+    // unhide edit button
+    editButton.style.display = "";
+
+    // disable the textareas
+    disableTextarea()
+    
+    // hide admin action
+    hideAdminAction()
+}
+
+function editMode(){
+    // unhide save button
+    saveButton.style.display = "";
+
+    // unhide delete button
+    deleteButton.style.display = "";
+
+    // hide edit button
+    editButton.style.display = "none";
+
+    // enable the textareas
+    enableTextarea()
+
+    // show admin action
+    showAdminAction()
+}
+
+
+saveButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // check if edit variable is true
+    if (edit){
+        // store the values of the textareas in db
+
+        // disable the textareas
+        disableTextarea()
+        disableTextarea()
+        hideAdminAction()
+        autoIncrimentTextarea()
+
+        // change mode to non edit mode
+        nonEditMode()
+
+        // change the edit variable to false
+        edit = !edit;
+    }
+});
+
+
 
 editButton.addEventListener("click", function() {
     // Prevent the default action
     event.preventDefault();
 
-    // Change the edit variable to true
+    // is edit variable is false enable the textareas
     if (!edit){
-        enableTextarea()
-        showAdminAction()
-    }
-    else {
-        disableTextarea()
-        hideAdminAction()
-        autoIncrimentTextarea()
+        // change mode to edit mode
+        editMode()
     }
 
     edit = !edit;
 });
 
+deleteButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // create a confirmation box
+    const confirmation = confirm("Είσαι σίγουρος ότι θέλεις να διαγράψεις το αντικείμενο;");
+    if (confirmation){
+        // delete the object from db
+    }
+    
+});
 
 function hideUserAction(){
     let elements = document.getElementsByClassName("userInput");
@@ -248,21 +312,20 @@ function hideUserAction(){
     }
 }
 
+
+
 function admin_page() {
-    disableTextarea()
-    hideAdminAction()
     hideUserAction()
-    disableTextarea()
 }
 
 function user_page(){
-    disableTextarea()
-    hideAdminAction()
     hideAllAdminAction()
 }
 
 function both(){
     autoIncrimentTextarea()
+    disableTextarea()
+    nonEditMode()
 }
 
 
@@ -271,7 +334,8 @@ function main(){
     both()
 
     // then check if the user is an admin or not
-    const admin = true ;
+    const admin = false ;
+
     if (admin){
         // if the user is an admin, call the admin_page function
         admin_page()
