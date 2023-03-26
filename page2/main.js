@@ -6,7 +6,7 @@ function autoIncrimentTextarea(){
         elements[i].style.height = "auto";
         elements[i].style.height = (elements[i].scrollHeight) + "px";
         // hide scrollbars
-        // elements[i].style.overflow = "hidden";
+        elements[i].style.overflow = "hidden";
     }
 }
 
@@ -271,7 +271,7 @@ function main(){
     both()
 
     // then check if the user is an admin or not
-    const admin = false ;
+    const admin = true ;
     if (admin){
         // if the user is an admin, call the admin_page function
         admin_page()
