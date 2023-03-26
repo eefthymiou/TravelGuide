@@ -1,17 +1,21 @@
+let edit = false;
+
 function autoIncrimentTextarea(){
     let elements = document.getElementsByTagName("textarea");
     for (let i = 0; i < elements.length; i++){
-        elements[i].addEventListener("input", function() {
-            elements[i].style.height = "auto";
-            elements[i].style.height = (elements[i].scrollHeight) + "px";
-        });
+        elements[i].style.height = "auto";
+        elements[i].style.height = (elements[i].scrollHeight) + "px";
+        // hide scrollbars
+        // elements[i].style.overflow = "hidden";
     }
 }
+
 
 function enableTextarea() {
     let elements = document.getElementsByClassName("adminInput");
     for (let i = 0; i < elements.length; i++){
         elements[i].disabled = false;
+        elements[i].style.overflow = "auto";
     }
 }
   
@@ -19,6 +23,8 @@ function disableTextarea() {
     let elements = document.getElementsByClassName("adminInput");
     for (let i = 0; i < elements.length; i++){
         elements[i].disabled = true;
+        // not resizable
+        elements[i].style.resize = "none";
     }
 }
 
@@ -124,7 +130,7 @@ addReview.addEventListener("click", function() {
     // Create a new button element
     const newSaveButton = document.createElement("button");
     newSaveButton.className = "btn btn-success mb-3";
-    newSaveButton.innerText = "Αποθήκευση";
+    newSaveButton.innerText = "Υποβολή";
 
     // Create a new button element
     const newEditButton = document.createElement("button");
@@ -146,7 +152,7 @@ addReview.addEventListener("click", function() {
 });
 
 
-addButton.addEventListener("click", function() {
+addInfo.addEventListener("click", function() {
     const container = document.getElementById("container");
 
     // Prevent the default action
@@ -215,19 +221,25 @@ function showAdminAction() {
     }
 }
 
-function editButtonClicked(callback) {
-    const editButton = document.getElementById("editButton");
-    editButton.addEventListener("click", function() {
-        // Prevent the default action
-        event.preventDefault();
 
-        // Change the edit variable to true
-        edit = !edit;
-        
-        // Call the callback function with the edit variable
-        callback(edit);
-    });
-}
+editButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // Change the edit variable to true
+    if (!edit){
+        enableTextarea()
+        showAdminAction()
+    }
+    else {
+        disableTextarea()
+        hideAdminAction()
+        autoIncrimentTextarea()
+    }
+
+    edit = !edit;
+});
+
 
 function hideUserAction(){
     let elements = document.getElementsByClassName("userInput");
@@ -240,19 +252,7 @@ function admin_page() {
     disableTextarea()
     hideAdminAction()
     hideUserAction()
-
-    edit = false;
-
-    editButtonClicked(function(edit) {
-        if (!edit){
-            disableTextarea()
-            hideAdminAction()
-        }
-        else {
-            enableTextarea()
-            showAdminAction()
-        }
-    });
+    disableTextarea()
 }
 
 function user_page(){
@@ -271,7 +271,7 @@ function main(){
     both()
 
     // then check if the user is an admin or not
-    const admin = true ;
+    const admin = false ;
     if (admin){
         // if the user is an admin, call the admin_page function
         admin_page()
