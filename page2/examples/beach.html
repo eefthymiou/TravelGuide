@@ -20,13 +20,16 @@
         <!-- να βάλω το nav-bar από την main page -->
         <form>
             <br>
-            <div class="gap-2 d-flex justify-content-end">
+            <div class="gap-2 d-flex justify-content-start">
                 <!-- save button -->
                 <button id="saveButton" class="btn btn-success mb-3 adminActionAlwaysOn">Αποθήκευση</button>
-                <!-- edit button -->
-                <button id="editButton" class="btn btn-warning mb-3 adminActionAlwaysOn">Επεξεργασία</button>
                 <!-- delete button -->
                 <button id="deleteButton" class="btn btn-danger mb-3 adminActionAlwaysOn">Διαγραφή</button>
+            </div>
+
+            <!-- edit button -->
+            <div class="d-flex justify-content-end">
+                <button id="editButton" class="btn btn-warning mb-3 adminActionAlwaysOn justify-content-end">Επεξεργασία</button>
             </div>
 
             <!-- title and description div -->
@@ -46,8 +49,15 @@
             </div>
 
             <!--images container-->
+            
             <div class="input-group mb-3 justify-content-center" id="imagesContainer">
-                <img src="../../images/pori.png" class="img-fluid">
+                <div class="divImage"> 
+                    <img src="../../images/pori.png" class="img-fluid mb-3" alt="photo of the beach" title="Παραλία Πορί">
+
+                    <br>
+                    <!-- delete button -->
+                    <button class="mb-3 btn btn-danger adminAction justify-content-center">Διαγραφή Φωτογραφίας</button>
+                </div>
             </div>
 
             <!-- add parapraph button -->

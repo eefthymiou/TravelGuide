@@ -28,13 +28,29 @@ function disableTextarea() {
     }
 }
 
+function enablePhotoButtons(){
+    const elements = document.getElementsByClassName("photoButton");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].disabled = false;
+    }
+}
+
+function disablePhotoButtons(){
+    const elements = document.getElementsByClassName("photoButton");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].disabled = true;
+    }
+}
+
 
 previewButton.addEventListener("click", function() {
     const fileInput = document.getElementById("inputGroupFile");
     const divImages = document.getElementById("imagesContainer");
-    const previewImage = document.createElement("img");
-    previewImage.className = "img-fluid";
+    
 
+    const image = document.createElement("img");
+    image.className = "img-fluid mb-3";
+   
     // Prevent the default action
     event.preventDefault();
 
@@ -43,15 +59,186 @@ previewButton.addEventListener("click", function() {
     if (fileType.indexOf("image/") == 0) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            previewImage.src = e.target.result;
+            image.src = e.target.result;
         };
         reader.readAsDataURL(file);
+
+        const divImage = document.createElement("div");
+        
+        // create a div for edit and delete buttons
+        const divButtons = document.createElement("div");
+        divButtons.className = "gap-2 d-flex justify-content-center adminAction";
+
+
+        // create button for delete
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "mb-3 btn btn-danger adminAction";
+        deleteButton.innerText = "Διαγραφή Φωτογραφίας";
+
+        deleteButton.addEventListener("click", function() {
+            divImage.remove();
+        });
+
+        // create button for edit   
+        const editButton = document.createElement("button");
+        editButton.className = "mb-3 btn btn-warning adminAction";
+        editButton.innerText = "Επεξεργασία Φωτογραφίας";
+        // connect edit button with modal
+        editButton.setAttribute("data-bs-toggle", "modal");
+        editButton.setAttribute("data-bs-target", "#editModal");
+        
+        const modal = document.createElement("div");
+        modal.className = "modal fade";
+        modal.id = "editModal";
+        modal.tabIndex = "-1";
+        modal.getAttribute("keyboard", "false");
+        
+        // create a modal dialog
+        const modalDialog = document.createElement("div");
+        modalDialog.className = "modal-dialog";
+
+        // create a modal content
+        const modalContent = document.createElement("div");
+        modalContent.className = "modal-content";
+
+        // create a modal header
+        const modalHeader = document.createElement("div");
+        modalHeader.className = "modal-header";
+
+        // create a modal title
+        const modalTitle = document.createElement("h5");
+        modalTitle.className = "modal-title";
+        modalTitle.id = "editModalLabel";
+        modalTitle.innerText = "Επεξεργασία Φωτογραφίας";
+
+        // create a button for closing the modal
+        const closeButton = document.createElement("button");
+        closeButton.className = "btn-close";
+        closeButton.setAttribute("data-bs-dismiss", "modal");
+        closeButton.setAttribute("aria-label", "Close");
+        closeButton.addEventListener("click", function() {
+            const modal = document.getElementById('editModal');
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            bootstrapModal.hide();
+        });
+
+        // create a modal body
+        const modalBody = document.createElement("div");
+        modalBody.className = "modal-body";
+
+        // create a modal footer
+        const modalFooter = document.createElement("div");
+        modalFooter.className = "modal-footer";
+        
+        // create a button for saving the changes
+        const saveButton = document.createElement("button");
+        saveButton.className = "btn btn-primary";
+        saveButton.innerText = "Αποθήκευση";
+
+        // create a form for the modal
+        const modalForm = document.createElement("form");
+        modalForm.className = "row g-3";
+
+        // create a div for the title input
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "col-md-12";
+
+        // create a label for the title input
+        const titleLabel = document.createElement("label");
+        titleLabel.className = "form-label";
+        titleLabel.innerText = "Τίτλος Φωτογραφίας";
+
+        // create a input for the title
+        const titleInput = document.createElement("input");
+        titleInput.className = "form-control";
+        titleInput.type = "text";
+        titleInput.id = "titleInput";
+        titleInput.placeholder = "Τίτλος Φωτογραφίας";
+
+        // create a div for the alt input
+        const altDiv = document.createElement("div");
+        altDiv.className = "col-md-12";
+        
+        // create a label for the alt input
+        const altLabel = document.createElement("label");
+        altLabel.className = "form-label";
+        altLabel.innerText = "Περιγραφή Φωτογραφίας";
+
+        // create a input for the alt
+        const altInput = document.createElement("input");
+        altInput.className = "form-control";
+        altInput.type = "text";
+        altInput.id = "altInput";
+        altInput.placeholder = "Περιγραφή Φωτογραφίας";
+
+        // add elements to modalForm
+        titleDiv.appendChild(titleLabel);
+        titleDiv.appendChild(titleInput);
+        altDiv.appendChild(altLabel);
+        altDiv.appendChild(altInput);
+        modalForm.appendChild(titleDiv);
+        modalForm.appendChild(altDiv);
+
+        // add elements to modalHeader
+        modalHeader.appendChild(modalTitle);
+        modalHeader.appendChild(closeButton);
+
+        // add elements to modalBody
+        modalBody.appendChild(modalForm);
+
+        // add elements to modalFooter
+        modalFooter.appendChild(saveButton);
+
+        // add elements to modalContent
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalBody);
+        modalContent.appendChild(modalFooter);
+
+        // add elements to modalDialog
+        modalDialog.appendChild(modalContent);
+
+        // add elements to modal
+        modal.appendChild(modalDialog);
+
+        // add modal to body
+        document.body.appendChild(modal);
+
+        editButton.addEventListener("click", function() {
+            // create a modal
+            // in this modal the user will be able to edit the image
+            // user will be able to set a title of the image
+            // user will be able to set a alt text of the image
+            
+            // prevent the default action
+            event.preventDefault();
+
+            const modal = document.getElementById('editModal');
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            bootstrapModal.show();
+        });
+
+        
+
+        // append buttons to divButtons
+        divButtons.appendChild(editButton);
+        divButtons.appendChild(deleteButton);
+
+        // append elements
+        divImage.appendChild(image);
+        divImage.appendChild(divButtons);
+        
+        
+
+        // add divImage to divImages
+        divImages.appendChild(divImage);
+
+        
+
     } else {
         alert("Please select an image file.");
     }
 
-    // add image to div
-    divImages.appendChild(previewImage);
+    
 });
 
 
@@ -207,13 +394,6 @@ function hideAdminAction() {
     }
 }
 
-function hideAllAdminAction() {
-    let elements = document.getElementsByClassName("adminActionAlwaysOn");
-    for (let i = 0; i < elements.length; i++){
-        elements[i].style.display = "none";
-    }
-}
-
 function showAdminAction() {
     const elements = document.getElementsByClassName("adminAction");
     for (let i = 0; i < elements.length; i++){
@@ -231,12 +411,17 @@ function nonEditMode(){
     // unhide edit button
     editButton.style.display = "";
 
+    // disable buttons for photos
+    disablePhotoButtons()
+
     // disable the textareas
     disableTextarea()
     
     // hide admin action
     hideAdminAction()
 }
+
+
 
 function editMode(){
     // unhide save button
@@ -247,6 +432,9 @@ function editMode(){
 
     // hide edit button
     editButton.style.display = "none";
+
+    // enable buttons for photos 
+    enablePhotoButtons()
 
     // enable the textareas
     enableTextarea()
@@ -266,7 +454,7 @@ saveButton.addEventListener("click", function() {
 
         // disable the textareas
         disableTextarea()
-        disableTextarea()
+        
         hideAdminAction()
         autoIncrimentTextarea()
 
@@ -313,14 +501,19 @@ function hideUserAction(){
 }
 
 
+function hideEditButton(){
+    editButton.style.display = "none";
+}
 
 function admin_page() {
     hideUserAction()
 }
 
-function user_page(){
-    hideAllAdminAction()
+function user_page() {
+    hideAdminAction()
+    hideEditButton()
 }
+
 
 function both(){
     autoIncrimentTextarea()
@@ -334,7 +527,7 @@ function main(){
     both()
 
     // then check if the user is an admin or not
-    const admin = false ;
+    const admin = true ;
 
     if (admin){
         // if the user is an admin, call the admin_page function
