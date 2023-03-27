@@ -1,7 +1,5 @@
 let edit = false;
 
-
-
 function autoIncrimentTextarea(){
     let elements = document.getElementsByTagName("textarea");
     for (let i = 0; i < elements.length; i++){
@@ -112,16 +110,24 @@ function addImage(pathImage,alt,title){
         // prevent the default action
         event.preventDefault();
     
-        // find the modal
-        const modal = event.target.closest(".modal");
+        // find the id of the button
+        let id = event.target.getAttribute("data-bs-target");
+ 
+        // remove the first charachet from the id
+        id = id.substring(1);
+
+        // get the modal
+        const modal = document.getElementById(id);
         
         // show the modal if it exists
-        if (modal) {
-            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+        if (modal != null) {
+            const bootstrapModal = new bootstrap.Modal(modal);
             bootstrapModal.show();
-        } else {
-            console.error("Modal not found");
         }
+        else{
+            console.log("modal is null")
+        }
+
     });
     
     // create a modal dialog
@@ -149,7 +155,7 @@ function addImage(pathImage,alt,title){
         // prevent the default action
         event.preventDefault();
 
-        const modal = document.getElementById('editModal');
+        const modal = event.target.closest(".modal");
         const bootstrapModal = bootstrap.Modal.getInstance(modal);
         bootstrapModal.hide();
     });
@@ -204,14 +210,14 @@ function addImage(pathImage,alt,title){
     altInput.id = "altInput";
     altInput.placeholder = "Περιγραφή Φωτογραφίας";
     altInput.value = image.alt;
-    console.log("altInput.value: " + altInput.value);
+
 
 
     // add event listener for saving the changes
     modalSaveButton.addEventListener("click", function() {
         // prevent the default action
         event.preventDefault();
-
+        
         // get the values from the inputs
         const title = document.getElementById("titleInput").value;
         const alt = document.getElementById("altInput").value;
@@ -220,8 +226,9 @@ function addImage(pathImage,alt,title){
         image.title = title;
         image.alt = alt;
 
-        // close the modal
-        const modal = document.getElementById('editModal');
+        // the button is inside the modal
+        // so we need to find the modal
+        const modal = event.target.closest(".modal");
         const bootstrapModal = bootstrap.Modal.getInstance(modal);
         bootstrapModal.hide();
     });
