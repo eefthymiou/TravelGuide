@@ -42,24 +42,24 @@
     <!-- CARDS -->
     <div class="container-fluid">
       <div class="card-group">
-        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" style="width:200px">
-          <img class="card-img-top" src="images/beaches.jpg" data-value="beaches" alt="Παραλία σε σπηλιά">
+        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" data-value="beaches" style="width:200px">
+          <img class="card-img-top" src="images/beaches.jpg" alt="Παραλία σε σπηλιά">
           <div class="card-footer d-flex justify-content-center">Παραλίες</div>
         </a>
-        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" style="width:200px">
-          <img class="card-img-top" src="images/sights.jpg" data-value="sights" alt="Ανεμόμυλος">
+        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" data-value="sights" style="width:200px">
+          <img class="card-img-top" src="images/sights.jpg" alt="Ανεμόμυλος">
           <div class="card-footer d-flex justify-content-center">Αξιοθέατα</div>
         </a>
-        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" style="width:200px">
-          <img class="card-img-top" src="images/acc.jpg" data-value="accomm" alt="Δωμάτια">
+        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" data-value="accomm" style="width:200px">
+          <img class="card-img-top" src="images/acc.jpg" alt="Δωμάτια">
           <div class="card-footer d-flex justify-content-center">Διαμονή</div>
         </a>
-        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" style="width:200px">
-          <img class="card-img-top" src="images/transport.jpg" data-value="transport" alt="Ποδήλατα στην άμμο">
+        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" data-value="transport" style="width:200px">
+          <img class="card-img-top" src="images/transport.jpg" alt="Ποδήλατα στην άμμο">
           <div class="card-footer d-flex justify-content-center">Μετακινήσεις</div>
         </a>
-        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" style="width:200px">
-          <img class="card-img-top" src="images/food.jpg" data-value="food" alt="Τραπέζι εστιατορίου">
+        <a class="card" href="http://127.0.0.1:3000/page1/page1.html" data-value="food" style="width:200px">
+          <img class="card-img-top" src="images/food.jpg" alt="Τραπέζι εστιατορίου">
           <div class="card-footer d-flex justify-content-center">Φαγητό</div>
         </a>
       </div>
@@ -135,14 +135,22 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username">
+            </div>
+            <div class="mb-3">
               <label for="signUpEmail" class="form-label">Email</label>
               <input type="email" class="form-control" id="signUpEmail" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
-              <label for="signUpPassword" class="form-label">Password</label>
+              <label for="signUpPassword" class="form-label">Κωδικός</label>
               <input type="password" class="form-control" id="signUpPassword">
             </div>
-            <button type="submit" class="btn">Σύνδεση</button>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Επιβεβαίωση κωδικού</label>
+              <input type="password" class="form-control" id="confirmPassword">
+            </div>
+            <button type="submit" class="btn">Εγγραφή</button>
           </form>
         </div>
       </div>
