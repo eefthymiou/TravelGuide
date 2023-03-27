@@ -15,6 +15,14 @@
 .dropdown-item:hover{
     color:#1F4591;
 }
+.dropdown-menu .active{
+    background-color: white;
+    color:#1F4591;
+}
+.dropdown-menu .onClick{
+    background-color: white;
+    color:#1F4591;
+}
 /* dropdown on hover */
 .dropdown:hover .dropdown-menu{
     display:block;
@@ -73,4 +81,11 @@
 .modal .btn{
     background-color:#BFD7ED;
     color:#1F4591;
+}
+
+.title{
+    color:#1F4591;
+    font-size: 30px;
+    font-weight: semibold;
+    margin-top: 20px;
 }
