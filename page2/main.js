@@ -32,6 +32,7 @@ function enablePhotoButtons(){
     const elements = document.getElementsByClassName("photoButton");
     for (let i = 0; i < elements.length; i++){
         elements[i].disabled = false;
+        
     }
 }
 
@@ -48,7 +49,7 @@ function addImage(pathImage,alt,title){
     
 
     const image = document.createElement("img");
-    image.className = "img-fluid mb-3";
+    image.className = "img-fluid mb-3 image";
     image.id = "image";
    
     if (pathImage == undefined){
@@ -302,7 +303,7 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
 
     // Create a new div element
     const newDiv = document.createElement("div");
-    newDiv.className = "card mb-3 shadow p-3";
+    newDiv.className = "card mb-3 shadow p-3 review";
 
     // create div for row
     const newRow = document.createElement("div");
@@ -454,7 +455,6 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
     }
 
 }
-
 
 addReview.addEventListener("click", function() {
     // Prevent the default action
