@@ -1,5 +1,7 @@
 let edit = false;
 
+
+
 function autoIncrimentTextarea(){
     let elements = document.getElementsByTagName("textarea");
     for (let i = 0; i < elements.length; i++){
@@ -241,13 +243,8 @@ previewButton.addEventListener("click", function() {
     
 });
 
-
-addReview.addEventListener("click", function() {
+function addReviewdF(reviewText="",reviewRating="",userName) {
     const container = document.getElementById("reviewContainer");
-    // Prevent the default action
-    event.preventDefault();
-
-    // Check if user has already written a review
 
     // Create a new div element
     const newDiv = document.createElement("div");
@@ -268,7 +265,7 @@ addReview.addEventListener("click", function() {
     // create p element for user name
     const newP = document.createElement("p");
     newP.className = "card-text md-3 mx-auto";
-    newP.innerText = "Όνομα Χρήστη";
+    newP.innerText = userName;
 
     // create div for col-md-8
     const newCol3 = document.createElement("div");
@@ -278,31 +275,54 @@ addReview.addEventListener("click", function() {
     const newCardBody = document.createElement("div");
     newCardBody.className = "card-body";
 
-    // create h5 element for rating
-    const newH5 = document.createElement("h5");
-    newH5.className = "card-title";
-    newH5.innerText = "Βαθμολογία";
+    // create a input element for rating
+    const inputRating = document.createElement("input");
+    inputRating.className = "form-control mb-1";
+    // the review can be rated from 1 to 5
+    inputRating.type = "number";
+    inputRating.min = "1";
+    inputRating.max = "5";
+    inputRating.step = "1";
+    inputRating.id = "inputRating";
+    inputRating.placeholder = "Βαθμολογία";
+    inputRating.innerText = reviewRating;
+    inputRating.disabled = false;
 
-    // create p element for review
-    const newP2 = document.createElement("p");
-    newP2.className = "card-text";
-    newP2.innerText = "Η παραλία αυτή είναι εξαιρετική.";
+    // create input element for review
+    const inputReviewText = document.createElement("input");
+    inputReviewText.className = "form-control mb-1";
+    inputReviewText.type = "text";
+    inputReviewText.id = "inputReviewText";
+    inputReviewText.placeholder = "Γράψτε το σχόλιό σας εδώ";
+    inputReviewText.disabled = false;
+    inputReviewText.innerText = reviewText;
 
     // create p element for date
     const newP3 = document.createElement("p");
     newP3.className = "card-text";
 
     // create small element for date
-    const newSmall = document.createElement("small");
-    newSmall.className = "text-body-secondary";
-    newSmall.innerText = "Ημερομηνία Δημιοσίευσης 28/02/2020";
+    const reviewDate = document.createElement("small");
+    reviewDate.className = "text-body-secondary";
+    reviewDate.textContent = "Ημερομηνία Δημοσίευσης: "
+    const today2 = new Date();
+    const daysDiff = Math.round((today2.getTime() - today2.getTime()) / (1000 * 60 * 60 * 24));
+    if (daysDiff === 0) {
+        reviewDate.textContent += "Σήμερα";
+    } else if (daysDiff === 1) {
+        reviewDate.textContent += "Χθες";
+    } else if (daysDiff === 2) {
+        reviewDate.textContent += "Προχθές";
+    } else {
+        reviewDate.textContent += `${daysDiff} ημέρες πριν`;
+    }
 
     // append elements
-    newP3.appendChild(newSmall);
+    newP3.appendChild(reviewDate);
     newCol2.appendChild(newP);
     newCol1.appendChild(newCol2);
-    newCardBody.appendChild(newH5);
-    newCardBody.appendChild(newP2);
+    newCardBody.appendChild(inputRating);
+    newCardBody.appendChild(inputReviewText);
     newCardBody.appendChild(newP3);
     newCol3.appendChild(newCardBody);
     newRow.appendChild(newCol1);
@@ -319,31 +339,65 @@ addReview.addEventListener("click", function() {
     newSaveButton.className = "btn btn-success mb-3";
     newSaveButton.innerText = "Υποβολή";
 
-    // Create a new button element
-    const newEditButton = document.createElement("button");
-    newEditButton.className = "btn btn-warning mb-3";
-    newEditButton.innerText = "Επεξεργασία";
+    // eventListener for save button
+    newSaveButton.addEventListener("click", function() {
+        // Prevent the default action
+        event.preventDefault();
+
+        // Get the values of the input elements
+
+        // Check if the user has entered a review
+
+        // Check if the user has entered a rating
+
+        // set the input elements to diasable
+        inputRating.disabled = true;
+        inputReviewText.disabled = true;
+        
+        // remove thw save button
+        newRowButtons.removeChild(newSaveButton);
+    });
+
+
 
     // Create a new button element
     const newDeleteButton = document.createElement("button");
     newDeleteButton.className = "btn btn-danger mb-3";
     newDeleteButton.innerText = "Διαγραφή";
-
+    
     // Append the button to the div
     newRowButtons.appendChild(newSaveButton);
-    newRowButtons.appendChild(newEditButton);
     newRowButtons.appendChild(newDeleteButton);
+
+    // eventListener for delete button
+    newDeleteButton.addEventListener("click", function() {
+        // Prevent the default action
+        event.preventDefault();
+
+        // remove the div
+        container.removeChild(newDiv);
+        newRowButtons.remove();
+    });
 
     // Append the div to the container
     container.appendChild(newRowButtons);
-});
 
 
-addInfo.addEventListener("click", function() {
-    const container = document.getElementById("container");
+}
 
+
+addReview.addEventListener("click", function() {
     // Prevent the default action
     event.preventDefault();
+
+    // Check if user has already written a review
+
+    // Call the function to add a new review
+    addReviewdF();
+});
+
+function addInfoF(text=""){
+    const container = document.getElementById("container");
 
     // Check if any of the existing textarea elements are empty
     let textareas = container.querySelectorAll("textarea");
@@ -362,6 +416,8 @@ addInfo.addEventListener("click", function() {
     const newTextarea = document.createElement("textarea");
     newTextarea.className = "form-control adminInput mb-3";
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
+    // add the text to the textarea
+    newTextarea.value = text;
 
     // Create a new delete button element
     const newDeleteButton = document.createElement("button");
@@ -382,6 +438,15 @@ addInfo.addEventListener("click", function() {
     // Add the div, delete button, and line break to the container
     container.appendChild(newRow);
 
+    // Call the autoIncrimentTextarea function
+    autoIncrimentTextarea()
+}
+
+addInfo.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+    // Call the addInofrmation function
+    addInfoF()
     // Call the autoIncrimentTextarea function
     autoIncrimentTextarea()
 });
@@ -523,11 +588,21 @@ function both(){
 
 
 function main(){
+
+    // default Ιnformation is added
+    addInfoF("Αυτή είναι μια default περιγραφή");
+    
+    // default review is added
+    // addReviewdF("Αυτή είναι μια default κριτική");
+
+
     // function both is called for all users
     both()
 
+
+
     // then check if the user is an admin or not
-    const admin = true ;
+    const admin = false ;
 
     if (admin){
         // if the user is an admin, call the admin_page function
