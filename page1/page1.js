@@ -5,7 +5,7 @@ const pori = {"name":"Πορί", "description":"Η παραλία Πορί έχ�
 const italida = {"name":"Ιταλίδα", "description":"Το όνομα “Ιταλίδα”, προέκυψε λόγω της ιδιοκτήτριας της περιοχής πάνω από την παραλία. Αλλιώς, η Πλατιά Πούντα που είναι και το πραγματικό της όνομα είναι μία από τις πολυσύχναστες παραλίες του νησιού αμμώδης με γαλαζοπράσινα, κρυστάλλινα νερά.Απέχει 1.800 μέτρα περίπου από το χωριό και φτάνετε με καραβάκι ή με πεζοπορία 30 περίπου λεπτών.",
 "image": "../images/italida.jpg"};
 
-const beaches = [pori, italida];
+const beaches = [pori, italida, pori, italida];
 
 const title = document.querySelector("p.title");
 title.textContent = localStorage.getItem("selectedOption");
@@ -21,8 +21,8 @@ dropdown.addEventListener("click", function(event) {
 function updatePage(){
   if(localStorage.getItem("selectedOption") === "beaches") {
     title.textContent = "Παραλίες";
-    for (let beach of beaches) {
-      createCard(beach);
+    for (let i in beaches) {
+      createCard(beaches[i]);
     }
   }
   if(localStorage.getItem("selectedOption") === "sights") {
@@ -40,21 +40,33 @@ function updatePage(){
 }
 
 function createCard(item){
-  const cardGroup = document.querySelector("div.card-group");
+
+  const row = document.querySelector("div.row");
+  const column = document.createElement("div");
+  column.classList.add("col");
   const card = document.createElement("div");
   
   card.classList.add("card");
   //card.setAttribute("data-value", "name");
-  card.style.width = "200px";
+  //card.style.width = "20px";
+  // card.style.height = "300px";
+  card.style.marginInline= "30px";
   const cardImage = document.createElement("img");
   cardImage.classList.add("card-img-top");
+  // cardImage.style.width = "250px-lg";
+  // cardImage.style.height = "250px-lg";
   cardImage.src = item.image;
   cardImage.alt = item.name;
-  const cardFooter = document.createElement("div");
-  cardFooter.classList.add("card-footer");
-  cardFooter.textContent = item.description;
+  const cardTitle = document.createElement("h5");
+  cardTitle.classList.add("card-title");
+  cardTitle.textContent = item.name;
+  const cardText = document.createElement("div");
+  cardText.classList.add("card-text");
+  cardText.textContent = item.description;
 
   card.appendChild(cardImage);
-  card.appendChild(cardFooter);
-  cardGroup.appendChild(card);
+  card.appendChild(cardTitle);
+  card.appendChild(cardText);
+  column.appendChild(card);
+  row.appendChild(column);
 }
