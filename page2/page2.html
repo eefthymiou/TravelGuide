@@ -58,9 +58,18 @@
                 
                 <!--Google map-->
                 <h4 class="text mb-3">Χάρτης</h4>
-                <div id="map-container-google-1" class="z-depth-1-half map-container mb-3" style="height: 500px">
-                    <iframe src="https://maps.google.com/maps?q=koufonisia&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
-                    style="border:0" allowfullscreen></iframe>
+                <!-- input element for google search location -->
+                <div class="row adminAction">
+                    <div class="col-9">
+                        <input id="searchLocation" class="form-control mb-3" value="" type="text" placeholder="Αναζήτηση Τοποθεσίας">
+                    </div>
+                    <div class="col-1">
+                        <!-- button search -->
+                        <button id="searchButton" class="btn btn-primary mb-3" style="justify-content: flex-end;">Αναζήτηση</button>
+                    </div>
+                </div>
+                <div id="map-container-google-1" class="z-depth-1-half map-container mb-3">
+                    <iframe class="map" src="https://maps.google.com/maps?q=koufonisia&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen></iframe>
                 </div>
                 
                 <!-- reviews -->

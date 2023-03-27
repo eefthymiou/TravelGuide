@@ -539,6 +539,33 @@ function showAdminAction() {
     }
 }
 
+function addMap(location){
+    // get the map container
+    const mapContainer = document.getElementById("map-container-google-1");
+
+    // get the iframe from mapContainer
+    const iframe = mapContainer.getElementsByTagName("iframe")[0];
+
+    // set the src attribute of the iframe
+    iframe.src = `https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+}
+
+searchButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // Get the value of the search input
+    const searchInput = document.getElementById("searchLocation").value;
+
+    // Check if the search input is empty
+    if (searchInput.trim() === "") {
+        alert("Please enter a search term.");
+        return;
+    }
+    addMap(searchInput);
+});
+
+
 function nonEditMode(){
     // hide save button
     saveButton.style.display = "none";
@@ -667,10 +694,13 @@ function setValues(){
     addDescription("Περιγραφή παραλίας")
 
     // set an image
-    // addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
+    addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
 
     // default Ιnformation is added
     addInfoF("Αυτή είναι μια default περιγραφή. \nΠαρακαλώ αλλάξτε την.");
+
+    // add map
+    addMap("Παραλία Πορί Κουφονήσι")
 
     // default review is added
     addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
