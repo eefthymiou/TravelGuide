@@ -44,206 +44,253 @@ function disablePhotoButtons(){
     }
 }
 
-
-previewButton.addEventListener("click", function() {
+function addImage(pathImage,alt,title){
     const fileInput = document.getElementById("inputGroupFile");
     const divImages = document.getElementById("imagesContainer");
     
 
     const image = document.createElement("img");
     image.className = "img-fluid mb-3";
+    image.id = "image";
    
+    if (pathImage == undefined){
+        let file = fileInput.files[0];
+        let fileType = file.type.toLowerCase();
+        if (fileType.indexOf("image/") == 0) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                image.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert("Please select an image file.");
+            return;
+        }
+    }
+    else{
+        // For the case of adding an image with js
+        image.src = pathImage;
+        if (title != "") {
+            image.title = title;
+        }
+        if (alt != "") {
+            image.alt = alt;
+        }
+    }
+
+    const divImage = document.createElement("div");
+    
+    // create a div for edit and delete buttons
+    const divButtons = document.createElement("div");
+    divButtons.className = "gap-2 d-flex justify-content-center adminAction";
+
+    // create button for delete
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "mb-3 btn btn-danger adminAction";
+    deleteButton.innerText = "Διαγραφή Φωτογραφίας";
+
+    deleteButton.addEventListener("click", function() {
+        divImage.remove();
+    });
+
+    // create a modal for editing the image
+    const modal = document.createElement("div");
+    modal.className = "modal fade";
+    const modalId = `editModal-${Date.now()}`;
+    modal.id = modalId;
+    modal.tabIndex = "-1";
+    modal.setAttribute("aria-labelledby", "editModalLabel");
+    modal.setAttribute("aria-hidden", "true");
+
+    const editButton = document.createElement("button");
+    editButton.className = "mb-3 btn btn-warning adminAction";
+    editButton.innerText = "Επεξεργασία Φωτογραφίας";
+    editButton.setAttribute("data-bs-target", `#${modalId}`);
+    
+
+    editButton.addEventListener("click", function(event) {
+        // prevent the default action
+        event.preventDefault();
+    
+        // find the modal
+        const modal = event.target.closest(".modal");
+        
+        // show the modal if it exists
+        if (modal) {
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            bootstrapModal.show();
+        } else {
+            console.error("Modal not found");
+        }
+    });
+    
+    // create a modal dialog
+    const modalDialog = document.createElement("div");
+    modalDialog.className = "modal-dialog";
+
+    // create a modal content
+    const modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
+
+    // create a modal header
+    const modalHeader = document.createElement("div");
+    modalHeader.className = "modal-header";
+
+    // create a modal title
+    const modalTitle = document.createElement("h5");
+    modalTitle.className = "modal-title";
+    modalTitle.id = "editModalLabel";
+    modalTitle.innerText = "Επεξεργασία Φωτογραφίας";
+
+    // create a button for closing the modal
+    const closeButton = document.createElement("button");
+    closeButton.className = "btn-close";
+    closeButton.addEventListener("click", function() {
+        // prevent the default action
+        event.preventDefault();
+
+        const modal = document.getElementById('editModal');
+        const bootstrapModal = bootstrap.Modal.getInstance(modal);
+        bootstrapModal.hide();
+    });
+
+    // create a modal body
+    const modalBody = document.createElement("div");
+    modalBody.className = "modal-body";
+
+    // create a modal footer
+    const modalFooter = document.createElement("div");
+    modalFooter.className = "modal-footer";
+    
+    // create a button for modal save
+    const modalSaveButton = document.createElement("button");
+    modalSaveButton.className = "btn btn-primary";
+    modalSaveButton.innerText = "Αποθήκευση";
+
+    // create a form for the modal
+    const modalForm = document.createElement("form");
+    modalForm.className = "row g-3";
+
+    // create a div for the title input
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "col-md-12";
+
+    // create a label for the title input
+    const titleLabel = document.createElement("label");
+    titleLabel.className = "form-label";
+    titleLabel.innerText = "Τίτλος Φωτογραφίας";
+
+    // create a input for the title
+    const titleInput = document.createElement("input");
+    titleInput.className = "form-control";
+    titleInput.type = "text";
+    titleInput.id = "titleInput";
+    titleInput.placeholder = "Τίτλος Φωτογραφίας";
+    titleInput.value = image.title;
+
+    // create a div for the alt input
+    const altDiv = document.createElement("div");
+    altDiv.className = "col-md-12";
+    
+    // create a label for the alt input
+    const altLabel = document.createElement("label");
+    altLabel.className = "form-label";
+    altLabel.innerText = "Περιγραφή Φωτογραφίας";
+    
+    // create a input for the alt
+    const altInput = document.createElement("input");
+    altInput.className = "form-control";
+    altInput.type = "text";
+    altInput.id = "altInput";
+    altInput.placeholder = "Περιγραφή Φωτογραφίας";
+    altInput.value = image.alt;
+    console.log("altInput.value: " + altInput.value);
+
+
+    // add event listener for saving the changes
+    modalSaveButton.addEventListener("click", function() {
+        // prevent the default action
+        event.preventDefault();
+
+        // get the values from the inputs
+        const title = document.getElementById("titleInput").value;
+        const alt = document.getElementById("altInput").value;
+
+        // set the values to the image
+        image.title = title;
+        image.alt = alt;
+
+        // close the modal
+        const modal = document.getElementById('editModal');
+        const bootstrapModal = bootstrap.Modal.getInstance(modal);
+        bootstrapModal.hide();
+    });
+
+    // add elements to modalForm
+    titleDiv.appendChild(titleLabel);
+    titleDiv.appendChild(titleInput);
+    altDiv.appendChild(altLabel);
+    altDiv.appendChild(altInput);
+    modalForm.appendChild(titleDiv);
+    modalForm.appendChild(altDiv);
+
+    // add elements to modalBody
+    modalBody.appendChild(modalForm);
+
+    // add elements to modalHeader
+    modalHeader.appendChild(modalTitle);
+    modalHeader.appendChild(closeButton);
+
+    // add elements to modalFooter
+    modalFooter.appendChild(modalSaveButton);
+
+    // add elements to modalContent
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modalContent.appendChild(modalFooter);
+
+    // add elements to modalDialog
+    modalDialog.appendChild(modalContent);
+
+    // add elements to modal
+    modal.appendChild(modalDialog);
+    
+    // append buttons to divButtons
+    divButtons.appendChild(editButton);
+    divButtons.appendChild(deleteButton);
+
+    // append elements
+    divImage.appendChild(image);
+    divImage.appendChild(divButtons);
+    divImage.appendChild(modal);
+
+    // add divImage to divImages
+    divImages.appendChild(divImage);
+}
+
+
+previewButton.addEventListener("click", function() {
     // Prevent the default action
     event.preventDefault();
 
-    let file = fileInput.files[0];
-    let fileType = file.type.toLowerCase();
-    if (fileType.indexOf("image/") == 0) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            image.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-
-        const divImage = document.createElement("div");
-        
-        // create a div for edit and delete buttons
-        const divButtons = document.createElement("div");
-        divButtons.className = "gap-2 d-flex justify-content-center adminAction";
-
-
-        // create button for delete
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "mb-3 btn btn-danger adminAction";
-        deleteButton.innerText = "Διαγραφή Φωτογραφίας";
-
-        deleteButton.addEventListener("click", function() {
-            divImage.remove();
-        });
-
-        // create button for edit   
-        const editButton = document.createElement("button");
-        editButton.className = "mb-3 btn btn-warning adminAction";
-        editButton.innerText = "Επεξεργασία Φωτογραφίας";
-        // connect edit button with modal
-        editButton.setAttribute("data-bs-toggle", "modal");
-        editButton.setAttribute("data-bs-target", "#editModal");
-        
-        const modal = document.createElement("div");
-        modal.className = "modal fade";
-        modal.id = "editModal";
-        modal.tabIndex = "-1";
-        modal.getAttribute("keyboard", "false");
-        
-        // create a modal dialog
-        const modalDialog = document.createElement("div");
-        modalDialog.className = "modal-dialog";
-
-        // create a modal content
-        const modalContent = document.createElement("div");
-        modalContent.className = "modal-content";
-
-        // create a modal header
-        const modalHeader = document.createElement("div");
-        modalHeader.className = "modal-header";
-
-        // create a modal title
-        const modalTitle = document.createElement("h5");
-        modalTitle.className = "modal-title";
-        modalTitle.id = "editModalLabel";
-        modalTitle.innerText = "Επεξεργασία Φωτογραφίας";
-
-        // create a button for closing the modal
-        const closeButton = document.createElement("button");
-        closeButton.className = "btn-close";
-        closeButton.setAttribute("data-bs-dismiss", "modal");
-        closeButton.setAttribute("aria-label", "Close");
-        closeButton.addEventListener("click", function() {
-            const modal = document.getElementById('editModal');
-            const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            bootstrapModal.hide();
-        });
-
-        // create a modal body
-        const modalBody = document.createElement("div");
-        modalBody.className = "modal-body";
-
-        // create a modal footer
-        const modalFooter = document.createElement("div");
-        modalFooter.className = "modal-footer";
-        
-        // create a button for saving the changes
-        const saveButton = document.createElement("button");
-        saveButton.className = "btn btn-primary";
-        saveButton.innerText = "Αποθήκευση";
-
-        // create a form for the modal
-        const modalForm = document.createElement("form");
-        modalForm.className = "row g-3";
-
-        // create a div for the title input
-        const titleDiv = document.createElement("div");
-        titleDiv.className = "col-md-12";
-
-        // create a label for the title input
-        const titleLabel = document.createElement("label");
-        titleLabel.className = "form-label";
-        titleLabel.innerText = "Τίτλος Φωτογραφίας";
-
-        // create a input for the title
-        const titleInput = document.createElement("input");
-        titleInput.className = "form-control";
-        titleInput.type = "text";
-        titleInput.id = "titleInput";
-        titleInput.placeholder = "Τίτλος Φωτογραφίας";
-
-        // create a div for the alt input
-        const altDiv = document.createElement("div");
-        altDiv.className = "col-md-12";
-        
-        // create a label for the alt input
-        const altLabel = document.createElement("label");
-        altLabel.className = "form-label";
-        altLabel.innerText = "Περιγραφή Φωτογραφίας";
-
-        // create a input for the alt
-        const altInput = document.createElement("input");
-        altInput.className = "form-control";
-        altInput.type = "text";
-        altInput.id = "altInput";
-        altInput.placeholder = "Περιγραφή Φωτογραφίας";
-
-        // add elements to modalForm
-        titleDiv.appendChild(titleLabel);
-        titleDiv.appendChild(titleInput);
-        altDiv.appendChild(altLabel);
-        altDiv.appendChild(altInput);
-        modalForm.appendChild(titleDiv);
-        modalForm.appendChild(altDiv);
-
-        // add elements to modalHeader
-        modalHeader.appendChild(modalTitle);
-        modalHeader.appendChild(closeButton);
-
-        // add elements to modalBody
-        modalBody.appendChild(modalForm);
-
-        // add elements to modalFooter
-        modalFooter.appendChild(saveButton);
-
-        // add elements to modalContent
-        modalContent.appendChild(modalHeader);
-        modalContent.appendChild(modalBody);
-        modalContent.appendChild(modalFooter);
-
-        // add elements to modalDialog
-        modalDialog.appendChild(modalContent);
-
-        // add elements to modal
-        modal.appendChild(modalDialog);
-
-        // add modal to body
-        document.body.appendChild(modal);
-
-        editButton.addEventListener("click", function() {
-            // create a modal
-            // in this modal the user will be able to edit the image
-            // user will be able to set a title of the image
-            // user will be able to set a alt text of the image
-            
-            // prevent the default action
-            event.preventDefault();
-
-            const modal = document.getElementById('editModal');
-            const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            bootstrapModal.show();
-        });
-
-        
-
-        // append buttons to divButtons
-        divButtons.appendChild(editButton);
-        divButtons.appendChild(deleteButton);
-
-        // append elements
-        divImage.appendChild(image);
-        divImage.appendChild(divButtons);
-        
-        
-
-        // add divImage to divImages
-        divImages.appendChild(divImage);
-
-        
-
-    } else {
-        alert("Please select an image file.");
-    }
-
-    
+    addImage()
 });
+    
+function addTitle(title){
+    // find the element with id title
+    const titleElement = document.getElementById("title");
+    // add the title to the element
+    titleElement.value = title;
+}
 
-function addReviewdF(reviewText="",reviewRating="",userName) {
+function addDescription(description){
+    // find the element with id description
+    const descriptionElement = document.getElementById("description");
+    // add the description to the element
+    descriptionElement.value = description;
+}
+
+function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
     const container = document.getElementById("reviewContainer");
 
     // Create a new div element
@@ -285,7 +332,7 @@ function addReviewdF(reviewText="",reviewRating="",userName) {
     inputRating.step = "1";
     inputRating.id = "inputRating";
     inputRating.placeholder = "Βαθμολογία";
-    inputRating.innerText = reviewRating;
+    inputRating.value = reviewRating;
     inputRating.disabled = false;
 
     // create input element for review
@@ -294,8 +341,10 @@ function addReviewdF(reviewText="",reviewRating="",userName) {
     inputReviewText.type = "text";
     inputReviewText.id = "inputReviewText";
     inputReviewText.placeholder = "Γράψτε το σχόλιό σας εδώ";
+    inputReviewText.value = reviewText;
+    inputReviewText.autocomplete = "off";
+
     inputReviewText.disabled = false;
-    inputReviewText.innerText = reviewText;
 
     // create p element for date
     const newP3 = document.createElement("p");
@@ -331,16 +380,16 @@ function addReviewdF(reviewText="",reviewRating="",userName) {
     container.appendChild(newDiv);
 
     // Create a new div element
-    const newRowButtons = document.createElement("div");
-    newRowButtons.className = "gap-2 d-flex justify-content-start";
+    const rowButtons = document.createElement("div");
+    rowButtons.className = "gap-2 d-flex justify-content-start";
 
     // Create a new button element
-    const newSaveButton = document.createElement("button");
-    newSaveButton.className = "btn btn-success mb-3";
-    newSaveButton.innerText = "Υποβολή";
+    const saveButton = document.createElement("button");
+    saveButton.className = "btn btn-success mb-3";
+    saveButton.innerText = "Υποβολή";
 
     // eventListener for save button
-    newSaveButton.addEventListener("click", function() {
+    saveButton.addEventListener("click", function() {
         // Prevent the default action
         event.preventDefault();
 
@@ -353,35 +402,49 @@ function addReviewdF(reviewText="",reviewRating="",userName) {
         // set the input elements to diasable
         inputRating.disabled = true;
         inputReviewText.disabled = true;
-        
+
+        // set white background
+        inputRating.style.backgroundColor = "white";
+        inputReviewText.style.backgroundColor = "white";
+
+        // remove the border
+        inputRating.style.border = "none";
+        inputReviewText.style.border = "none";
+
         // remove thw save button
-        newRowButtons.removeChild(newSaveButton);
+        rowButtons.removeChild(saveButton);
+        // remove the cansel button
+        rowButtons.removeChild(canselButton);
     });
 
-
+    
 
     // Create a new button element
-    const newDeleteButton = document.createElement("button");
-    newDeleteButton.className = "btn btn-danger mb-3";
-    newDeleteButton.innerText = "Διαγραφή";
+    const canselButton = document.createElement("button");
+    canselButton.className = "btn btn-danger mb-3";
+    canselButton.innerText = "Ακύρωση";
     
     // Append the button to the div
-    newRowButtons.appendChild(newSaveButton);
-    newRowButtons.appendChild(newDeleteButton);
+    rowButtons.appendChild(saveButton);
+    rowButtons.appendChild(canselButton);
 
     // eventListener for delete button
-    newDeleteButton.addEventListener("click", function() {
+    canselButton.addEventListener("click", function() {
         // Prevent the default action
         event.preventDefault();
 
         // remove the div
         container.removeChild(newDiv);
-        newRowButtons.remove();
+        rowButtons.remove();
     });
 
     // Append the div to the container
-    container.appendChild(newRowButtons);
+    container.appendChild(rowButtons);
 
+    // if review is done, press the save button
+    if (reviewDone) {
+        saveButton.click();
+    }
 
 }
 
@@ -390,10 +453,13 @@ addReview.addEventListener("click", function() {
     // Prevent the default action
     event.preventDefault();
 
+    // get the username 
+    username = "me"
     // Check if user has already written a review
 
     // Call the function to add a new review
-    addReviewdF();
+    // reviewText,reviewRating,userName
+    addReviewF(username);
 });
 
 function addInfoF(text=""){
@@ -416,7 +482,6 @@ function addInfoF(text=""){
     const newTextarea = document.createElement("textarea");
     newTextarea.className = "form-control adminInput mb-3";
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
-    // add the text to the textarea
     newTextarea.value = text;
 
     // Create a new delete button element
@@ -450,6 +515,7 @@ addInfo.addEventListener("click", function() {
     // Call the autoIncrimentTextarea function
     autoIncrimentTextarea()
 });
+
 
 
 function hideAdminAction() {
@@ -586,23 +652,31 @@ function both(){
     nonEditMode()
 }
 
+function setValues(){
+    // set a value to name
+    addTitle("Παραλία Πορί")
 
-function main(){
+    // set a value to description
+    addDescription("Περιγραφή παραλίας")
+
+    // set an image
+    // addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
 
     // default Ιnformation is added
-    addInfoF("Αυτή είναι μια default περιγραφή");
-    
-    // default review is added
-    // addReviewdF("Αυτή είναι μια default κριτική");
+    addInfoF("Αυτή είναι μια default περιγραφή. \nΠαρακαλώ αλλάξτε την.");
 
+    // default review is added
+    addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+}
+
+function main(){
+    setValues()
 
     // function both is called for all users
     both()
-
-
-
+    
     // then check if the user is an admin or not
-    const admin = false ;
+    const admin = true ;
 
     if (admin){
         // if the user is an admin, call the admin_page function
@@ -612,6 +686,8 @@ function main(){
         // if the user is not an admin, call the user_page function
         user_page()
     }
+
+    
 }
 
 main()
