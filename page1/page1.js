@@ -51,7 +51,7 @@ function createCard(item){
   // card.style.height = "300px";
   card.style.marginInline= "30px";
   card.href = "../page2/page2.html";
-  card.datavalue = item.id;
+  card.setAttribute("data-value", item.id);
   const cardImage = document.createElement("img");
   cardImage.classList.add("card-img-top");
   // cardImage.style.width = "250px-lg";
