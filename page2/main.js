@@ -711,16 +711,16 @@ function setValues(){
     }
     else {
         // return to page1 
-        
+        window.location.href = "../page1/page1.html";
     }
-}
+}   
 
 function main(){
     // function both is called for all users
     both()
     
     // then check if the user is an admin or not
-    const admin = false ;
+    const admin = true ;
 
     if (admin){
         // if the user is an admin, call the admin_page function
