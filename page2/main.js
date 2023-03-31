@@ -681,39 +681,46 @@ function user_page() {
 
 
 function both(){
+    setValues()
     autoIncrimentTextarea()
     disableTextarea()
     nonEditMode()
 }
 
 function setValues(){
-    // set a value to name
-    addTitle("Παραλία Πορί")
+    id = localStorage.getItem("selectedPlace")
+    console.log(id)
+    if (id == 1){
+        // set a value to name
+        addTitle("Παραλία Πορί")
 
-    // set a value to description
-    addDescription("Περιγραφή παραλίας")
+        // set a value to description
+        addDescription("Περιγραφή παραλίας")
 
-    // set an image
-    addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
+        // set an image
+        addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
 
-    // default Ιnformation is added
-    addInfoF("Αυτή είναι μια default περιγραφή. \nΠαρακαλώ αλλάξτε την.");
+        // default Ιnformation is added
+        addInfoF("Αυτή είναι μια default περιγραφή. \nΠαρακαλώ αλλάξτε την.");
+        
+        // add map
+        addMap("Παραλία Πορί Κουφονήσι")
 
-    // add map
-    addMap("Παραλία Πορί Κουφονήσι")
-
-    // default review is added
-    addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        // default review is added
+        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+    }
+    else {
+        // return to page1 
+        
+    }
 }
 
 function main(){
-    setValues()
-
     // function both is called for all users
     both()
     
     // then check if the user is an admin or not
-    const admin = true ;
+    const admin = false ;
 
     if (admin){
         // if the user is an admin, call the admin_page function

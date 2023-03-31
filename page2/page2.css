@@ -1,5 +1,5 @@
 body{
-    background-color: #026fb7;
+    background-color: #BFD7ED;
 }
 
 .map-container{
@@ -22,7 +22,7 @@ body{
 }
 
 .adminInputDisabled{
-    background-color: #e3e3f4;
+    background-color: #BFD7ED;
 }
 
 .image{
@@ -33,9 +33,14 @@ body{
 .review{
     /* sand color */
     background-color: #e3e3f4;
+    border-radius: 5%;
 }
 
 .adminInput{
     /* sand color */
-    background-color: #e3e3f4 !important;
+    background-color: #BFD7ED !important;
+    /* border color */
+    border-color: #BFD7ED !important;
+    /* font size */
+    font-size: 1.3em;
 }
