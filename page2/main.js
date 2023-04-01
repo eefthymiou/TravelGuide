@@ -706,8 +706,7 @@ function both(){
 function setValues(){
     id = localStorage.getItem("selectedPlace")
     console.log(id)
-    id = 3
-    // id == 1 is for beach: pori
+
     if (id == 1){
         // set a value to name
         addTitle("Παραλία Πορί")
@@ -732,7 +731,7 @@ function setValues(){
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
     }
-    // id == 2 is for sight: profitis_hlias
+
     else if (id == 2){
         // set a value to title
         addTitle("Εκκλησία του Προφήτη Ηλία");
@@ -753,6 +752,7 @@ function setValues(){
         // add map
         addMap("Εκκλησία του Προφήτη Ηλία Κουφονήσια") 
     }   
+    
     else if (id == 3){
         // set a value to the title
         addTitle("Petros Rooms");
@@ -776,6 +776,33 @@ function setValues(){
 
         // add review
         addReviewF("spamaro", "Πολύ καλή τοποθεσία, καθαρό και άνετο δωμάτιο, πολύ καλή εξυπηρέτηση και πολύ καλή τιμή. Θα το συνιστούσα ανεπιφύλακτα.",5,true);
+    }
+    else if (id == 4){
+        // set value to the title
+        addTitle("Μετακίνηση με καΐκι: Mavros G. Boat Tours")
+
+        // add description
+        addDescription("Στο νησί υπάρχουν καΐκια ή αλλιώς λάντζες που κάνουν το γύρω του νησιού και μπορείτε να επισκεφτείτε τις παραλίες του. Υπάρχουν τακτικά, καθημερινά δρομολόγια από τη Χώρα όπως επίσης με καΐκι μπορείτε να επισκεφτείτε και το Κάτω Κουφονήσι.")
+
+        addImage("../images/transportation/mavros_boat.png","καΐκι","καΐκι")
+        addImage("../images/transportation/marvos_boats_schedule.png","πρόγραμμα δρομολογίων","πρόγραμμα δρομολογίων")
+
+        addMap("Mavros G. Boat Tours koufonisia")
+    }
+    else if (id==5){
+        addTitle("Αρμύρα και Πιοτό")
+        addDescription("Ελληνική και Μεσογειακή κουζίνα και θαλασσινά")
+
+        addInfoF("ΕΥΡΟΣ ΤΙΜΩΝ: 5 € - 30 €")
+        addInfoF("Κατάλληλο για χορτοφάγους, Επιλογές βίγκαν, Πιάτα χωρίς γλουτένη")
+        addInfoF("Ώρες λειτουργίας: Καθημερινά 5:00 μ.μ. - 12:00 π.μ.")
+        addInfoF("Τηλέφωνο: +30 22850 71200")
+
+        addImage("../images/food/armira.png","Αρμύρα και Πιοτό","Αρμύρα και Πιοτό")
+        addImage("../images/food/food1.png","μερίδα1","μερίδα1")
+        addMap("arira kai pito Koufonisia")
+
+        addReviewF("user1", "Εξαιρετικό φαγητό, όμορφος χώρος και πολύ ευγενικό και εξυπηρετικό προσωπικό! Προσιτές τιμές, σε πλήρη αναλογία με την ποσότητα και την ποιότητα που προσφέρουν!",5,true);
     }
     else {
         // return to page1 
