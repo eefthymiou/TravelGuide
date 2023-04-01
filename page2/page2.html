@@ -19,8 +19,8 @@
     
     <div class="container">
         <!-- να βάλω το nav-bar από την main page -->
-        <form>
-            <fieldset>
+        <form >
+            <fieldset class="m-3">
                 <br>
                 <div class="gap-2 d-flex justify-content-center">
                     <!-- save button -->
@@ -74,8 +74,10 @@
                 
                 <!-- reviews -->
                 <h4>Αξιολογήσεις</h4>
-                <div id="reviewContainer"></div>
-                
+                <div id="reviews-flex" class="flex"> 
+                    <div id="reviewContainer" class="flex-column mb-3 overflow-auto" style="height:400px"></div>
+                </div>
+
                 
                 <!-- button add review -->
                 <button id="addReview" class="btn btn-primary mb-3 userInput">Πρόσθεσε Αξιολόγηση</button>

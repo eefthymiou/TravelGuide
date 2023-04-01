@@ -301,9 +301,9 @@ function addDescription(description){
 function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
     const container = document.getElementById("reviewContainer");
 
-    // Create a new div element
+    // Create a new div for the review (card)
     const newDiv = document.createElement("div");
-    newDiv.className = "card mb-3 shadow p-3 review";
+    newDiv.className = "card m-2 ml-3 mr-3";
 
     // create div for row
     const newRow = document.createElement("div");
@@ -389,7 +389,7 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
 
     // Create a new div element
     const rowButtons = document.createElement("div");
-    rowButtons.className = "gap-2 d-flex justify-content-start";
+    rowButtons.className = "gap-2 d-flex justify-content-center";
 
     // Create a new button element
     const saveButton = document.createElement("button");
@@ -467,6 +467,15 @@ addReview.addEventListener("click", function() {
     // Call the function to add a new review
     // reviewText,reviewRating,userName
     addReviewF(username);
+
+    // go to the bottom of the list of reviews
+    const container = document.getElementById("reviewContainer");
+    // animate the scroll smoothly
+    container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth"
+    });
+
 });
 
 function addInfoF(text=""){
@@ -690,24 +699,32 @@ function both(){
 function setValues(){
     id = localStorage.getItem("selectedPlace")
     console.log(id)
+    // id ==1 is for beach: pori
     if (id == 1){
         // set a value to name
         addTitle("Παραλία Πορί")
 
         // set a value to description
-        addDescription("Περιγραφή παραλίας")
+        addDescription("Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων")
 
-        // set an image
+        // set an image (path, alt, title)
         addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
 
         // default Ιnformation is added
-        addInfoF("Αυτή είναι μια default περιγραφή. \nΠαρακαλώ αλλάξτε την.");
-        
+        addInfoF("Απέχει περίπου 3,5 χλμ. από το χωριό και είναι πολυσύχναστη");
+        addInfoF("Βρίσκεται στην ανατολική πλευρά του νησιού, είναι σε σχήμα πετάλου και την προτιμούν όταν πνέουν νότιοι και δυτικοί άνεμοι.")
         // add map
         addMap("Παραλία Πορί Κουφονήσι")
 
         // default review is added
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+        
+        
     }
     else {
         // return to page1 
@@ -720,7 +737,7 @@ function main(){
     both()
     
     // then check if the user is an admin or not
-    const admin = true ;
+    const admin = false ;
 
     if (admin){
         // if the user is an admin, call the admin_page function

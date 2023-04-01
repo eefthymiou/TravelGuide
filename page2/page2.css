@@ -44,3 +44,28 @@ body{
     /* font size */
     font-size: 1.3em;
 }
+
+#title{
+    /* sand color */
+    background-color: #BFD7ED;
+    /* border color */
+    border-color: #BFD7ED;
+    /* font size */
+    font-size: 1.8em;
+    /* font style bold */
+    font-weight: bold;
+}
+
+#reviewContainer{
+    /* border-color:sand color */
+    border-color: #e3e3f4;
+    border-style: solid;
+    
+}
+
+form{
+    /* border-color:sand color */
+    border-left: 3px solid #e3e3f4;
+    border-right: 3px solid #e3e3f4;
+
+}
