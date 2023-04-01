@@ -723,7 +723,7 @@ function both(){
 function setValues(){
     id = localStorage.getItem("selectedPlace")
     console.log(id)
-    id = 1
+    // id = 1
     if (id == 1){
         // set a value to name
         addTitle("Παραλία Πορί")
