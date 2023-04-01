@@ -18,6 +18,10 @@ dropdown.addEventListener("click", function(event) {
 });
 
 function updatePage(){
+  //remove all cards
+  const row = document.querySelector("div.row");
+  removeAllChildNodes(row);
+
   if(localStorage.getItem("selectedOption") === "beaches") {
     title.textContent = "Παραλίες";
     for (let i in beaches) {
@@ -72,6 +76,8 @@ function createCard(item){
   row.appendChild(column);
 }
 
+
+// PAGE1 CARDS ---> PAGE2 
 const cards = document.querySelectorAll('.card');
 cards.forEach(card => {
   card.addEventListener('click', () => {
@@ -79,3 +85,10 @@ cards.forEach(card => {
     localStorage.setItem("selectedPlace", selectedPlace);
   });
 });
+
+
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+  }
+}
