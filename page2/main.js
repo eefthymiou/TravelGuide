@@ -7,6 +7,10 @@ function autoIncrimentTextarea(){
         elements[i].style.height = (elements[i].scrollHeight) + "px";
         // hide scrollbars
         elements[i].style.overflow = "hidden";
+        // justify text
+        elements[i].style.textAlign = "justify";
+        // italic style 
+        elements[i].style.fontStyle = "italic";
     }
 }
 
@@ -50,6 +54,8 @@ function addImage(pathImage,alt,title){
 
     const image = document.createElement("img");
     image.className = "img-fluid mb-3 image";
+    
+
     image.id = "image";
    
     if (pathImage == undefined){
@@ -499,6 +505,7 @@ function addInfoF(text=""){
     newTextarea.className = "form-control adminInput mb-3";
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
     newTextarea.value = text;
+    
 
     // Create a new delete button element
     const newDeleteButton = document.createElement("button");
@@ -699,7 +706,7 @@ function both(){
 function setValues(){
     id = localStorage.getItem("selectedPlace")
     console.log(id)
-    // id ==1 is for beach: pori
+    // id == 1 is for beach: pori
     if (id == 1){
         // set a value to name
         addTitle("Παραλία Πορί")
@@ -708,7 +715,7 @@ function setValues(){
         addDescription("Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων")
 
         // set an image (path, alt, title)
-        addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί")
+        addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί");
 
         // default Ιnformation is added
         addInfoF("Απέχει περίπου 3,5 χλμ. από το χωριό και είναι πολυσύχναστη");
@@ -716,18 +723,39 @@ function setValues(){
         // add map
         addMap("Παραλία Πορί Κουφονήσι")
 
-        // default review is added
+        // default reviews
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
-        
-        
     }
+    // id == 2 is for sight: profitis_hlias
+    else if (id == 2){
+        // set a value to name
+        addTitle("Εκκλησία του Προφήτη Ηλία");
+
+        // set a value to description
+        addDescription("Στην περιοχή του Προφήτη Ηλία υπήρχαν ίχνη εκκλησίας της πρωτοβυζαντινής περιόδου.");
+
+        // set an image (path, alt, title)
+        addImage("../images/sights/profitis_hlias.png", "Εκκλησία του Προφήτη Ηλία", "Εκκλησία του Προφήτη Ηλία")
+
+        // default Ιnformation is added
+        addInfoF("Την περίοδο 1940 – 45 οι κάτοικοι του Κουφονησίου συγκέντρωσαν χρήματα για την αναστύλωση του ναού. Τα χρήματα δεν ήταν αρκετά. Δύο κάτοικοι του νησιού ανέλαβαν να τα επενδύσουν στα Δωδεκάνησα ώστε να ολοκληρωθεί το ποσό. Τα ίχνη τους όμως χάθηκαν και έτσι το περιστατικό χαρακτηρίστηκε ως κακός οιωνός για αυτούς που θέλουν την αναστήλωση του ναού.")
+        addInfoF("Το 1972 οι παπά Στάθης, Γιάννης Ρουμελιώτης και Καίτη Ιωάννου αδερφή του τότε αγροτικού ιατρού αναλαμβάνουν τον καθαρισμό της περιοχής. Στην προσπάθειά τους ανακαλύπτουν 2 κίονες και ένα κομμάτι μάρμαρο, βυζαντινής εκκλησίας. Η πρώτη τους σκέψη ήταν να τα χρησιμοποιήσουν για την υπό τύπων ανέγερση της Αγίας Τράπεζας.")
+        addInfoF("Την επόμενη χρονιά 1973 στις συνεχιζόμενες εργασίες συντήρησης ξεθάβουν πέτρες του βυζαντινού ναού και δημιουργούν ένα τοιχίο όπου στηρίζουν την εικόνα του Προφήτη Ηλία και το καντήλι του. Την ίδια χρονιά, το απόγευμα της ημέρας του Προφήτη Ηλία, 20 Ιουλίου, οι κάτοικοι του Κουφονησίου , πεζοπόροι, φθάνουν στον μισοφτιαγμένο ναό, όπου παρέθεσαν Εσπερινό και αρτοκλασία.")
+        addInfoF("Το 1974 με απόφαση του πρωτοσύγκελου πάτερ Κορωνέλου, αναπληρωτή του μητροπολίτη Σαντορίνης Γαβριήλ, απαγορεύεται η λειτουργία στα ερείπια του προφήτη Ηλία, λόγω του ότι δεν είναι Ναός. Το οικόπεδο όπου βρίσκεται το εκκλησάκι είναι ιδιωτικό, αλλά η είσοδος ελεύθερη.")
+        addInfoF("Σήμερα υπάρχουν τα ερείπια του ναού, με την εικόνα του προφήτη Ηλία, το καντήλι του, και την Αγία Τράπεζα εν λειτουργία με την φροντίδα των Πιστών.")
+        addInfoF("Ανήμερα του Προφήτη Ηλία, 20 Ιουλίου, οι πιστοί συγκεντρώνονται στο εκκλησάκι, και παρατίθεται Εσπερινός. Προσφέρονται αναψυκτικά και νερό.")
+       
+        // add map
+        addMap("Εκκλησία του Προφήτη Ηλία Κουφονήσια") 
+    }   
     else {
         // return to page1 
+        console.log("page not found")
         window.location.href = "../page1/page1.html";
     }
 }   
@@ -737,7 +765,7 @@ function main(){
     both()
     
     // then check if the user is an admin or not
-    const admin = false ;
+    const admin = true ;
 
     if (admin){
         // if the user is an admin, call the admin_page function
