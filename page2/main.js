@@ -304,7 +304,7 @@ function addDescription(description){
     descriptionElement.value = description;
 }
 
-function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
+function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewDone=false) {
     const container = document.getElementById("reviewContainer");
 
     // Create a new div for the review (card)
@@ -346,19 +346,20 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
     inputRating.step = "1";
     inputRating.id = "inputRating";
     inputRating.placeholder = "Βαθμολογία";
-    inputRating.value = reviewRating;
+    if (reviewRating!=undefined)inputRating.value = reviewRating;
     inputRating.disabled = false;
 
     // create input element for review
-    const inputReviewText = document.createElement("input");
+    const inputReviewText = document.createElement("textarea");
     inputReviewText.className = "form-control mb-1";
     inputReviewText.type = "text";
     inputReviewText.id = "inputReviewText";
     inputReviewText.placeholder = "Γράψτε το σχόλιό σας εδώ";
-    inputReviewText.value = reviewText;
+    if (reviewText!=undefined) inputReviewText.value = reviewText;
     inputReviewText.autocomplete = "off";
-
+    inputReviewText.style.fontStyle = "italic";
     inputReviewText.disabled = false;
+    inputReviewText.style.resize = "none";
 
     // create p element for date
     const newP3 = document.createElement("p");
@@ -379,6 +380,8 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
     } else {
         reviewDate.textContent += `${daysDiff} ημέρες πριν`;
     }
+    // hide the content of the reviewDate element
+    reviewDate.style.display = "none";
 
     // append elements
     newP3.appendChild(reviewDate);
@@ -406,16 +409,27 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
     saveButton.addEventListener("click", function() {
         // Prevent the default action
         event.preventDefault();
-
-        // Get the values of the input elements
-
-        // Check if the user has entered a review
-
+        
         // Check if the user has entered a rating
+        if (inputRating.value === "") {
+            inputRating.style.border = "1px solid red";
+            return;
+        }
+        // Check if the user has entered a review
+        if (inputReviewText.value === "") {
+            inputReviewText.style.border = "1px solid red";
+            return;
+        }
 
-        // set the input elements to diasable
+        // set the input elements to diasabled
         inputRating.disabled = true;
+        inputReviewText.style.height = "auto";
+        inputReviewText.style.height = (inputReviewText.scrollHeight) + "px";
         inputReviewText.disabled = true;
+        inputReviewText.style.overflow = "hidden";
+        
+        // unhide the reviewDate element
+        reviewDate.style.display = "block";
 
         // set white background
         inputRating.style.backgroundColor = "white";
@@ -429,6 +443,9 @@ function addReviewF(userName,reviewText="",reviewRating=0,reviewDone=false) {
         rowButtons.removeChild(saveButton);
         // remove the cansel button
         rowButtons.removeChild(canselButton);
+
+        // get the value of the rating
+
     });
 
     
@@ -698,37 +715,32 @@ function user_page() {
 
 function both(){
     setValues()
-    autoIncrimentTextarea()
     disableTextarea()
     nonEditMode()
+    autoIncrimentTextarea()
 }
 
 function setValues(){
     id = localStorage.getItem("selectedPlace")
     console.log(id)
-
+    id = 1
     if (id == 1){
         // set a value to name
         addTitle("Παραλία Πορί")
 
         // set a value to description
-        addDescription("Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων")
+        addDescription("Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων.")
 
         // set an image (path, alt, title)
         addImage("../images/beaches.jpg", "Παραλία", "Παραλία Πορί");
 
         // default Ιnformation is added
-        addInfoF("Απέχει περίπου 3,5 χλμ. από το χωριό και είναι πολυσύχναστη");
+        addInfoF("Απέχει περίπου 3,5 χλμ. από το χωριό και είναι πολυσύχναστη.");
         addInfoF("Βρίσκεται στην ανατολική πλευρά του νησιού, είναι σε σχήμα πετάλου και την προτιμούν όταν πνέουν νότιοι και δυτικοί άνεμοι.")
         // add map
         addMap("Παραλία Πορί Κουφονήσι")
 
         // default reviews
-        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
-        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
-        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
-        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
-        addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
     }
 
@@ -800,7 +812,7 @@ function setValues(){
 
         addImage("../images/food/armira.png","Αρμύρα και Πιοτό","Αρμύρα και Πιοτό")
         addImage("../images/food/food1.png","μερίδα1","μερίδα1")
-        addMap("arira kai pito Koufonisia")
+        addMap("armira kai pito Koufonisia")
 
         addReviewF("user1", "Εξαιρετικό φαγητό, όμορφος χώρος και πολύ ευγενικό και εξυπηρετικό προσωπικό! Προσιτές τιμές, σε πλήρη αναλογία με την ποσότητα και την ποιότητα που προσφέρουν!",5,true);
     }
@@ -816,7 +828,7 @@ function main(){
     both()
     
     // then check if the user is an admin or not
-    const admin = true ;
+    const admin = false;
 
     if (admin){
         // if the user is an admin, call the admin_page function
@@ -827,6 +839,7 @@ function main(){
         user_page()
     }
 
+    
     
 }
 

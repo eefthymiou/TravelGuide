@@ -60,7 +60,7 @@ body{
     /* border-color:sand color */
     border-color: #e3e3f4;
     border-style: solid;
-    
+    max-height:400px;
 }
 
 form{
