@@ -43,6 +43,7 @@
 }
 .card:hover{
     opacity: 0.7;
+    color:#1F4591;
 }
 .card-footer{
     background-color: #BFD7ED;

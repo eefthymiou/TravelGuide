@@ -50,24 +50,33 @@ function createCard(item){
   const card = document.createElement("a");
   
   card.classList.add("card");
-  //card.setAttribute("data-value", "name");
-  //card.style.width = "20px";
-  // card.style.height = "300px";
   card.style.marginInline= "30px";
   card.href = "../page2/page2.html";
   card.setAttribute("data-value", item.id);
+
   const cardImage = document.createElement("img");
   cardImage.classList.add("card-img-top");
-  // cardImage.style.width = "250px-lg";
-  // cardImage.style.height = "250px-lg";
   cardImage.src = item.image;
   cardImage.alt = item.name;
-  const cardTitle = document.createElement("h5");
+
+  const cardTitle = document.createElement("div");
   cardTitle.classList.add("card-title");
   cardTitle.textContent = item.name;
+
   const cardText = document.createElement("div");
   cardText.classList.add("card-text");
-  cardText.textContent = item.description;
+  
+
+  const cardDescription = document.createElement("p");
+  let text = item.description.split(" ");
+  cardDescription.textContent = text.slice(0, 20).join(" ") + "...";
+
+  const readMore = document.createElement("p");
+  readMore.classList.add("read-more");
+  readMore.textContent = "Διαβάστε περισσότερα";
+
+  cardText.appendChild(cardDescription);
+  cardText.appendChild(readMore);
 
   card.appendChild(cardImage);
   card.appendChild(cardTitle);
