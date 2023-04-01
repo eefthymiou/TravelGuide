@@ -123,17 +123,13 @@ function createCard(item){
   card.appendChild(cardText);
   column.appendChild(card);
   row.appendChild(column);
-}
 
-
-// PAGE1 CARDS ---> PAGE2 
-const cards = document.querySelectorAll('.card');
-cards.forEach(card => {
+  // PAGE1 CARDS ---> PAGE2 
   card.addEventListener('click', () => {
     selectedPlace = card.getAttribute('data-value');
     localStorage.setItem("selectedPlace", selectedPlace);
   });
-});
+}
 
 
 function removeAllChildNodes(parent) {
