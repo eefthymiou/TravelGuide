@@ -44,9 +44,6 @@ const food = {armira};
 let admin = true;
 const title = document.querySelector("p.title");
 updatePage();
-if (admin){
-  createAddCard();
-}
 
 function updatePage(){
   //remove all cards
@@ -82,6 +79,9 @@ function updatePage(){
     for (let i in food) {
       createCard(food[i]);
     }
+  }
+  if (admin){
+    createAddCard();
   }
 }
 
