@@ -1,19 +1,21 @@
 body{
-    background-color: #BFD7ED;
+    background-color: #d7eaff;
 }
 
 .map-container{
     overflow:hidden;
-    padding-bottom:56.25%;
+    padding-bottom:36.25%;
     position:relative;
-    height:0;
+    height:200px;
+    width: 100%;
+    border-style: solid ;
+    border-color: hsl(210, 81%, 79%);
 }
 
 .map-container iframe{
-  left:0;
-  top:0;
-  height:100%;
-  width:100%;
+  top:25px;
+  height:90%;
+  width:95%;
   position:absolute;
 }
 
@@ -22,7 +24,7 @@ body{
 }
 
 .adminInputDisabled{
-    background-color: #BFD7ED;
+    background-color: #d7eaff;
 }
 
 .image{
@@ -32,40 +34,75 @@ body{
 
 .review{
     /* sand color */
-    background-color: #e3e3f4;
+    background-color: #d7eaff;
     border-radius: 5%;
 }
 
 .adminInput{
-    /* sand color */
-    background-color: #BFD7ED !important;
+    background-color: #d7eaff !important;
     /* border color */
-    border-color: #BFD7ED !important;
+    border-color: #d7eaff !important;
     /* font size */
     font-size: 1.3em;
+    color:#1F4591
 }
 
 #title{
-    /* sand color */
-    background-color: #BFD7ED;
-    /* border color */
-    border-color: #BFD7ED;
-    /* font size */
-    font-size: 1.8em;
-    /* font style bold */
+    background-color: #d7eaff;
+    /* font */
     font-weight: bold;
+    color:#1F4591;
+    font-size: 40px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
 }
 
 #reviewContainer{
-    /* border-color:sand color */
-    border-color: #e3e3f4;
+    /* border*/
+    border-color: hsl(210, 81%, 79%);
     border-style: solid;
+    border-width: 2px;
     max-height:400px;
+
+    color:#1F4591
+}
+
+.form-control{
+    color:#1F4591;
 }
 
 form{
-    /* border-color:sand color */
-    border-left: 3px solid #e3e3f4;
-    border-right: 3px solid #e3e3f4;
+    /* border-color*/
+    border-left: 3px solid hsl(210, 81%, 79%);
+    border-right: 3px solid hsl(210, 81%, 79%);
+    border-width: 2px;
 
+}
+
+h4{
+    color:#1F4591;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    font-size: 30px;
+}
+
+hr{
+    border-style: hidden;
+}
+
+/* Reviews */
+#addReview{
+    background-color: #1F4591;
+    color:#d7eaff;
+    font-weight: bold;
+}
+
+#addReview:hover{
+    background-color: #d7eaff;
+    color:#1F4591;
+    font-weight: bold;
+}
+
+.h-100{
+    background-color: hsl(210, 81%, 79%);
 }

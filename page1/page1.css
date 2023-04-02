@@ -1,7 +1,5 @@
 body{
-    background-color: #d7eaff;
-    /* #c8ddf4; */
-     /* #A6C8F0; */
+    background-color: hsl(210, 81%, 79%);
 }
 
 .title{
@@ -19,9 +17,13 @@ body{
 }
 
 .card{
-    background-color: hsl(210, 81%, 79%);
+    background-color: #d7eaff;
     width : 90%;
     height: 90%;
+    margin-top: 50px;
+    margin-inline: 20px;
+    text-decoration: none;
+    color: #1F4591;
 }
 
 .card-img-top{
@@ -32,6 +34,7 @@ body{
 .card:hover{
     opacity: 0.8;
     box-shadow: 0 0 11px rgba(33,33,33,.4);
+    color:#1F4591;
 }
 
 .card-title{
