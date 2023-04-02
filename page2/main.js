@@ -1,5 +1,13 @@
 let edit = false;
 
+// PAGE2 NAVBAR ---> PAGE1
+const dropdown = document.querySelector(".dropdown-menu");
+dropdown.addEventListener("click", function(event) {
+    const selectedOption = event.target.getAttribute("data-value");
+    localStorage.setItem("selectedOption", selectedOption);
+  });
+
+
 function autoIncrimentTextarea(){
     let elements = document.getElementsByTagName("textarea");
     for (let i = 0; i < elements.length; i++){

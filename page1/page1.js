@@ -1,4 +1,11 @@
 // PAGE1 NAVBAR ---> PAGE1
+const dropdown = document.querySelector(".dropdown-menu");
+dropdown.addEventListener("click", function(event) {
+  const selectedOption = event.target.getAttribute("data-value");
+  localStorage.setItem("selectedOption", selectedOption);
+  updatePage();
+});
+
 
 //beaches
 const pori = {"id": 1, "name":"Πορί", "description":"Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων",
@@ -37,12 +44,6 @@ const food = {armira};
 const title = document.querySelector("p.title");
 updatePage();
 
-const dropdown = document.querySelector(".dropdown-menu");
-dropdown.addEventListener("click", function(event) {
-  const selectedOption = event.target.getAttribute("data-value");
-  localStorage.setItem("selectedOption", selectedOption);
-  updatePage();
-});
 
 function updatePage(){
   //remove all cards
