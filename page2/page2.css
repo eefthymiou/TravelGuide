@@ -40,11 +40,17 @@ body{
 
 .adminInput{
     background-color: #d7eaff !important;
-    /* border color */
-    border-color: #d7eaff !important;
-    /* font size */
     font-size: 1.3em;
+    border-width: 2px;
     color:#1F4591
+}
+
+.editMode{
+    border-color: #386ad0 !important;
+}
+
+.nonEditMode{
+    border-color: #d7eaff;
 }
 
 #title{
@@ -55,6 +61,7 @@ body{
     font-size: 40px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
+    border-bottom: 2px solid hsl(210, 81%, 79%);
 }
 
 #reviewContainer{
@@ -73,10 +80,8 @@ body{
 
 form{
     /* border-color*/
-    border-left: 3px solid hsl(210, 81%, 79%);
-    border-right: 3px solid hsl(210, 81%, 79%);
-    border-width: 2px;
-
+    border-left: 2px solid hsl(210, 81%, 79%);
+    border-right: 2px solid hsl(210, 81%, 79%);
 }
 
 h4{
@@ -86,9 +91,6 @@ h4{
     font-size: 30px;
 }
 
-hr{
-    border-style: hidden;
-}
 
 /* Reviews */
 #addReview{

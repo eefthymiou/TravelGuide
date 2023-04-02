@@ -27,7 +27,10 @@ function enableTextarea() {
     let elements = document.getElementsByClassName("adminInput");
     for (let i = 0; i < elements.length; i++){
         elements[i].disabled = false;
-        elements[i].style.overflow = "auto";
+        // remove non edit mode class
+        elements[i].classList.remove("nonEditMode");
+        // add edit mode class
+        elements[i].classList.add("editMode");
     }
 }
   
@@ -37,6 +40,10 @@ function disableTextarea() {
         elements[i].disabled = true;
         // not resizable
         elements[i].style.resize = "none";
+        // remove edit mode class
+        elements[i].classList.remove("editMode");
+        // add non edit mode class
+        elements[i].classList.add("nonEditMode");
     }
 }
 
@@ -527,7 +534,7 @@ function addInfoF(text=""){
 
     // Create a new textarea element
     const newTextarea = document.createElement("textarea");
-    newTextarea.className = "form-control adminInput mb-3";
+    newTextarea.className = "form-control adminInput mb-3 editMode";
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
     newTextarea.value = text;
     
@@ -722,10 +729,12 @@ function user_page() {
 
 
 function both(){
-    setValues()
-    disableTextarea()
-    nonEditMode()
-    autoIncrimentTextarea()
+    add = setValues()
+    if (!add){
+        nonEditMode()
+        disableTextarea()
+        autoIncrimentTextarea()
+    }
 }
 
 function setValues(){
@@ -823,6 +832,10 @@ function setValues(){
         addMap("armira kai pito Koufonisia")
 
         addReviewF("user1", "Εξαιρετικό φαγητό, όμορφος χώρος και πολύ ευγενικό και εξυπηρετικό προσωπικό! Προσιτές τιμές, σε πλήρη αναλογία με την ποσότητα και την ποιότητα που προσφέρουν!",5,true);
+    }
+    else if (id === "add"){
+          editButton.click()
+          return true
     }
     else {
         // return to page1 
