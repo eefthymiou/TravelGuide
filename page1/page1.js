@@ -40,10 +40,13 @@ const armira = {"id": 5, "name": "Αρμύρα και Πιοτό", "description"
 const food = {armira};
 
 
-
+//---------------RUN-------------------//
+let admin = true;
 const title = document.querySelector("p.title");
 updatePage();
-
+if (admin){
+  createAddCard();
+}
 
 function updatePage(){
   //remove all cards
@@ -105,10 +108,7 @@ function createCard(item){
 
   const cardText = document.createElement("div");
   cardText.classList.add("card-text");
-  
-
   const cardDescription = document.createElement("p");
-
   cardDescription.classList.add("card-description");
   cardDescription.textContent = item.description;
 
@@ -137,4 +137,32 @@ function removeAllChildNodes(parent) {
   while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
   }
+}
+
+
+function createAddCard(){
+  const aRow = document.querySelector("div.row");
+  const aColumn = document.createElement("div");
+  aColumn.classList.add("col");
+  const aCard = document.createElement("a");
+  
+  aCard.classList.add("card");
+  aCard.style.marginInline= "30px";
+  aCard.href = "../page2/page2.html";
+  aCard.setAttribute("data-value", "add");
+
+  aCardText = document.createElement("div");
+  aCardText.classList.add("card-text");
+  aCardText.setAttribute("id", "add");
+  aCardText.textContent = "+";
+
+  aCard.appendChild(aCardText);
+  aColumn.appendChild(aCard);
+  aRow.appendChild(aColumn);
+
+  // ADD CARD ---> PAGE2 
+  aCard.addEventListener('click', () => {
+    selectedPlace = aCard.getAttribute('data-value');
+    localStorage.setItem("selectedPlace", selectedPlace);
+  });
 }
