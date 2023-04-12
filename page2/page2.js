@@ -1,4 +1,6 @@
 let edit = false;
+let numOfReviews = 0;
+let numOfStars = 0;
 
 // PAGE2 NAVBAR ---> PAGE1
 const dropdown = document.querySelector(".dropdown-menu");
@@ -324,11 +326,11 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
 
     // Create a new div for the review (card)
     const newDiv = document.createElement("div");
-    newDiv.className = "card m-2 ml-3 mr-3";
+    newDiv.className = "card mb-2 ml-3 mr-3";
 
     // create div for row
     const newRow = document.createElement("div");
-    newRow.className = "row g-0";
+    newRow.className = "row";
 
     // create div for col-md-3
     const newCol1 = document.createElement("div");
@@ -340,12 +342,12 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
 
     // create p element for user name
     const newP = document.createElement("p");
-    newP.className = "card-text md-3 mx-auto";
+    newP.className = "card-text mx-auto";
     newP.innerText = userName;
 
-    // create div for col-md-8
+    // create div
     const newCol3 = document.createElement("div");
-    newCol3.className = "col-md-8";
+    newCol3.className = "col";
 
     // create div for card-body
     const newCardBody = document.createElement("div");
@@ -369,6 +371,7 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
             console.log("Selected rating:", this.dataset.rating);
             ratingDiv.dataset.isRated = "true"; 
             ratingDiv.style.border = "none";
+            ratingDiv.dataset.rating = this.dataset.rating;
             
             
             // set the stars which are before the selected star to be filled
@@ -387,8 +390,6 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
             if (ratingDiv.dataset.isRated == "true") return
             // prevent the default action
             event.preventDefault();
-            
-            console.log("hover");
 
             allStars.forEach((star) => {
                 if (star.dataset.rating <= this.dataset.rating) {
@@ -431,7 +432,7 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
 
     // create input element for review
     const inputReviewText = document.createElement("textarea");
-    inputReviewText.className = "form-control mb-1";
+    inputReviewText.className = "form-control";
     inputReviewText.type = "text";
     inputReviewText.id = "inputReviewText";
     inputReviewText.placeholder = "Γράψτε το σχόλιό σας εδώ";
@@ -498,20 +499,29 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
 
         // Check if the user has entered a review
         if (inputReviewText.value === "") {
-            inputReviewText.style.border = "1px solid red";
-            return;
+            // remove the inputReviewText element from the DOM
+            inputReviewText.remove();
+        }
+        else {
+            // set the input elements to diasabled
+            inputReviewText.style.height = "auto";
+            inputReviewText.style.height = (inputReviewText.scrollHeight) + "px";
+            inputReviewText.disabled = true;
+            inputReviewText.style.overflow = "hidden";
         }
 
-        // set the input elements to diasabled
-        inputReviewText.style.height = "auto";
-        inputReviewText.style.height = (inputReviewText.scrollHeight) + "px";
-        inputReviewText.disabled = true;
-        inputReviewText.style.overflow = "hidden";
+    
         // block the rating buttons
         allStars.forEach((star) => {
             star.disabled = true;
         });
         
+        // add the review to the total reviews
+        numOfReviews++;
+        console.log(ratingDiv.dataset.rating);
+        numOfStars += parseInt(ratingDiv.dataset.rating);
+        totalReviews.innerHTML = "Αξιολογήσεις (" + numOfReviews + ")";
+        avgRating.innerHTML = (numOfStars/numOfReviews).toFixed(1) + "&#9733";
         
         // unhide the reviewDate element
         reviewDate.style.display = "block";
@@ -867,7 +877,10 @@ function setValues(){
         addMap("Petros Rooms Koufonisia")
 
         // add review
-        addReviewF("spamaro", "Πολύ καλή τοποθεσία, καθαρό και άνετο δωμάτιο, πολύ καλή εξυπηρέτηση και πολύ καλή τιμή. Θα το συνιστούσα ανεπιφύλακτα.",5,true);
+        // for 100 times
+        for (var i = 0; i < 50; i++) {
+            addReviewF("spamaro", "Πολύ καλή τοποθεσία, καθαρό και άνετο δωμάτιο, πολύ καλή εξυπηρέτηση και πολύ καλή τιμή. Θα το συνιστούσα ανεπιφύλακτα.",5,true);
+        }
     }
     else if (id == 4){
         // set value to the title
@@ -944,9 +957,6 @@ function main(){
         // if the user is not an admin, call the user_page function
         user_page()
     }
-
-    
-    
 }
 
 main()

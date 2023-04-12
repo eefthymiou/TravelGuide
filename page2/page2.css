@@ -86,13 +86,26 @@ form{
 
 h4{
     color:#1F4591;
-    padding-top: 60px;
-    padding-bottom: 20px;
-    font-size: 30px;
+    font-size: 1.5em;
 }
 
+#totalReviews{
+    font-size: 1.5em;
+    text-align: left;
+    color:#1F4591;
+    padding: 0%;
+    margin: 0%;
+}
 
-/* Reviews */
+#avgRating{
+    font-size: 2em;
+    font-weight: bold;
+    color:#1F4591;
+    text-align: right;
+    padding: 0%;
+    margin: 0%;
+}
+
 #addReview{
     background-color: #1F4591;
     color:#d7eaff;
@@ -129,9 +142,9 @@ h4{
     padding: 0;
 }
 
-/* .star:hover {
+.star:hover {
     cursor: pointer;
-} */
+}
   
 .star.selected {
     color : #1F4591;
