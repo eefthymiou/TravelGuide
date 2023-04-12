@@ -932,10 +932,9 @@ function user_page() {
 }
 
 
-
 function main(){    
     // then check if the user is an admin or not
-    const admin = true;
+    const admin = false;
 
     if (admin){
         // if the user is an admin, call the admin_page function
