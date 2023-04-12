@@ -351,18 +351,83 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
     const newCardBody = document.createElement("div");
     newCardBody.className = "card-body";
 
-    // create a input element for rating
-    const inputRating = document.createElement("input");
-    inputRating.className = "form-control mb-1";
-    // the review can be rated from 1 to 5
-    inputRating.type = "number";
-    inputRating.min = "1";
-    inputRating.max = "5";
-    inputRating.step = "1";
-    inputRating.id = "inputRating";
-    inputRating.placeholder = "Βαθμολογία";
-    if (reviewRating!=undefined)inputRating.value = reviewRating;
-    inputRating.disabled = false;
+    const ratingDiv = document.createElement("div");
+    ratingDiv.className = "star_rating";
+    ratingDiv.dataset.isRated = "false";    
+    const allStars = [];
+
+    for (let i = 1; i <= 5; i++) {
+        const ratingButton = document.createElement("button");
+        ratingButton.classList.add("star");
+        ratingButton.dataset.rating = i;
+        ratingButton.innerHTML = "&#9734;";
+    
+        ratingButton.addEventListener("click", function() {
+            // prevent the default action
+            event.preventDefault();
+            
+            console.log("Selected rating:", this.dataset.rating);
+            ratingDiv.dataset.isRated = "true"; 
+            ratingDiv.style.border = "none";
+            
+            
+            // set the stars which are before the selected star to be filled
+            allStars.forEach((star) => {
+                if (star.dataset.rating <= this.dataset.rating) {
+                    star.innerHTML = "&#9733;";
+                    star.classList.add("selected");
+                } else {
+                    star.innerHTML = "&#9734;";
+                    star.classList.remove("selected");
+                }
+            });
+        });
+
+        ratingButton.addEventListener("mouseover", function() {
+            if (ratingDiv.dataset.isRated == "true") return
+            // prevent the default action
+            event.preventDefault();
+            
+            console.log("hover");
+
+            allStars.forEach((star) => {
+                if (star.dataset.rating <= this.dataset.rating) {
+                    star.innerHTML = "&#9733;";
+                    star.classList.add("selected");
+                } else {   
+                    star.innerHTML = "&#9734;";
+                    star.classList.remove("selected");
+                }
+            });
+        });
+
+        ratingButton.addEventListener("mouseout", function() {
+            if (ratingDiv.dataset.isRated == "true") return
+            
+            // prevent the default action
+            event.preventDefault();
+
+            allStars.forEach((star) => {
+                star.innerHTML = "&#9734;";
+                    star.classList.remove("selected");
+            });
+        });
+        
+    
+        allStars.push(ratingButton);
+        ratingDiv.appendChild(ratingButton);
+    }
+
+    if (reviewRating!=undefined){
+        console.log(reviewRating)
+        for (ratingButton of allStars) {
+            if (ratingButton.dataset.rating == reviewRating) {
+                // press the button
+                ratingButton.click();
+                ratingDiv.dataset.isRated = "true";
+            }
+        }
+    }
 
     // create input element for review
     const inputReviewText = document.createElement("textarea");
@@ -402,7 +467,7 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
     newP3.appendChild(reviewDate);
     newCol2.appendChild(newP);
     newCol1.appendChild(newCol2);
-    newCardBody.appendChild(inputRating);
+    newCardBody.appendChild(ratingDiv);
     newCardBody.appendChild(inputReviewText);
     newCardBody.appendChild(newP3);
     newCol3.appendChild(newCardBody);
@@ -426,10 +491,11 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
         event.preventDefault();
         
         // Check if the user has entered a rating
-        if (inputRating.value === "") {
-            inputRating.style.border = "1px solid red";
+        if ( ratingDiv.dataset.isRated === "false" ) {
+            ratingDiv.style.border = "1px solid red";
             return;
         }
+
         // Check if the user has entered a review
         if (inputReviewText.value === "") {
             inputReviewText.style.border = "1px solid red";
@@ -437,21 +503,23 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
         }
 
         // set the input elements to diasabled
-        inputRating.disabled = true;
         inputReviewText.style.height = "auto";
         inputReviewText.style.height = (inputReviewText.scrollHeight) + "px";
         inputReviewText.disabled = true;
         inputReviewText.style.overflow = "hidden";
+        // block the rating buttons
+        allStars.forEach((star) => {
+            star.disabled = true;
+        });
+        
         
         // unhide the reviewDate element
         reviewDate.style.display = "block";
 
         // set white background
-        inputRating.style.backgroundColor = "white";
         inputReviewText.style.backgroundColor = "white";
 
         // remove the border
-        inputRating.style.border = "none";
         inputReviewText.style.border = "none";
 
         // remove thw save button
@@ -511,6 +579,12 @@ addReview.addEventListener("click", function() {
     // animate the scroll smoothly
     container.scrollTo({
         top: container.scrollHeight,
+        behavior: "smooth"
+    });
+
+    // go to the bottom of the page 
+    window.scrollTo({
+        top: document.body.scrollHeight,
         behavior: "smooth"
     });
 
@@ -718,28 +792,11 @@ function hideEditButton(){
     editButton.style.display = "none";
 }
 
-function admin_page() {
-    hideUserAction()
-}
-
-function user_page() {
-    hideAdminAction()
-    hideEditButton()
-}
-
-
-function both(){
-    add = setValues()
-    if (!add){
-        nonEditMode()
-        disableTextarea()
-        autoIncrimentTextarea()
-    }
-}
 
 function setValues(){
-    id = localStorage.getItem("selectedPlace")
-    console.log(id)
+    id = localStorage.getItem("selectedPlace");
+    console.log(id);
+
     // id = 1
     if (id == 1){
         // set a value to name
@@ -759,6 +816,9 @@ function setValues(){
 
         // default reviews
         addReviewF("spamaro", "Αυτή η παραλία είναι υπέροχη",5,true);
+
+        // go to the top of the page
+        window.scrollTo(0, 0);
     }
 
     else if (id == 2){
@@ -780,6 +840,9 @@ function setValues(){
        
         // add map
         addMap("Εκκλησία του Προφήτη Ηλία Κουφονήσια") 
+
+        // go to the top of the page
+        window.scrollTo(0, 0);
     }   
     
     else if (id == 3){
@@ -844,12 +907,35 @@ function setValues(){
     }
 }   
 
-function main(){
-    // function both is called for all users
-    both()
-    
+
+function admin_page() {
+    add = setValues()
+    if (!add){
+        nonEditMode()
+        disableTextarea()
+        autoIncrimentTextarea()
+    }
+
+    hideUserAction()
+}
+
+function user_page() {
+    add = setValues()
+    if (!add){
+        nonEditMode()
+        disableTextarea()
+        autoIncrimentTextarea()
+    }
+
+    hideAdminAction()
+    hideEditButton()
+}
+
+
+
+function main(){    
     // then check if the user is an admin or not
-    const admin = false;
+    const admin = true;
 
     if (admin){
         // if the user is an admin, call the admin_page function

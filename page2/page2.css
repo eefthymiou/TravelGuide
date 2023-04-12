@@ -108,3 +108,31 @@ h4{
 .h-100{
     background-color: hsl(210, 81%, 79%);
 }
+
+.star {
+    font-size: 2em;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    fill: #ccc;
+    transition: fill 0.2s;
+    margin: 5px;
+}
+
+.star_rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* .star:hover {
+    cursor: pointer;
+} */
+  
+.star.selected {
+    color : #1F4591;
+}
