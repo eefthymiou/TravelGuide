@@ -3,6 +3,22 @@
     width:100%;
     height:auto;
 }
+.title{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(84, 150, 227, 0.5);
+    width: 100%;
+    height: 70px;
+    font-family: cursiva;
+}
+.title p{
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    
+}
 
 /* ------------------CARDS------------------------*/
 .card{
