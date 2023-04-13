@@ -149,3 +149,9 @@ h4{
 .star.selected {
     color : #1F4591;
 }
+
+
+.guestButton {
+    background-color: #1F4591;
+    color:#d7eaff;
+}

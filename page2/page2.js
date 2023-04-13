@@ -7,7 +7,30 @@ const dropdown = document.querySelector(".dropdown-menu");
 dropdown.addEventListener("click", function(event) {
     const selectedOption = event.target.getAttribute("data-value");
     localStorage.setItem("selectedOption", selectedOption);
-  });
+});
+
+
+const signInBtn = document.getElementsByClassName("sign-in-btn");
+
+// add event lisster to the buttons with class name sign-in-btn
+for (let i = 0; i < signInBtn.length; i++){
+    signInBtn[i].addEventListener("click", function(event) {
+        // prevent the default action
+        event.preventDefault();
+    });
+}
+
+const singUpBtn = document.getElementsByClassName("sign-up-btn");
+
+// add event lisster to the buttons with class name sign-up-btn
+for (let i = 0; i < singUpBtn.length; i++){
+    singUpBtn[i].addEventListener("click", function(event) {
+        // prevent the default action
+        event.preventDefault();
+    });
+}
+
+
 
 
 function autoIncrimentTextarea(){
@@ -326,7 +349,7 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
 
     // Create a new div for the review (card)
     const newDiv = document.createElement("div");
-    newDiv.className = "card mb-2 ml-3 mr-3";
+    newDiv.className = "card m-2";
 
     // create div for row
     const newRow = document.createElement("div");
@@ -655,7 +678,13 @@ addInfo.addEventListener("click", function() {
     autoIncrimentTextarea()
 });
 
-
+function hideGuestAction(){
+    // hide guest action
+    elements = document.getElementsByClassName("guestAction");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].style.display = "none";
+    }
+}
 
 function hideAdminAction() {
     let elements = document.getElementsByClassName("adminAction");
@@ -791,7 +820,7 @@ deleteButton.addEventListener("click", function() {
 });
 
 function hideUserAction(){
-    let elements = document.getElementsByClassName("userInput");
+    let elements = document.getElementsByClassName("userAction");
     for (let i = 0; i < elements.length; i++){
         elements[i].style.display = "none";
     }
@@ -920,7 +949,6 @@ function setValues(){
     }
 }   
 
-
 function admin_page() {
     add = setValues()
     if (!add){
@@ -930,6 +958,7 @@ function admin_page() {
     }
 
     hideUserAction()
+    hideGuestAction()
 }
 
 function user_page() {
@@ -942,20 +971,39 @@ function user_page() {
 
     hideAdminAction()
     hideEditButton()
+    hideGuestAction()
+}
+
+function guest_page() {
+    add = setValues()
+    if (!add){
+        nonEditMode()
+        disableTextarea()
+        autoIncrimentTextarea()
+    }
+
+    hideAdminAction()
+    hideEditButton()
+    hideUserAction()
 }
 
 
-function main(){    
-    // then check if the user is an admin or not
-    const admin = false;
 
-    if (admin){
-        // if the user is an admin, call the admin_page function
-        admin_page()
+function main(){    
+    // user -> 1
+    // admin -> 2
+    // guest -> 3
+    
+    const user = 3;
+
+    if (user==1){
+        user_page();
     }
-    else{
-        // if the user is not an admin, call the user_page function
-        user_page()
+    else if (user==2){
+        admin_page();
+    }
+    else if (user==3){
+        guest_page();
     }
 }
 
