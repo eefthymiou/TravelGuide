@@ -35,10 +35,22 @@
                     </ul>
                 </li>
             </ul>
+            
+            <div class="d-flex gap-2 justify-content-center">
+                <!-- edit button -->
+                <button id="editButton" class="btn btn-warning">Επεξεργασία</button>
+                <!-- save button -->
+                <button id="saveButton" class="btn btn-success">Αποθήκευση</button>
+                <!-- delete button -->
+                <button id="deleteButton" class="btn btn-danger">Διαγραφή</button>
+            </div>
+
+
             <div class="button">
               <button class="btn btn-outline-light sign-in-btn" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Συνδεθείτε</button>
               <button class="btn btn-outline-light sign-up-btn" data-bs-toggle="modal" data-bs-target="#sign-up-modal">Εγγραφείτε</button>
           </div>
+
         </div> 
     </nav>
 
@@ -106,19 +118,6 @@
         <form >
             <fieldset class="m-3">
                 <br>
-                <div class="gap-2 d-flex justify-content-center">
-                    <!-- save button -->
-                    <button id="saveButton" class="btn btn-success mb-3">Αποθήκευση</button>
-                    <!-- delete button -->
-                    <button id="deleteButton" class="btn btn-danger mb-3">Διαγραφή</button>
-                </div>
-
-                <!-- edit button -->
-                <div class="d-flex justify-content-end">
-                    <button id="editButton" class="btn btn-warning mb-3 justify-content-end">Επεξεργασία</button>
-                </div>
-                
-
                 <!-- title and description div -->
                 <div class="mb-3">
                     <input id="title" class="form-control adminInput mb-3" type="text" placeholder="Όνομα" disabled>
@@ -143,15 +142,16 @@
                 <!--Google map-->
                 <h4>Χάρτης</h4>
                 <!-- input element for google search location -->
-                <div class="row adminAction">
-                    <div class="col-9">
-                        <input id="searchLocation" class="form-control mb-3" value="" type="text" placeholder="Αναζήτηση Τοποθεσίας">
+                <div class="row adminAction mb-3" style="justify-content: space-between;">
+                    <div class="col">
+                        <input id="searchLocation" class="form-control" value="" type="text" placeholder="Αναζήτηση Τοποθεσίας">
                     </div>
-                    <div class="col-1">
-                        <!-- button search -->
-                        <button id="searchButton" class="btn btn-primary mb-3" style="justify-content: flex-end;">Αναζήτηση</button>
+                    <div class="col-auto">
+                        <button id="searchButton" class="btn btn-primary">Αναζήτηση</button>
                     </div>
                 </div>
+                               
+
                 <div id="map-container-google-1" class="z-depth-1-half map-container mb-3 d-flex justify-content-center">
                     <iframe class="map" src="https://maps.google.com/maps?q=koufonisia&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen></iframe>
                 </div>

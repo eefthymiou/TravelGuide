@@ -994,7 +994,7 @@ function main(){
     // admin -> 2
     // guest -> 3
     
-    const user = 3;
+    const user = 2;
 
     if (user==1){
         user_page();
