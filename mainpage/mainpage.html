@@ -96,13 +96,10 @@
   </div>
 
   <!-- WEATHER -->
-  <div class="weather d-flex justify-content-center">
-    <div id="c_58e3672e5eb8b8f3abe0973e4495ea1b" class="ancho">
-      <a href="https://www.okairos.gr/%CE%BA%CE%BF%CF%85%CF%86%CE%BF%CE%BD%CE%AE%CF%83%CE%B9.html">Καιρός Κουφονήσια</a>
-      <div id="w_58e3672e5eb8b8f3abe0973e4495ea1b" class="ancho"></div>
-    </div>
-    <script type="text/javascript" src="http://www.okairos.gr/widget/loader/58e3672e5eb8b8f3abe0973e4495ea1b"></script>
-  </div>
+  <a class="weatherwidget-io" href="https://forecast7.com/el/36d9325d60/koufonisia/" data-label_1="ΚΑΙΡΟΣ" data-label_2="Κουφονήσια" data-font="Arial" data-icons="Climacons Animated" data-mode="Forecast" data-days="5" data-theme="retro-sky" data-basecolor="hsl(210, 81%, 79%);" data-shadow="rgba(55, 55, 55, 0.7)" >
+    ΚΑΙΡΟΣ Κουφονήσια</a>
+
+
 
 
   <!-- SIGN-IN -->
@@ -165,6 +162,12 @@
   </div>
 
   <script src="mainpage.js"></script>
+
+  <!-- WEATHER -->
+  <script> 
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
