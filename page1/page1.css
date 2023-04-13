@@ -40,6 +40,8 @@ body{
 .card-title{
     font-size: 1.5em;
     font-weight: 500;
+    margin-left: 15px;
+    margin-top: 5px;
 }
 
 .read-more{
@@ -50,6 +52,8 @@ body{
 
 .card-text{
     min-height: 150px;
+    margin: 15px;
+    margin-top: 0px;
 }
 .card-description{
     overflow: hidden;
