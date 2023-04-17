@@ -93,9 +93,7 @@ function addImage(pathImage,alt,title){
     
 
     const image = document.createElement("img");
-    image.className = "img-fluid mb-3 image";
-    
-
+    image.className = "d-block mx-auto text-center mb-3";
     image.id = "image";
    
     if (pathImage == undefined){
@@ -122,9 +120,15 @@ function addImage(pathImage,alt,title){
             image.alt = alt;
         }
     }
+    // from every image in the divImages remove the active class
+    const images = divImages.getElementsByClassName("carousel-item");
+    for (let i = 0; i < images.length; i++){
+        images[i].classList.remove("active");
+    }
 
     const divImage = document.createElement("div");
-    
+    divImage.className = "carousel-item active";
+
     // create a div for edit and delete buttons
     const divButtons = document.createElement("div");
     divButtons.className = "gap-2 d-flex justify-content-center adminAction";

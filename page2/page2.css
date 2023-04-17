@@ -159,3 +159,16 @@ h4{
 .editButton{
     background-color:hsl(210, 81%, 79%);
 }
+
+.carousel-inner .carousel-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  border: 1px solid #1F4591;
+}
+
+
+
