@@ -120,7 +120,7 @@
               <label for="signInPassword" class="form-label">Κωδικός</label>
               <input type="password" class="form-control" id="signInPassword">
             </div>
-            <button type="submit" class="btn">Σύνδεση</button>
+            <button type="submit" class="btn" id="signInButton">Σύνδεση</button>
           </form>
         </div>
       </div>
@@ -145,22 +145,25 @@
             <div class="mb-3">
               <label for="signUpEmail" class="form-label">Email</label>
               <input type="email" class="form-control" id="signUpEmail" aria-describedby="emailHelp">
+              <p id="emailMessage" style="font-size: smaller; margin-top: 5px; color: rgb(210, 17, 17);"></p>
             </div>
             <div class="mb-3">
               <label for="signUpPassword" class="form-label">Κωδικός</label>
               <input type="password" class="form-control" id="signUpPassword">
+              <p id="passwordMessage" style="font-size: smaller; margin-top: 5px;"></p>
             </div>
             <div class="mb-3">
               <label for="confirmPassword" class="form-label">Επιβεβαίωση κωδικού</label>
               <input type="password" class="form-control" id="confirmPassword">
             </div>
-            <button type="submit" class="btn">Εγγραφή</button>
+            <button type="submit" class="btn" id="signUpButton">Εγγραφή</button>
           </form>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="../login.js"></script>
   <script src="mainpage.js"></script>
 
   <!-- WEATHER -->
