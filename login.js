@@ -1,9 +1,12 @@
-let emails = ["marosimosi@gmail.com", "johnefthimiou1002@gmail.com"]
-let passwords = ["12345678", "12345678"]
+const maro = {id: 1, username: "maro", email: "marosimosi@gmail.com", password: "12345678"};
+const john = {id: 2, username: "efthymiou", email: "johnefthimiou1002@gmail.com", password: "12345678"}; //admin
+const users = [maro, john];
+
+let currentUserId = sessionStorage.getItem("userId");
 
 function emailExists(email){
-    if (emails.includes(email)){
-        return emails.indexOf(email)+1;
+    if (users.find(user => user.email === email)) {
+        return users.find(user => user.email === email).id;
     } else {
         return false;
     }
@@ -56,7 +59,6 @@ signUpButton.addEventListener("click", function(event){
     event.preventDefault();
     let email = document.getElementById("signUpEmail").value;
     if (isEmail() && isUserName() && okPassword() && samePassword()){
-        TODO 
         //successfull sign up
     }
     else{
@@ -99,13 +101,15 @@ signInButton.addEventListener("click", function(event){
     event.preventDefault();
     let email = document.getElementById("signInEmail").value;
     let password = document.getElementById("signInPassword").value;
-    if (!emailExists(email) || (emailExists(email) && password !== passwords[emailExists(email)-1])){
+    if (!emailExists(email) || (emailExists(email) && users.find(user => user.email === email).password !== password)) {
         signInEmail.style.border = "2px solid rgb(210, 17, 17)";
         signInPassword.style.border = "2px solid rgb(210, 17, 17)";
     }
     else {
-        TODO
         //successfull sign in
+        currentUserId = users.find(user => user.email === email).id;
+        sessionStorage.setItem("userId", currentUserId);
+        location.reload();
     }
 });
 
@@ -113,33 +117,41 @@ signInButton.addEventListener("click", function(event){
 
 const buttons = document.getElementById("navbarButton");
 // ------NAVBAR FOR GUEST------
-// const signIn = document.createElement("button");
-// signIn.setAttribute("class", "btn btn-outline-light");
-// signIn.setAttribute("data-bs-toggle", "modal");
-// signIn.setAttribute("data-bs-target", "#sign-in-modal");
-// signIn.textContent = "Συνδεθείτε";
-// signIn.style.marginRight = "10px";
-// buttons.appendChild(signIn);
+if(currentUserId == 0 || currentUserId == null){
+    const signIn = document.createElement("button");
+    signIn.setAttribute("class", "btn btn-outline-light");
+    signIn.setAttribute("data-bs-toggle", "modal");
+    signIn.setAttribute("data-bs-target", "#sign-in-modal");
+    signIn.textContent = "Συνδεθείτε";
+    signIn.style.marginRight = "10px";
+    buttons.appendChild(signIn);
 
-// const signUp = document.createElement("button");
-// signUp.setAttribute("class", "btn btn-outline-light");
-// signUp.setAttribute("data-bs-toggle", "modal");
-// signUp.setAttribute("data-bs-target", "#sign-up-modal");
-// signUp.textContent = "Εγγραφείτε";
-// buttons.appendChild(signUp);
+    const signUp = document.createElement("button");
+    signUp.setAttribute("class", "btn btn-outline-light");
+    signUp.setAttribute("data-bs-toggle", "modal");
+    signUp.setAttribute("data-bs-target", "#sign-up-modal");
+    signUp.textContent = "Εγγραφείτε";
+    buttons.appendChild(signUp);
+}
 
 // ------NAVBAR FOR USER------
-const user = document.createElement("span");
-user.setAttribute("class", "navbar-text");
-user.textContent = "Username";
-user.style.marginRight = "20px";
-user.style.fontSize = "1.1rem";
-buttons.appendChild(user);
+else{
+    const user = document.createElement("span");
+    user.setAttribute("class", "navbar-text");
+    user.textContent = users.find(user => user.id === parseInt(currentUserId)).username;
+    user.style.marginRight = "20px";
+    user.style.fontSize = "1.1rem";
+    buttons.appendChild(user);
 
-const signOut = document.createElement("button");
-signOut.setAttribute("class", "btn btn-outline-light");
-signOut.textContent = "Αποσύνδεση";
-buttons.appendChild(signOut);
+    const signOut = document.createElement("button");
+    signOut.setAttribute("class", "btn btn-outline-light");
+    signOut.textContent = "Αποσύνδεση";
+    buttons.appendChild(signOut);
+    signOut.addEventListener("click", function(event){
+        sessionStorage.setItem("userId", 0);
+        location.reload();
+    })
+}
 
 
 

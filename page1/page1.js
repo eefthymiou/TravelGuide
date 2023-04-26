@@ -41,7 +41,8 @@ const food = {armira};
 
 
 //---------------RUN-------------------//
-let admin = true;
+
+let admin = (sessionStorage.getItem("userId") == 2);
 const title = document.querySelector("p.title");
 updatePage();
 
