@@ -110,11 +110,37 @@ signInButton.addEventListener("click", function(event){
 });
 
 
+
+const buttons = document.getElementById("navbarButton");
 // ------NAVBAR FOR GUEST------
-// const buttons = document.getElementsById("navbarButton");
 // const signIn = document.createElement("button");
 // signIn.setAttribute("class", "btn btn-outline-light");
 // signIn.setAttribute("data-bs-toggle", "modal");
 // signIn.setAttribute("data-bs-target", "#sign-in-modal");
-// signIn.textContent = "Σύνδεση";
+// signIn.textContent = "Συνδεθείτε";
+// signIn.style.marginRight = "10px";
 // buttons.appendChild(signIn);
+
+// const signUp = document.createElement("button");
+// signUp.setAttribute("class", "btn btn-outline-light");
+// signUp.setAttribute("data-bs-toggle", "modal");
+// signUp.setAttribute("data-bs-target", "#sign-up-modal");
+// signUp.textContent = "Εγγραφείτε";
+// buttons.appendChild(signUp);
+
+// ------NAVBAR FOR USER------
+const user = document.createElement("span");
+user.setAttribute("class", "navbar-text");
+user.textContent = "Username";
+user.style.marginRight = "20px";
+user.style.fontSize = "1.1rem";
+buttons.appendChild(user);
+
+const signOut = document.createElement("button");
+signOut.setAttribute("class", "btn btn-outline-light");
+signOut.textContent = "Αποσύνδεση";
+buttons.appendChild(signOut);
+
+
+
+
