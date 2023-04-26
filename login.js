@@ -60,6 +60,7 @@ signUpButton.addEventListener("click", function(event){
     let email = document.getElementById("signUpEmail").value;
     if (isEmail() && isUserName() && okPassword() && samePassword()){
         //successfull sign up
+        location.reload();
     }
     else{
         if (emailExists(email)) {
