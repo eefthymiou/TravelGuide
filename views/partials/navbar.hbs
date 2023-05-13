@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand navbar-dark sticky-top">
+    <div class="container">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Αρχική</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Εξερευνήστε
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/page1?category=beaches">Παραλίες</a></li>
+                    <li><a class="dropdown-item" href="/page1?category=sights">Αξιοθέατα</a></li>
+                    <li><a class="dropdown-item" href="/page1?category=accomm">Διαμονή</a></li>
+                    <li><a class="dropdown-item" href="/page1?category=transport">Μετακινήσεις</a></li>
+                    <li><a class="dropdown-item" href="/page1?category=food">Φαγητό</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="button" id ="navbarButton">
+            <!-- different elements for guest and logged in user -->
+        </div>
+    </div> 
+</nav>
+
+<!-- SIGN-IN -->
+  <div class="modal fade" tabindex="-1" id="sign-in-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Συνδεθείτε</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="signInEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="signInEmail" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="signInPassword" class="form-label">Κωδικός</label>
+              <input type="password" class="form-control" id="signInPassword">
+            </div>
+            <button type="submit" class="btn" id="signInButton">Σύνδεση</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SIGN-UP -->
+  <div class="modal fade" tabindex="-1" id="sign-up-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Εγγραφείτε</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username">
+            </div>
+            <div class="mb-3">
+              <label for="signUpEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="signUpEmail" aria-describedby="emailHelp">
+              <p id="emailMessage" style="font-size: smaller; margin-top: 5px; color: rgb(210, 17, 17);"></p>
+            </div>
+            <div class="mb-3">
+              <label for="signUpPassword" class="form-label">Κωδικός</label>
+              <input type="password" class="form-control" id="signUpPassword">
+              <p id="passwordMessage" style="font-size: smaller; margin-top: 5px;"></p>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Επιβεβαίωση κωδικού</label>
+              <input type="password" class="form-control" id="confirmPassword">
+            </div>
+            <button type="submit" class="btn" id="signUpButton">Εγγραφή</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
