@@ -1,5 +1,3 @@
-import Handlebars from 'handlebars';
-
 //beaches
 const pori = {"id": 1, "name":"Πορί", "description":"Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων",
 "image": "../images/pori.png"};
@@ -32,8 +30,10 @@ const armira = {"id": 5, "name": "Αρμύρα και Πιοτό", "description"
 
 const food = {armira};
 
-// Translate english to greek
-Handlebars.registerHelper('translate', function(x) {
-    if (x == 'beaches') return 'Παραλίες';
-    if (x == 'sights') return 'Αξιοθέατα';
-});
+const createPage1 = (req, res) => {
+    const category = req.query.category;
+    console.log(category);
+    res.render('page1', { title: category, style: 'page1.css' });
+};
+
+export default { createPage1 };

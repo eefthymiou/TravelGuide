@@ -1,4 +1,5 @@
 import express from 'express';
+import createPage from './controllers/page1.mjs';
 
 const router = express.Router();
 
@@ -8,8 +9,6 @@ router.get('/mainpage', async (req, res) => {
  });
 
 
-router.route('/page1').get(async (req, res) => {
-    res.render('page1', {style: 'page1.css'});
-});
+router.get('/page1', createPage.createPage1);
 
- export { router };
+export { router };
