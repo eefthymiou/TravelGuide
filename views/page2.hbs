@@ -1,0 +1,80 @@
+    <div class="container">
+        <form>
+            <fieldset class="m-3">
+                <br>
+                <!-- title and description div -->
+                <div class="mb-3">
+                    <input id="title" class="form-control adminInput mb-3" type="text" placeholder="Όνομα" disabled>
+                    <textarea id="description" class="form-control adminInput" placeholder="Περιγραφή" disabled></textarea>
+                </div>
+                
+                <!-- import/preview photo -->
+                <div class="input-group mb-3 adminAction" id="importPhoto">
+                    <input type="file" class="form-control" id="inputGroupFile" >
+                    <button class="btn btn-outline-secondary" type="button" id="previewButton">Preview</button>
+                </div>
+
+                <!--images container-->
+                <div id="carouselImages" class="carousel slide mb-3 justify-content-center" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="imagesContainer">
+                      <!-- images -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                  
+
+                <!-- add parapraph button -->
+                <button id="addInfo" class="btn btn-primary mb-3 adminAction">Πρόσθεσε Κουτί πληροφορίων</button>
+                <!-- all new elements are inside to this div -->
+                <div id="container"></div>
+                
+                
+                <!--Google map-->
+                <h4>Χάρτης</h4>
+                <!-- input element for google search location -->
+                <div class="row adminAction mb-3" style="justify-content: space-between;">
+                    <div class="col">
+                        <input id="searchLocation" class="form-control" value="" type="text" placeholder="Αναζήτηση Τοποθεσίας">
+                    </div>
+                    <div class="col-auto">
+                        <button id="searchButton" class="btn btn-primary">Αναζήτηση</button>
+                    </div>
+                </div>
+                               
+
+                <div id="map-container-google-1" class="z-depth-1-half map-container mb-3 d-flex justify-content-center">
+                    <iframe class="map" src="https://maps.google.com/maps?q=koufonisia&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen></iframe>
+                </div>
+                
+                <!-- reviews -->
+                <div class="container">
+                    <div class="row">
+                        <div id="totalReviews" class="col">Αξιολογήσεις</div>
+                        <div id="avgRating" class="col"></div>
+                    </div>
+                </div>
+                <div id="reviews-flex" class="flex"> 
+                    <div id="reviewContainer" class="flex-column mb-3 overflow-auto"></div>
+                </div>
+
+                
+                <!-- button add review -->
+                <button id="addReview" class="btn btn-primary mb-3 userAction">Πρόσθεσε Αξιολόγηση</button>
+                <div class="guestAction">
+                    <button class="btn guestButton sign-in-btn" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Συνδεθείτε</button>
+                    <button class="btn guestButton sign-up-btn" data-bs-toggle="modal" data-bs-target="#sign-up-modal">Εγγραφείτε</button>
+                </div>
+                
+                <br><br><br>
+        </fieldset>
+        </form>
+
+    </div>
+
