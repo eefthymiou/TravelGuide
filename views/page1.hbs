@@ -6,8 +6,39 @@
     <!-- CARDS -->
     <div class="container">
         <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1">
-          <!-- cards made in js   -->
+          {{#each cards}}
+            <div class="col">
+              <a class="card" style="marginInLine=30px" href="/page2?id={{id}}">
+                <img src="{{image}}" class="card-img-top" alt="{{name}}">
+                <div class="card-title">{{name}}</div>
+                <div class="card-text">
+                  <p class="card-description">{{description}}</p>
+                  <p class="read-more">Διαβάστε περισσότερα</p>
+                </div>
+              </a>
+            </div>
+          {{/each}}
         </div>
     </div>
+
+  
+{{!--   const aRow = document.querySelector("div.row");
+  const aColumn = document.createElement("div");
+  aColumn.classList.add("col");
+  const aCard = document.createElement("a");
+  
+  aCard.classList.add("card");
+  aCard.style.marginInline= "30px";
+  aCard.href = "../page2/page2.html";
+  aCard.setAttribute("data-value", "add");
+
+  aCardText = document.createElement("div");
+  aCardText.classList.add("card-text");
+  aCardText.setAttribute("id", "add");
+  aCardText.textContent = "+";
+
+  aCard.appendChild(aCardText);
+  aColumn.appendChild(aCard);
+  aRow.appendChild(aColumn); --}}
 
     

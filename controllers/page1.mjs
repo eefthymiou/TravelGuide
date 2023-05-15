@@ -31,9 +31,14 @@ const armira = {"id": 5, "name": "Αρμύρα και Πιοτό", "description"
 const food = {armira};
 
 const createPage1 = (req, res) => {
-    const category = req.query.category;
-    console.log(category);
-    res.render('page1', { title: category, style: 'page1.css' });
+    let category = req.query.category;
+    let data;
+    if (category === 'beaches') { category = 'Παραλίες'; data = beaches;}  
+    else if (category === 'sights') { category = 'Αξιοθέατα'; data = sights;}
+    else if (category === 'accomm') { category = 'Διαμονή'; data = accomm;}
+    else if (category === 'transport') { category = 'Μετακινήσεις'; data = transport;}
+    else if (category === 'food') { category = 'Φαγητό'; data = food;}
+    res.render('page1', { title: category, cards: data, style: 'page1.css' });
 };
 
 export default { createPage1 };
