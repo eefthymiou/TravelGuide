@@ -997,7 +997,7 @@ function main(){
     // user -> 1
     // admin -> 2
     // guest -> 3
-    
+    console.log("start")
     const user = 2;
 
     if (user==1){
