@@ -837,7 +837,7 @@ function hideEditButton(){
 
 
 function setValues(){
-    id = localStorage.getItem("selectedPlace");
+    const id = 1;
     console.log(id);
 
     // id = 1

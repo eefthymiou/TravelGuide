@@ -5,7 +5,7 @@ const createPage2 = (req, res) => {
     // console.log(req.query)
     let id = req.query.id;
 
-    res.render('page2', {title: title, description: description, style: 'page2.css' });
+    res.render('page2', {style: 'page2.css'});
 };
 
 export default { createPage2 };

@@ -7,6 +7,7 @@ import 'dotenv/config'
 const app = express()
 
 app.use(express.static('public'))
+
 app.use(express.urlencoded({ extended: true }))
 
 app.engine('hbs', engine({ extname: ".hbs" }))
@@ -18,7 +19,7 @@ app.use((req, res) => {
     res.redirect("/mainpage")
 })
 
-const PORT = process.env.PORT || 3005
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => console.log(`Η εφαρμογή ξεκίνησε στο http://127.0.0.1:${PORT}`))
 
