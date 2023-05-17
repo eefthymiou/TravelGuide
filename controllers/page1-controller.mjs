@@ -30,7 +30,7 @@ const armira = {"id": 5, "name": "Αρμύρα και Πιοτό", "description"
 
 const food = {armira};
 
-const createPage1 = (req, res) => {
+export async function createPage1(req, res){
     let category = req.query.category;
     let data;
     if (category === 'beaches') { category = 'Παραλίες'; data = beaches;}  
@@ -38,7 +38,11 @@ const createPage1 = (req, res) => {
     else if (category === 'accomm') { category = 'Διαμονή'; data = accomm;}
     else if (category === 'transport') { category = 'Μετακινήσεις'; data = transport;}
     else if (category === 'food') { category = 'Φαγητό'; data = food;}
-    res.render('page1', { title: category, cards: data, style: 'page1.css' });
+    
+    try {
+      res.render('page1', { title: category, cards: data, style: 'page1.css' });
+    }
+    catch (error) {
+      res.send(error);
+    }
 };
-
-export default { createPage1 };
