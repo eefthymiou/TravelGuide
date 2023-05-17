@@ -13,7 +13,6 @@ router.get('/mainpage', async (req, res) => {
 router.get('/page1', page1Controller.createPage1);
 router.get('/page2', page2Controller.createPage2);
 
-
 export { router };
 
 

@@ -25,3 +25,6 @@ process.on('SIGTERM', () => {
       console.log('Http server closed.');
    });
 });
+
+// connecting to the database
+const model = await import(`./model/${process.env.MODEL}/${process.env.MODEL}.mjs`);
