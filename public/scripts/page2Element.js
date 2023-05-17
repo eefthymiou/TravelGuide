@@ -9,9 +9,10 @@
 // location -> string
 // reviews -> array of strings
 
-exports.Page2Element = function (id,category, name="", description="", images=[], info=[], location="", reviews=[]){
+exports.Page2Element = function (id,category, title="", description="", images=[], info=[], location="", reviews=[]){
     this.id = id;
-    this.name = name;
+    this.category = category;
+    this.title = title;
     this.description = description;
     this.images = images;
     this.info = info;

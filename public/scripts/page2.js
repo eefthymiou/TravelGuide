@@ -966,12 +966,12 @@ function admin_page() {
 }
 
 function user_page() {
-    add = setValues()
-    if (!add){
-        nonEditMode()
-        disableTextarea()
-        autoIncrimentTextarea()
-    }
+    // add = setValues()
+    // if (!add){
+    //     nonEditMode()
+    //     disableTextarea()
+    //     autoIncrimentTextarea()
+    // }
 
     hideAdminAction()
     hideEditButton()
@@ -998,7 +998,7 @@ function main(){
     // admin -> 2
     // guest -> 3
     console.log("start")
-    const user = 2;
+    const user = 1;
 
     if (user==1){
         user_page();

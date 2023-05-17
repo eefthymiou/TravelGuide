@@ -4,8 +4,8 @@
                 <br>
                 <!-- title and description div -->
                 <div class="mb-3">
-                    <input id="title" class="form-control adminInput mb-3" type="text" placeholder="Όνομα" disabled>
-                    <textarea id="description" class="form-control adminInput" placeholder="Περιγραφή" disabled></textarea>
+                    <input id="title" class="form-control adminInput mb-3" type="text" placeholder="Όνομα" value ="{{title}}" disabled>
+                    <textarea id="description" class="form-control adminInput" placeholder="Περιγραφή" disabled> {{description}} </textarea>
                 </div>
                 
                 <!-- import/preview photo -->
@@ -33,7 +33,14 @@
                 <!-- add parapraph button -->
                 <button id="addInfo" class="btn btn-primary mb-3 adminAction">Πρόσθεσε Κουτί πληροφορίων</button>
                 <!-- all new elements are inside to this div -->
-                <div id="container"></div>
+                <div id="container">
+                    {{#each info}}
+                    <div class="mb-3">
+                        <textarea class="form-control adminInput editMode" placeholder="Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια." disabled>{{this}}</textarea>
+                        <button class="btn btn-danger adminAction">Διαγραφή</button>
+                    </div>
+                    {{/each}}
+                </div>
                 
                 
                 <!--Google map-->
