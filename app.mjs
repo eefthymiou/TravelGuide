@@ -19,11 +19,6 @@ app.use((req, res) => {
     res.redirect("/mainpage")
 })
 
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => console.log(`Η εφαρμογή ξεκίνησε στο http://127.0.0.1:${PORT}`))
-
-
 mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -35,3 +30,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log("Successfull connection");
 });
+
+
+export { app };

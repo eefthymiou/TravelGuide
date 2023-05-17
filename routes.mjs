@@ -8,7 +8,6 @@ router.get('/mainpage', async (req, res) => {
     res.render('mainpage', {style: 'mainpage.css'});
  });
 
-
 router.get('/page1', page1.createPage1);
 router.get('/page2', page2.createPage2);
 
