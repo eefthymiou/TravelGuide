@@ -38,14 +38,26 @@ const locationSchema = new mongoose.Schema({
     map: String,
     reviews_ids: [String]
 });
+
 // Model for the location collection
-const Location = mongoose.model('Location', locationSchema);
+const Location = mongoose.model('location', locationSchema);
 
 
 // εδώ θα μπουν τα quiries για την db
 
 
 export let getLocations = async (category) => {
-    let location = await Location.find().lean();
-    console.log(location);
+    // new Location({
+    //     category: "beaches",
+    //     title: "Ιταλίδα",
+    //     main_text: "Το όνομα “Ιταλίδα”, προέκυψε λόγω της ιδιοκτήτριας της περιοχής πάνω από την παραλία. Αλλιώς, η Πλατιά Πούντα που είναι και το πραγματικό της όνομα είναι μία από τις πολυσύχναστες παραλίες του νησιού αμμώδης με γαλαζοπράσινα, κρυστάλλινα νερά.Απέχει 1.800 μέτρα περίπου από το χωριό και φτάνετε με καραβάκι ή με πεζοπορία 30 περίπου λεπτών.",
+    //     texts: [],
+    //     image_src: "../images/italida.jpg",
+    //     image_alt: "Παραλία Ιταλίδα",
+    //     image_title: "Παραλία Ιταλίδα",
+    //     map: "",
+    //     reviews_ids: []
+    //   }).save();
+    let locations = await Location.find({category:category}, {_id:1, title:1, main_text:1, image_src:1, image_alt:1, image_title:1}).lean();
+    return locations;
 }
