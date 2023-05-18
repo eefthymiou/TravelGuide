@@ -15,7 +15,7 @@
                 </div>
 
                 <!--images container-->
-                <div id="carouselImages" class="carousel slide mb-3 justify-content-center" data-bs-ride="carousel">
+                {{!-- <div id="carouselImages" class="carousel slide mb-3 justify-content-center" data-bs-ride="carousel">
                     <div class="carousel-inner" id="imagesContainer">
                         <!-- images -->
                     </div>
@@ -27,20 +27,21 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-                    </div>
+                </div> --}}
                     
 
-                <!-- add parapraph button -->
-                <button id="addInfo" class="btn btn-primary mb-3 adminAction">Πρόσθεσε Κουτί πληροφορίων</button>
+
                 <!-- all new elements are inside to this div -->
                 <div id="container">
                     {{#each info}}
                     <div class="mb-3">
-                        <textarea class="form-control adminInput editMode" placeholder="Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια." disabled>{{this}}</textarea>
+                        <textarea class="form-control adminInput editMode mb-3" placeholder="Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια." disabled>{{this}}</textarea>
                         <button class="btn btn-danger adminAction">Διαγραφή</button>
                     </div>
                     {{/each}}
                 </div>
+                <!-- add parapraph button -->
+                <button id="addInfo" class="btn btn-primary mb-3 adminAction">Πρόσθεσε Κουτί πληροφορίων</button>
                 
                 
                 <!--Google map-->
@@ -67,6 +68,7 @@
                         <div id="avgRating" class="col"></div>
                     </div>
                 </div>
+                
                 <div id="reviews-flex" class="flex"> 
                     <div id="reviewContainer" class="flex-column mb-3 overflow-auto"></div>
                         {{#each reviews}}
@@ -87,23 +89,22 @@
                                 {{!-- new Col3 --}}
                                 <div class="col">
                                     <div class="card-bory">
-                                        <div class="star-rating">
-                                            {{#each [1, 2, 3, 4, 5] as |index|}}
-                                                {{#if (lte index this.score)}}
-                                                    <button class="star selected">&#9733;</button>
+                                        <div class="star_rating">                                  
+                                           {{#each this.score}}
+                                                {{#if this}}
+                                                    <button class="star selected">&#9733; </button>
                                                 {{else}}
                                                     <button class="star">&#9734;</button>
                                                 {{/if}}
                                             {{/each}}
                                         </div>
-                                        <textarea class="form-control" placeholder="Γράψε το σχόλιο σας εδώ">{{this.text}}</textarea>
+                                        <textarea class="form-control review_text" placeholder="Γράψε το σχόλιο σας εδώ" autocomplete="off" disabled>{{this.text}}</textarea>
                                         <div class="card-text">
-                                            <div class="small text-body-secondary">{{this.date}}</div>
+                                            <div class="small text-body-secondary" style="display:block">Ημερομηνία Δημοσίευσης: {{this.date}}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         {{/each}}
                 </div>

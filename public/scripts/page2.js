@@ -650,7 +650,6 @@ function addInfoF(text=""){
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
     newTextarea.value = text;
     
-
     // Create a new delete button element
     const newDeleteButton = document.createElement("button");
     newDeleteButton.className = "btn btn-danger adminAction";
@@ -954,63 +953,24 @@ function setValues(){
     }
 }   
 
-function admin_page() {
-    add = setValues()
-    if (!add){
-        nonEditMode()
-        disableTextarea()
-        autoIncrimentTextarea()
-    }
 
-    hideUserAction()
-    hideGuestAction()
-}
-
-function user_page() {
-    // add = setValues()
-    // if (!add){
-    //     nonEditMode()
-    //     disableTextarea()
-    //     autoIncrimentTextarea()
-    // }
-
-    hideAdminAction()
-    hideEditButton()
-    hideGuestAction()
-}
-
-function guest_page() {
-    add = setValues()
-    if (!add){
-        nonEditMode()
-        disableTextarea()
-        autoIncrimentTextarea()
-    }
-
-    hideAdminAction()
-    hideEditButton()
-    hideUserAction()
+// get button with class star
+const star = document.querySelectorAll(".star")
+// for all starts add event listener
+for (var i = 0; i < star.length; i++) {
+    star[i].addEventListener("click", function() {
+        // prevent default action
+        event.preventDefault()
+    })
 }
 
 
-
-function main(){    
-    // user -> 1
-    // admin -> 2
-    // guest -> 3
-    console.log("start")
-    const user = 1;
-
-    if (user==1){
-        user_page();
-    }
-    else if (user==2){
-        admin_page();
-    }
-    else if (user==3){
-        guest_page();
-    }
+function main(){
+    disableTextarea()
+    autoIncrimentTextarea()
+    nonEditMode()
 }
+
+
 
 main()
-

@@ -142,6 +142,12 @@ h4{
     padding: 0;
 }
 
+.review_text {
+    background-color: white;
+    border: none;
+    resize: none;
+}
+
 .star:hover {
     cursor: pointer;
 }

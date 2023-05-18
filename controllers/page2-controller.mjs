@@ -21,7 +21,9 @@ export async function createPage2(req, res) {
 
     const review1 = new ReviewElement(0,0,5,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
     const review2 = new ReviewElement(1,1,4,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
-    
+    const review3 = new ReviewElement(2,2,3,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+
+    console.log(review3);
     page2Element.reviews = [review1,review2];
 
     
