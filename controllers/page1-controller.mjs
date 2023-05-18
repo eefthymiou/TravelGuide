@@ -1,3 +1,5 @@
+const model = await import('../model/mongodb/mongodb.mjs');
+
 //beaches
 const pori = {"id": 1, "name":"Πορί", "description":"Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων",
 "image": "../images/pori.png"};
@@ -32,15 +34,16 @@ const food = {armira};
 
 export async function createPage1(req, res){
     let category = req.query.category;
-    let data;
-    if (category === 'beaches') { category = 'Παραλίες'; data = beaches;}  
-    else if (category === 'sights') { category = 'Αξιοθέατα'; data = sights;}
-    else if (category === 'accomm') { category = 'Διαμονή'; data = accomm;}
-    else if (category === 'transport') { category = 'Μετακινήσεις'; data = transport;}
-    else if (category === 'food') { category = 'Φαγητό'; data = food;}
+    if (category === 'beaches') { category = 'Παραλίες';}  
+    else if (category === 'sights') { category = 'Αξιοθέατα';}
+    else if (category === 'accomm') { category = 'Διαμονή';}
+    else if (category === 'transport') { category = 'Μετακινήσεις';}
+    else if (category === 'food') { category = 'Φαγητό';}
     
     try {
-      res.render('page1', { title: category, cards: data, style: 'page1.css' });
+      locations = await model.getLocations(category);
+      // console.log(locations);
+      res.render('page1', { title: category, cards: locations, style: 'page1.css' });
     }
     catch (error) {
       res.send(error);

@@ -25,4 +25,27 @@ db.once('open', function () {
 });
 
 
+
+// Schema for the location collection
+const locationSchema = new mongoose.Schema({
+    category: String,
+    title: String,
+    main_text: String,
+    texts : [String],
+    image_src: String,
+    image_alt: String,
+    image_title: String,
+    map: String,
+    reviews_ids: [String]
+});
+// Model for the location collection
+const Location = mongoose.model('Location', locationSchema);
+
+
 // εδώ θα μπουν τα quiries για την db
+
+
+export let getLocations = async (category) => {
+    let location = await Location.find().lean();
+    console.log(location);
+}
