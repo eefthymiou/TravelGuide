@@ -2,7 +2,7 @@
 import * as model from '../model/mongodb/mongodb.mjs';
 
 import { Page2Element} from '../public/scripts/page2Element.js';
-
+import { ReviewElement } from '../public/scripts/reviewElement.js';
 
 
 export async function createPage2(req, res) {
@@ -17,9 +17,23 @@ export async function createPage2(req, res) {
         "info1",
         "info2",
     ];
+    page2Element.location = "Παραλία Πορί";
+
+    const review1 = new ReviewElement(0,0,5,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+    const review2 = new ReviewElement(1,1,4,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+    
+    page2Element.reviews = [review1,review2];
+
+    
 
     try {
-        res.render('page2', {title: page2Element.title, description: page2Element.description, info: page2Element.info , style: 'page2.css'});
+        res.render('page2', {
+            title: page2Element.title,
+            description: page2Element.description, 
+            info: page2Element.info, 
+            location: page2Element.location, 
+            reviews: page2Element.reviews,
+            style: 'page2.css'});
     }
     catch (error) {
         res.send(error);

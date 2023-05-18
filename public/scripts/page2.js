@@ -2,6 +2,7 @@ let edit = false;
 let numOfReviews = 0;
 let numOfStars = 0;
 
+
 // PAGE2 NAVBAR ---> PAGE1
 const dropdown = document.querySelector(".dropdown-menu");
 dropdown.addEventListener("click", function(event) {

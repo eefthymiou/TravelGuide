@@ -57,7 +57,7 @@
                                 
 
                 <div id="map-container-google-1" class="z-depth-1-half map-container mb-3 d-flex justify-content-center">
-                    <iframe class="map" src="https://maps.google.com/maps?q=koufonisia&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen></iframe>
+                    <iframe class="map" src="https://maps.google.com/maps?q={{location}}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen></iframe>
                 </div>
                 
                 <!-- reviews -->
@@ -69,6 +69,43 @@
                 </div>
                 <div id="reviews-flex" class="flex"> 
                     <div id="reviewContainer" class="flex-column mb-3 overflow-auto"></div>
+                        {{#each reviews}}
+                        {{!-- new Div --}}
+                        <div class="card m-2">
+                            {{!-- new Row --}}
+                            <div class="row">
+                                {{!-- new Col1 --}}
+                                <div class="col-md-3">
+                                    {{!-- new Col2 --}}
+                                    <div class="d-flex align-items-center h-100">
+                                        <div class="card-text mx-auto">
+                                            {{!-- user name --}}
+                                            {{this.user_id}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{!-- new Col3 --}}
+                                <div class="col">
+                                    <div class="card-bory">
+                                        <div class="star-rating">
+                                            {{#each [1, 2, 3, 4, 5] as |index|}}
+                                                {{#if (lte index this.score)}}
+                                                    <button class="star selected">&#9733;</button>
+                                                {{else}}
+                                                    <button class="star">&#9734;</button>
+                                                {{/if}}
+                                            {{/each}}
+                                        </div>
+                                        <textarea class="form-control" placeholder="Γράψε το σχόλιο σας εδώ">{{this.text}}</textarea>
+                                        <div class="card-text">
+                                            <div class="small text-body-secondary">{{this.date}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {{/each}}
                 </div>
 
                 
