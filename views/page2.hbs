@@ -1,11 +1,27 @@
+
+    
+
     <div class="container">
         <form>
+            {{#if admin}}
+            <div class="d-flex justify-content-end align-items-center">
+                <!-- edit button -->
+                <button id="editButton" class="btn btn-warning m-3">Επεξεργασία</button>
+                <!-- save button -->
+                <button id="saveButton" class="btn btn-success">Αποθήκευση</button>
+                <!-- delete button -->
+                <button id="deleteButton" class="btn btn-danger m-3">Διαγραφή</button>
+            </div>
+            {{/if}}
+
             <fieldset class="m-3">
                 <br>
                 <!-- title and description div -->
                 <div class="mb-3">
                     <input id="title" class="form-control adminInput mb-3" type="text" placeholder="Όνομα" value ="{{title}}" disabled>
-                    <textarea id="description" class="form-control adminInput" placeholder="Περιγραφή" disabled> {{description}} </textarea>
+                    {{#if description}}
+                        <textarea id="description" class="form-control adminInput" placeholder="Περιγραφή" disabled> {{description}} </textarea>
+                    {{/if}}
                 </div>
                 
                 <!-- import/preview photo -->
@@ -64,16 +80,17 @@
                 <!-- reviews -->
                 <div class="container">
                     <div class="row">
-                        <div id="totalReviews" class="col">Αξιολογήσεις</div>
-                        <div id="avgRating" class="col"></div>
+                        <div id="totalReviews" class="col">Αξιολογήσεις ({{numOfReviews}})</div>
+                        <div id="avgRating" class="col">{{avgRating}} &#9733;</div>
                     </div>
                 </div>
                 
-                <div id="reviews-flex" class="flex"> 
-                    <div id="reviewContainer" class="flex-column mb-3 overflow-auto"></div>
+                <div id="reviews-flex" class="flex test"> 
+                    <div id="reviewContainer" class="flex-column mb-3 overflow-auto" >
                         {{#each reviews}}
                         {{!-- new Div --}}
                         <div class="card m-2">
+
                             {{!-- new Row --}}
                             <div class="row">
                                 {{!-- new Col1 --}}
@@ -88,17 +105,19 @@
                                 </div>
                                 {{!-- new Col3 --}}
                                 <div class="col">
-                                    <div class="card-bory">
+                                    <div class="card-bory m-3">
                                         <div class="star_rating">                                  
                                            {{#each this.score}}
                                                 {{#if this}}
                                                     <button class="star selected">&#9733; </button>
                                                 {{else}}
-                                                    <button class="star">&#9734;</button>
+                                                    <button class="star" style="color:grey">&#9734;</button>
                                                 {{/if}}
                                             {{/each}}
                                         </div>
-                                        <textarea class="form-control review_text" placeholder="Γράψε το σχόλιο σας εδώ" autocomplete="off" disabled>{{this.text}}</textarea>
+                                        {{#if this.text}}
+                                            <textarea class="form-control final_review_text" style="background-color:white" placeholder="Γράψε το σχόλιο σας εδώ" autocomplete="off" disabled>{{this.text}}</textarea>
+                                        {{/if}}
                                         <div class="card-text">
                                             <div class="small text-body-secondary" style="display:block">Ημερομηνία Δημοσίευσης: {{this.date}}</div>
                                         </div>
@@ -107,6 +126,7 @@
                             </div>
                         </div>
                         {{/each}}
+                        </div>
                 </div>
 
                 

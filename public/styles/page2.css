@@ -78,6 +78,14 @@ body{
     color:#1F4591;
 }
 
+.final_review_text{
+    height: auto;
+    overflow: hidden;
+    background-color: white;
+    border: none;
+    resize: none;
+}
+
 form{
     /* border-color*/
     border-left: 2px solid hsl(210, 81%, 79%);
@@ -122,6 +130,7 @@ h4{
     background-color: hsl(210, 81%, 79%);
 }
 
+
 .star {
     font-size: 2em;
     padding: 0;
@@ -142,11 +151,6 @@ h4{
     padding: 0;
 }
 
-.review_text {
-    background-color: white;
-    border: none;
-    resize: none;
-}
 
 .star:hover {
     cursor: pointer;

@@ -1,3 +1,4 @@
+
 let edit = false;
 let numOfReviews = 0;
 let numOfStars = 0;
@@ -396,7 +397,6 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
             // prevent the default action
             event.preventDefault();
             
-            console.log("Selected rating:", this.dataset.rating);
             ratingDiv.dataset.isRated = "true"; 
             ratingDiv.style.border = "none";
             ratingDiv.dataset.rating = this.dataset.rating;
@@ -410,6 +410,8 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
                 } else {
                     star.innerHTML = "&#9734;";
                     star.classList.remove("selected");
+                    // style color grey
+                    star.style.color = "grey";
                 }
             });
         });
@@ -532,10 +534,10 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
         }
         else {
             // set the input elements to diasabled
-            inputReviewText.style.height = "auto";
             inputReviewText.style.height = (inputReviewText.scrollHeight) + "px";
             inputReviewText.disabled = true;
-            inputReviewText.style.overflow = "hidden";
+            // append the final_review_text class to the inputReviewText element
+            inputReviewText.classList.add("final_review_text");  
         }
 
     
@@ -614,6 +616,7 @@ addReview.addEventListener("click", function() {
 
     // go to the bottom of the list of reviews
     const container = document.getElementById("reviewContainer");
+  
     // animate the scroll smoothly
     container.scrollTo({
         top: container.scrollHeight,
@@ -732,14 +735,19 @@ searchButton.addEventListener("click", function() {
 
 
 function nonEditMode(){
-    // hide save button
-    saveButton.style.display = "none";
+    try {
+        // hide save button
+        saveButton.style.display = "none";
 
-    // hide delete button
-    deleteButton.style.display = "none";
+        // hide delete button
+        deleteButton.style.display = "none";
 
-    // unhide edit button
-    editButton.style.display = "";
+        // unhide edit button
+        editButton.style.display = "";
+    }
+    catch (err){
+        // do nothing
+    }
 
     // disable buttons for photos
     disablePhotoButtons()
@@ -749,6 +757,7 @@ function nonEditMode(){
     
     // hide admin action
     hideAdminAction()
+
 }
 
 
@@ -773,55 +782,6 @@ function editMode(){
     showAdminAction()
 }
 
-
-saveButton.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-
-    // check if edit variable is true
-    if (edit){
-        // store the values of the textareas in db
-
-        // disable the textareas
-        disableTextarea()
-        
-        hideAdminAction()
-        autoIncrimentTextarea()
-
-        // change mode to non edit mode
-        nonEditMode()
-
-        // change the edit variable to false
-        edit = !edit;
-    }
-});
-
-
-
-editButton.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-
-    // is edit variable is false enable the textareas
-    if (!edit){
-        // change mode to edit mode
-        editMode()
-    }
-
-    edit = !edit;
-});
-
-deleteButton.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-
-    // create a confirmation box
-    const confirmation = confirm("Είσαι σίγουρος ότι θέλεις να διαγράψεις το αντικείμενο;");
-    if (confirmation){
-        // delete the object from db
-    }
-    
-});
 
 function hideUserAction(){
     let elements = document.getElementsByClassName("userAction");
@@ -964,12 +924,76 @@ for (var i = 0; i < star.length; i++) {
     })
 }
 
+function handlersForEditButton(){
+    try {
+        saveButton.addEventListener("click", function() {
+            // Prevent the default action
+            event.preventDefault();
+        
+            // check if edit variable is true
+            if (edit){
+                // store the values of the textareas in db
+        
+                // disable the textareas
+                disableTextarea()
+                
+                hideAdminAction()
+                autoIncrimentTextarea()
+        
+                // change mode to non edit mode
+                nonEditMode()
+        
+                // change the edit variable to false
+                edit = !edit;
+            }
+        });
+        
+        
+        
+        editButton.addEventListener("click", function() {
+            // Prevent the default action
+            event.preventDefault();
+        
+            // is edit variable is false enable the textareas
+            if (!edit){
+                // change mode to edit mode
+                editMode()
+            }
+        
+            edit = !edit;
+        });
+        
+        deleteButton.addEventListener("click", function() {
+            // Prevent the default action
+            event.preventDefault();
+        
+            // create a confirmation box
+            const confirmation = confirm("Είσαι σίγουρος ότι θέλεις να διαγράψεις το αντικείμενο;");
+            if (confirmation){
+                // delete the object from db
+            }
+            
+        });
+    }
+    catch (err){
+        // do nothing
+    }
+}
+
 
 function main(){
+
+    if (true) {
+        handlersForEditButton()
+    }
+
+    console.log("starts");
     disableTextarea()
     autoIncrimentTextarea()
     nonEditMode()
 }
+
+
 
 
 

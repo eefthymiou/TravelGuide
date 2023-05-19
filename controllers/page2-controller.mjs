@@ -1,8 +1,20 @@
 // import * as model from `./model/${process.env.MODEL}/${process.env.MODEL}.mjs`;
+import { get } from 'mongoose';
 import * as model from '../model/mongodb/mongodb.mjs';
 
 import { Page2Element} from '../public/scripts/page2Element.js';
 import { ReviewElement } from '../public/scripts/reviewElement.js';
+
+async function getAvgRating(reviews) {
+    let sum = 0;
+    for (let i = 0; i < reviews.length; i++) {
+        const review = reviews[i]; 
+        sum += Math.max.apply(null, review.score);
+    }
+    const avgRating = sum / reviews.length;
+
+    return avgRating;
+}
 
 
 export async function createPage2(req, res) {
@@ -19,14 +31,19 @@ export async function createPage2(req, res) {
     ];
     page2Element.location = "Παραλία Πορί";
 
-    const review1 = new ReviewElement(0,0,5,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
-    const review2 = new ReviewElement(1,1,4,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
-    const review3 = new ReviewElement(2,2,3,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+    const review1 = new ReviewElement(0,"john",5,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+    const review2 = new ReviewElement(1,"maro",4,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+    const review3 = new ReviewElement(2,"egw",3,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
+    const review4 = new ReviewElement(3,"user",2);
 
-    console.log(review3);
-    page2Element.reviews = [review1,review2];
+    page2Element.reviews = [review1,review2,review3,review4];
 
-    
+    // calculate the average rating
+    const avgRating = await getAvgRating(page2Element.reviews);
+
+    const admin = true;
+    const user = false;
+    const loggedIn = false;
 
     try {
         res.render('page2', {
@@ -35,6 +52,9 @@ export async function createPage2(req, res) {
             info: page2Element.info, 
             location: page2Element.location, 
             reviews: page2Element.reviews,
+            avgRating: avgRating,
+            numOfReviews: page2Element.reviews.length,
+            admin: admin,
             style: 'page2.css'});
     }
     catch (error) {
