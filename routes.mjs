@@ -7,7 +7,7 @@ const authController = await import('./controllers/authentication-controller.mjs
 const router = express.Router();
 
 router.get('/mainpage', async (req, res) => {
-    res.render('mainpage', {style: 'mainpage.css'});
+    res.render('mainpage', {userId:req.session.user, style: 'mainpage.css'});
  });
 
 router.get('/page1', page1Controller.createPage1);

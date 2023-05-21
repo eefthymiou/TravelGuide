@@ -1,14 +1,5 @@
-const maro = {id: 1, username: "maro", email: "marosimosi@gmail.com", password: "12345678"};
-const john = {id: 2, username: "efthymiou", email: "johnefthimiou1002@gmail.com", password: "12345678"}; //admin
-const users = [maro, john];
-
-function emailExists(email){
-    if (users.find(user => user.email === email)) {
-        return users.find(user => user.email === email).id;
-    } else {
-        return false;
-    }
-};
+import session from "express-session";
+const model = await import('../model/mongodb/mongodb.mjs');
 
 function isEmail(email) {   // email format
     let format = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -58,23 +49,24 @@ export async function authentication(req, res) {
     }
 }
 
-function signIn(req, res) {
+async function signIn(req, res) {
     let error = false;
     let message = "";
     let email = req.body.signInEmail;
     let password = req.body.signInPassword;
-    const user = users.find(user => user.email === email);
-    if (user && user.password === password) {
-        // create session
+    let userId = await model.userExists(email,password);
+    if (userId != null) {
+        req.session.user = userId; // assign the user ID to the session
+        console.log("session user:", req.session.user);
         let error = false;
         let message = "";
-        console.log("Welcome " + user.username);
+        email = ""; password = "";
     } else {
         message = "Λάθος email ή κωδικός.";
         error = true;
     }
     try{
-        res.render('mainpage', {style: 'mainpage.css', signInError: error, signInEmail: email, signInPassword: password, signInMessage: message});
+        res.render('mainpage', {userId:userId, style: 'mainpage.css', signInError: error, signInEmail: email, signInPassword: password, signInMessage: message});
     }
     catch (err) {
         res.send(err);
@@ -82,7 +74,7 @@ function signIn(req, res) {
 }
 
 
-function signUp(req, res) {
+async function signUp(req, res) {
     let error = false;
     let usernameMsg = "";
     let emailMsg = "";
@@ -93,18 +85,21 @@ function signUp(req, res) {
     let signUpPassword= req.body.signUpPassword;
     let confirmPassword = req.body.confirmPassword;
     if (!isUserName(username)) { usernameMsg = "Το username δεν είναι έγκυρο."; error=true;}
-    if (emailExists(signUpEmail)) { emailMsg = "Το email χρησιμοποιείται ήδη."; error=true;}
+    if (await model.emailExists(signUpEmail)) { emailMsg = "Το email χρησιμοποιείται ήδη."; error=true;}
     if(!isEmail(signUpEmail)){ emailMsg = "Το email δεν είναι έγκυρο"; error=true; }
     if(!okPassword(signUpPassword)){ passwordMsg = "Χρησιμοποιήστε τουλάχιστον 8 χαρακτήρες και τουλάχιστον έναν αριθμό."; error=true;}
     if(!samePassword(signUpPassword, confirmPassword)){ confirmMsg = "Οι κωδικοί δεν ταιριάζουν."; error=true;}
     if(!error){
         // add user to database
-        // create session
+        let userId = await model.addUser(username, signUpEmail, signUpPassword);
+        // assign the user ID to the session
+        req.session.user = userId;
+        console.log("session user:", req.session.user);
         usernameMsg = ""; emailMsg = ""; passwordMsg = ""; confirmMsg = "";
         username = ""; signUpEmail = ""; signUpPassword = ""; confirmPassword = "";
     }
     try{
-        res.render('mainpage', {style: 'mainpage.css' ,signUpError:error, 
+        res.render('mainpage', {userId:userId, style: 'mainpage.css' ,signUpError:error, 
         signUpUsername:username, signUpEmail: signUpEmail, signUpPassword: signUpPassword, confirmPassword: confirmPassword,
         usernameMessage: usernameMsg, emailMessage: emailMsg, passwordMessage: passwordMsg, confirmMessage: confirmMsg});
     } catch (err) {

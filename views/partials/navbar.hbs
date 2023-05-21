@@ -18,10 +18,18 @@
             </li>
         </ul>
         
+        
         <div class="button">
-              <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Συνδεθείτε</button>
-              <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#sign-up-modal">Εγγραφείτε</button>
+          {{#if userId}}
+            <span class="navbar-text" style="margin-right:20px; font-size:1.1rem">username</span>
+            <button class="btn btn-outline-light">Αποσύνδεση</button>
+          {{else}}
+            <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Συνδεθείτε</button>
+            <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#sign-up-modal">Εγγραφείτε</button>
+          {{/if}}
+
         </div> 
+        
 </nav>
 
 <!-- SIGN-IN -->
@@ -42,7 +50,7 @@
               <label for="signInPassword" class="form-label">Κωδικός</label>
               <input type="password" class="form-control" id="signInPassword" name="signInPassword" value="{{signInPassword}}">
             </div>
-            <div>{{signInMessage}}</div>
+            <div style="margin-top: 5px; margin-bottom: 15px; color: rgb(210, 17, 17);">{{signInMessage}}</div>
             <button type="submit" class="btn" id="signInButton">Σύνδεση</button>
           </form>
         </div>
@@ -104,26 +112,6 @@
     </script>
 {{/if}}
 
-
-
-{{!-- // ------NAVBAR FOR USER------
-// else{
-//     const user = document.createElement("span");
-//     user.setAttribute("class", "navbar-text");
-//     user.textContent = users.find(user => user.id === parseInt(currentUserId)).username;
-//     user.style.marginRight = "20px";
-//     user.style.fontSize = "1.1rem";
-//     buttons.appendChild(user);
-
-//     const signOut = document.createElement("button");
-//     signOut.setAttribute("class", "btn btn-outline-light");
-//     signOut.textContent = "Αποσύνδεση";
-//     buttons.appendChild(signOut);
-//     signOut.addEventListener("click", function(event){
-//         sessionStorage.setItem("userId", 0);
-//         location.reload();
-//     })
-// } --}}
 
 
 
