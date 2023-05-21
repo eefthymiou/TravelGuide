@@ -82,3 +82,8 @@ export let addUser = async (username, email, password) => {
     return userId;
 }
 
+export let getUsername = async (userId) => {
+    let username = await User.findOne({_id:userId}, {_id:0, username:1}).lean();
+    return username.username;
+}
+

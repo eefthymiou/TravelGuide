@@ -47,7 +47,7 @@ export async function createPage2(req, res) {
 
     try {
         res.render('page2', {
-            userId:req.session.user,
+            username:req.session.username,
             title: page2Element.title,
             description: page2Element.description, 
             info: page2Element.info, 
@@ -95,7 +95,7 @@ export async function updatePage2Element(req,res) {
         // update the Page2Element in the database
         await model.updatePage2Element(page2Element);
         // render the page2 view
-        res.render('page2', {userId:req.session.user, style: 'page2.css'}); 
+        res.render('page2', {username:req.session.username, style: 'page2.css'}); 
     }
     catch (error) {
         res.send(error);

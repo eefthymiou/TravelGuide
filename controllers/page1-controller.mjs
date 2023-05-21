@@ -34,7 +34,7 @@ export async function createPage1(req, res){
     
     try {
       let locations = await model.getLocations(category);
-      res.render('page1', {userId:req.session.user, title: title, cards: locations, style: 'page1.css' });
+      res.render('page1', {username:req.session.username, title: title, cards: locations, style: 'page1.css' });
     }
     catch (error) {
       res.send(error);

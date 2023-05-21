@@ -57,7 +57,8 @@ async function signIn(req, res) {
     let userId = await model.userExists(email,password);
     if (userId != null) {
         req.session.user = userId; // assign the user ID to the session
-        console.log("session user:", req.session.user);
+        req.session.username = await model.getUsername(userId);
+        console.log("session user:", req.session.username);
         let error = false;
         let message = "";
         email = ""; password = "";
@@ -66,7 +67,7 @@ async function signIn(req, res) {
         error = true;
     }
     try{
-        res.render('mainpage', {userId:userId, style: 'mainpage.css', signInError: error, signInEmail: email, signInPassword: password, signInMessage: message});
+        res.render('mainpage', {username:req.session.username, style: 'mainpage.css', signInError: error, signInEmail: email, signInPassword: password, signInMessage: message});
     }
     catch (err) {
         res.send(err);
@@ -99,11 +100,10 @@ async function signUp(req, res) {
         username = ""; signUpEmail = ""; signUpPassword = ""; confirmPassword = "";
     }
     try{
-        res.render('mainpage', {userId:req.session.user, style: 'mainpage.css' ,signUpError:error, 
+        res.render('mainpage', {username:req.session.username, style: 'mainpage.css' ,signUpError:error, 
         signUpUsername:username, signUpEmail: signUpEmail, signUpPassword: signUpPassword, confirmPassword: confirmPassword,
         usernameMessage: usernameMsg, emailMessage: emailMsg, passwordMessage: passwordMsg, confirmMessage: confirmMsg});
     } catch (err) {
         res.send(err);
-    }
-
+    }   
 }

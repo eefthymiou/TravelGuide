@@ -20,8 +20,8 @@
         
         
         <div class="button">
-          {{#if userId}}
-            <span class="navbar-text" style="margin-right:20px; font-size:1.1rem">username</span>
+          {{#if username}}
+            <span class="navbar-text" style="color:white; margin-right:20px; font-size:1.2rem">{{username}}</span>
             <a class="btn btn-outline-light" href="/logout">Αποσύνδεση</a>
           {{else}}
             <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Συνδεθείτε</button>
