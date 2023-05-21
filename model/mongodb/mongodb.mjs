@@ -87,3 +87,8 @@ export let getUsername = async (userId) => {
     return username.username;
 }
 
+export let isAdmin = async (userId) => {
+    let admin = await User.findOne({_id:userId}, {_id:0, admin:1}).lean();
+    return admin.admin;
+}
+

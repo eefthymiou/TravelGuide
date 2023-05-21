@@ -18,27 +18,14 @@
               </a>
             </div>
           {{/each}}
+          {{#if admin}}
+            <div class="col">
+              <a class="card" href="/page2?id=add" id="add">
+                <div class="card-text">+</div>
+              </a>
+            </div>
+          {{/if}}
         </div>
     </div>
-
-  
-{{!--   const aRow = document.querySelector("div.row");
-  const aColumn = document.createElement("div");
-  aColumn.classList.add("col");
-  const aCard = document.createElement("a");
-  
-  aCard.classList.add("card");
-  aCard.style.marginInline= "30px";
-  aCard.href = "../page2/page2.html";
-  aCard.setAttribute("data-value", "add");
-
-  aCardText = document.createElement("div");
-  aCardText.classList.add("card-text");
-  aCardText.setAttribute("id", "add");
-  aCardText.textContent = "+";
-
-  aCard.appendChild(aCardText);
-  aColumn.appendChild(aCard);
-  aRow.appendChild(aColumn); --}}
 
     

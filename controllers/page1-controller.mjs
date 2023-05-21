@@ -34,7 +34,11 @@ export async function createPage1(req, res){
     
     try {
       let locations = await model.getLocations(category);
-      res.render('page1', {username:req.session.username, title: title, cards: locations, style: 'page1.css' });
+      let admin = false;
+      if (req.session.user != null) {
+        admin = await model.isAdmin(req.session.user);
+      }
+      res.render('page1', {username:req.session.username, admin:admin, title: title, cards: locations, style: 'page1.css' });
     }
     catch (error) {
       res.send(error);
