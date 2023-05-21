@@ -9,7 +9,7 @@ import createMemoryStore from 'memorystore'
 const MemoryStore = createMemoryStore(session)
 
 const sessionConf = {
-   secret: 'lkdnvlsrdnhvoisrjevikrneblio',
+   secret: process.env.SESSION_SECRET,
    store: new MemoryStore({ checkPeriod: 86400000 }),
    cookie: { maxAge: 10 * 60 * 1000 },  //10 min
    resave: false,

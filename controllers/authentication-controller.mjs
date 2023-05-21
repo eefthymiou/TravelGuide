@@ -59,8 +59,8 @@ async function signIn(req, res) {
         req.session.user = userId; // assign the user ID to the session
         req.session.username = await model.getUsername(userId);
         console.log("session user:", req.session.username);
-        let error = false;
-        let message = "";
+        error = false;
+        message = "";
         email = ""; password = "";
     } else {
         message = "Λάθος email ή κωδικός.";
@@ -95,7 +95,8 @@ async function signUp(req, res) {
         let userId = await model.addUser(username, signUpEmail, signUpPassword);
         // assign the user ID to the session
         req.session.user = userId;
-        console.log("session user:", req.session.user);
+        req.session.username = username;
+        console.log("session user:", req.session.username);
         usernameMsg = ""; emailMsg = ""; passwordMsg = ""; confirmMsg = "";
         username = ""; signUpEmail = ""; signUpPassword = ""; confirmPassword = "";
     }

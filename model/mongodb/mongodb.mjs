@@ -2,6 +2,10 @@
 
 import mongoose from 'mongoose'
 
+const bcrypt = await import('bcrypt');
+const saltRounds = 10;
+
+
 try {
     // mongoose.connect -> establishes a connection to a MongoDB 
     mongoose.connect(process.env.DB_URL, {
@@ -71,16 +75,30 @@ export let emailExists = async (email) => {
 }
 
 export let userExists = async (email, password) => {
-    let userId = await User.findOne({email:email, password:password}, {_id:1}).lean();
-    return userId;
+    let user = await User.findOne({email:email}, {_id:1, password:1}).lean();
+    let result = await bcrypt.compare(password, user.password);
+    console.log(result);
+    if (result) {
+        return user._id;
+    }
+    return null;
 }
 
+
 export let addUser = async (username, email, password) => {
-    let user = new User({username:username, email:email, password:password, admin:false});
+  try {
+    // Hash the password
+    const hashed = await bcrypt.hash(password, saltRounds);
+
+    let user = new User({ username: username, email: email, password: hashed, admin: false });
     await user.save();
-    let userId = await User.findOne({email:email, password:password}, {_id:1}).lean();
-    return userId;
-}
+    return user._id;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 
 export let getUsername = async (userId) => {
     let username = await User.findOne({_id:userId}, {_id:0, username:1}).lean();
