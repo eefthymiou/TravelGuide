@@ -77,9 +77,8 @@ export let userExists = async (email, password) => {
 
 export let addUser = async (username, email, password) => {
     let user = new User({username:username, email:email, password:password, admin:false});
-    user.save(function (err, user) {
-        if (err) return console.error(err);
-    });
-    return user._id;
+    await user.save();
+    let userId = await User.findOne({email:email, password:password}, {_id:1}).lean();
+    return userId;
 }
 

@@ -99,7 +99,7 @@ async function signUp(req, res) {
         username = ""; signUpEmail = ""; signUpPassword = ""; confirmPassword = "";
     }
     try{
-        res.render('mainpage', {userId:userId, style: 'mainpage.css' ,signUpError:error, 
+        res.render('mainpage', {userId:req.session.user, style: 'mainpage.css' ,signUpError:error, 
         signUpUsername:username, signUpEmail: signUpEmail, signUpPassword: signUpPassword, confirmPassword: confirmPassword,
         usernameMessage: usernameMsg, emailMessage: emailMsg, passwordMessage: passwordMsg, confirmMessage: confirmMsg});
     } catch (err) {
