@@ -15,6 +15,11 @@ router.get('/page2', page2Controller.createPage2);
 
 router.post('/mainpage', authController.authentication);
 
+router.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/mainpage');
+}); 
+
 export { router };
 
 
