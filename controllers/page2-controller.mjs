@@ -4,6 +4,7 @@ import * as model from '../model/mongodb/mongodb.mjs';
 
 import { Page2Element} from '../public/scripts/page2Element.js';
 import { ReviewElement } from '../public/scripts/reviewElement.js';
+import { imageElement } from '../public/scripts/imageElement.js';
 
 async function getAvgRating(reviews) {
     let sum = 0;
@@ -41,9 +42,14 @@ export async function createPage2(req, res) {
     // calculate the average rating
     const avgRating = await getAvgRating(page2Element.reviews);
 
-    const admin = true;
-    const user = false;
-    const loggedIn = false;
+    const admin = false;
+
+    // images paths
+    const image1 =  new imageElement(1,"../images/beaches.jpg","Παραλία Πορί","Παραλία Πορί",true);
+    const image2 =  new imageElement(2,"../images/acc.jpg","Παραλία Πορί","Παραλία Πορί",false);
+    const images = [image1,image2]
+
+    page2Element.images = images;
 
     try {
         res.render('page2', {
@@ -55,6 +61,7 @@ export async function createPage2(req, res) {
             reviews: page2Element.reviews,
             avgRating: avgRating,
             numOfReviews: page2Element.reviews.length,
+            images: page2Element.images,
             admin: admin,
             style: 'page2.css'});
     }

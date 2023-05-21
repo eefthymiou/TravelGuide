@@ -155,10 +155,7 @@ h4{
 .star:hover {
     cursor: pointer;
 }
-  
-.star.selected {
-    color : #1F4591;
-}
+
 
 
 .guestButton {

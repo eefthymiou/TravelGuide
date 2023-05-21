@@ -95,7 +95,7 @@ function addImage(pathImage,alt,title){
     
 
     const image = document.createElement("img");
-    image.className = "d-block mx-auto text-center mb-3";
+    image.className = "d-block mb-3 mx-auto w-50 h-50 text-center";
     image.id = "image";
    
     if (pathImage == undefined){
@@ -406,11 +406,9 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
             allStars.forEach((star) => {
                 if (star.dataset.rating <= this.dataset.rating) {
                     star.innerHTML = "&#9733;";
-                    star.classList.add("selected");
+                    star.style.color = "#1F4591";
                 } else {
                     star.innerHTML = "&#9734;";
-                    star.classList.remove("selected");
-                    // style color grey
                     star.style.color = "grey";
                 }
             });
@@ -424,10 +422,10 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
             allStars.forEach((star) => {
                 if (star.dataset.rating <= this.dataset.rating) {
                     star.innerHTML = "&#9733;";
-                    star.classList.add("selected");
+                    star.style.color = "#1F4591";
                 } else {   
                     star.innerHTML = "&#9734;";
-                    star.classList.remove("selected");
+                    star.style.color = "grey";
                 }
             });
         });
@@ -440,7 +438,6 @@ function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewD
 
             allStars.forEach((star) => {
                 star.innerHTML = "&#9734;";
-                    star.classList.remove("selected");
             });
         });
         
@@ -732,6 +729,7 @@ searchButton.addEventListener("click", function() {
     }
     addMap(searchInput);
 });
+
 
 
 function nonEditMode(){
