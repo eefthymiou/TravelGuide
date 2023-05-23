@@ -62,7 +62,7 @@ const User = mongoose.model('user', userSchema);
 // --------------------------------------------------------
 
 export let getLocations = async (category) => {
-    let locations = await Location.find({category:category}, {_id:1, title:1, main_text:1, image_src:1, image_alt:1, image_title:1}).lean();
+    let locations = await Location.find({category:category}, {_id:1, title:1, main_text:1, image_src:1, image_alt:1, image_title:1, category:1}).lean();
     return locations;
 }
 

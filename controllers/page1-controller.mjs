@@ -38,7 +38,7 @@ export async function createPage1(req, res){
       if (req.session.user != null) {
         admin = await model.isAdmin(req.session.user);
       }
-      res.render('page1', {username:req.session.username, admin:admin, title: title, cards: locations, style: 'page1.css' });
+      res.render('page1', {username:req.session.username, admin:admin, title: title, cards: locations, style: 'page1.css' ,category: category});
     }
     catch (error) {
       res.send(error);

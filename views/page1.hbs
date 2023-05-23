@@ -8,7 +8,7 @@
         <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1">
           {{#each cards}}
             <div class="col">
-              <a class="card" style="marginInLine=30px" href="/page2?id={{_id}}">
+              <a class="card" style="marginInLine=30px" href="/page2?category={{category}}?id={{_id}}">
                 <img src="{{image_src}}" class="card-img-top" alt="{{image_alt}}", title="{{image_title}}">
                 <div class="card-title">{{title}}</div>
                 <div class="card-text">
@@ -20,7 +20,7 @@
           {{/each}}
           {{#if admin}}
             <div class="col">
-              <a class="card" href="/page2?id=add" id="add">
+              <a class="card" href="/page2?category={{category}}?id=add" id="add">
                 <div class="card-text">+</div>
               </a>
             </div>
