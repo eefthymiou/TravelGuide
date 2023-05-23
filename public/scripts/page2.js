@@ -3,38 +3,6 @@ let edit = false;
 let numOfReviews = 0;
 let numOfStars = 0;
 
-
-// PAGE2 NAVBAR ---> PAGE1
-const dropdown = document.querySelector(".dropdown-menu");
-dropdown.addEventListener("click", function(event) {
-    const selectedOption = event.target.getAttribute("data-value");
-    localStorage.setItem("selectedOption", selectedOption);
-});
-
-
-const signInBtn = document.getElementsByClassName("sign-in-btn");
-
-// add event lisster to the buttons with class name sign-in-btn
-for (let i = 0; i < signInBtn.length; i++){
-    signInBtn[i].addEventListener("click", function(event) {
-        // prevent the default action
-        event.preventDefault();
-    });
-}
-
-const singUpBtn = document.getElementsByClassName("sign-up-btn");
-
-// add event lisster to the buttons with class name sign-up-btn
-for (let i = 0; i < singUpBtn.length; i++){
-    singUpBtn[i].addEventListener("click", function(event) {
-        // prevent the default action
-        event.preventDefault();
-    });
-}
-
-
-
-
 function autoIncrimentTextarea(){
     let elements = document.getElementsByTagName("textarea");
     for (let i = 0; i < elements.length; i++){
@@ -74,20 +42,6 @@ function disableTextarea() {
     }
 }
 
-function enablePhotoButtons(){
-    const elements = document.getElementsByClassName("photoButton");
-    for (let i = 0; i < elements.length; i++){
-        elements[i].disabled = false;
-        
-    }
-}
-
-function disablePhotoButtons(){
-    const elements = document.getElementsByClassName("photoButton");
-    for (let i = 0; i < elements.length; i++){
-        elements[i].disabled = true;
-    }
-}
 
 function addImage(pathImage,alt,title){
     const fileInput = document.getElementById("inputGroupFile");
@@ -329,12 +283,7 @@ function addImage(pathImage,alt,title){
 }
 
 
-previewButton.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
 
-    addImage()
-});
     
 function addTitle(title){
     // find the element with id title
@@ -649,6 +598,7 @@ function addInfoF(text=""){
     newTextarea.className = "form-control adminInput mb-3 editMode";
     newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
     newTextarea.value = text;
+    newTextarea.name = "info";
     
     // Create a new delete button element
     const newDeleteButton = document.createElement("button");
@@ -704,33 +654,6 @@ function showAdminAction() {
     }
 }
 
-function addMap(location){
-    // get the map container
-    const mapContainer = document.getElementById("map-container-google-1");
-
-    // get the iframe from mapContainer
-    const iframe = mapContainer.getElementsByTagName("iframe")[0];
-
-    // set the src attribute of the iframe
-    iframe.src = `https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
-}
-
-searchButton.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-
-    // Get the value of the search input
-    const searchInput = document.getElementById("searchLocation").value;
-
-    // Check if the search input is empty
-    if (searchInput.trim() === "") {
-        alert("Please enter a search term.");
-        return;
-    }
-    addMap(searchInput);
-});
-
-
 
 function nonEditMode(){
     try {
@@ -746,9 +669,6 @@ function nonEditMode(){
     catch (err){
         // do nothing
     }
-
-    // disable buttons for photos
-    disablePhotoButtons()
 
     // disable the textareas
     disableTextarea()
@@ -769,9 +689,6 @@ function editMode(){
 
     // hide edit button
     editButton.style.display = "none";
-
-    // enable buttons for photos 
-    enablePhotoButtons()
 
     // enable the textareas
     enableTextarea()
@@ -923,31 +840,7 @@ for (var i = 0; i < star.length; i++) {
 }
 
 function handlersForEditButton(){
-    try {
-        saveButton.addEventListener("click", function() {
-            // Prevent the default action
-            event.preventDefault();
-        
-            // check if edit variable is true
-            if (edit){
-                // store the values of the textareas in db
-        
-                // disable the textareas
-                disableTextarea()
-                
-                hideAdminAction()
-                autoIncrimentTextarea()
-        
-                // change mode to non edit mode
-                nonEditMode()
-        
-                // change the edit variable to false
-                edit = !edit;
-            }
-        });
-        
-        
-        
+    try {        
         editButton.addEventListener("click", function() {
             // Prevent the default action
             event.preventDefault();
@@ -959,18 +852,6 @@ function handlersForEditButton(){
             }
         
             edit = !edit;
-        });
-        
-        deleteButton.addEventListener("click", function() {
-            // Prevent the default action
-            event.preventDefault();
-        
-            // create a confirmation box
-            const confirmation = confirm("Είσαι σίγουρος ότι θέλεις να διαγράψεις το αντικείμενο;");
-            if (confirmation){
-                // delete the object from db
-            }
-            
         });
     }
     catch (err){

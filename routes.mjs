@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const page1Controller = await import('./controllers/page1-controller.mjs');
 const page2Controller = await import('./controllers/page2-controller.mjs');
@@ -12,6 +13,7 @@ router.get('/mainpage', async (req, res) => {
 
 router.get('/page1', page1Controller.createPage1);
 router.get('/page2', page2Controller.createPage2);
+router.post('/page2',bodyParser.urlencoded({ extended: false }), page2Controller.updatePage2);
 
 router.post('/mainpage', authController.authentication);
 
