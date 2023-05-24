@@ -96,6 +96,7 @@ for (let i = 0; i < infoDeleteButtons.length; i++) {
 function addImage() {
     const fileInput = document.getElementById("inputGroupFile");
     const divImages = document.getElementById("imagesContainer");
+
     // find all the images
     const images = divImages.children;
     // for each image remove the active class
@@ -107,10 +108,10 @@ function addImage() {
 
     const image = document.createElement("img");
     image.className = "d-block mb-3 mx-auto w-50 h-50 text-center";
-
+    
     const file = fileInput.files[0];
     console.log(file);
-    
+
     const fileType = file.type.toLowerCase();
     if (fileType.indexOf("image/") == 0) {
         let reader = new FileReader();
@@ -132,7 +133,7 @@ function addImage() {
     imagesId.type = "hidden";
     imagesId.name = "imagesId";
     imagesId.value = getNewImageId(); 
-    image.id = "image" + imagesId.value;
+    divImage.id = "image" + imagesId.value;
 
     const imagesActive = document.createElement("input");
     imagesActive.type = "hidden";
@@ -168,6 +169,7 @@ function addImage() {
     inputTitle.type = "text";
     inputTitle.name = "imagesTitle";
     inputTitle.placeholder = "Τίτλος";
+    inputTitle.id = "imageTitle" + imagesId.value;
     col2.appendChild(inputTitle);
 
     row1.appendChild(col1);
@@ -192,6 +194,7 @@ function addImage() {
     inputAlt.type = "text";
     inputAlt.name = "imagesAlt";
     inputAlt.placeholder = "Εναλλακτικό κείμενο";
+    inputAlt.id = "imageAlt" + imagesId.value;
     col4.appendChild(inputAlt);
 
     row2.appendChild(col3);
@@ -225,7 +228,7 @@ previewButton.addEventListener("click", function() {
 function saveImageChanges() {
     const divImages = document.getElementsByClassName("carousel-item");
 
-    for (let i = 0; i < images.length; i++) {
+    for (let i = 0; i < divImages.length; i++) {
         const divImage = divImages[i];
         // get the id of the image
         const imageId = divImage.id;
@@ -240,7 +243,6 @@ function saveImageChanges() {
         image.alt = imageAlt.value;
     }
 }
-
                 
 saveButton.addEventListener("click", function() {
     // Prevent the default action
@@ -253,3 +255,17 @@ saveButton.addEventListener("click", function() {
     document.getElementById("myForm").submit();
 }
 );
+
+
+
+
+function setOneImageActive() {
+    const divImages = document.getElementsByClassName("carousel-item");
+    divImages[0].classList.add("active");
+}
+
+
+function main() {
+    setOneImageActive();
+}
+main()

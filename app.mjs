@@ -5,6 +5,7 @@ import { router } from './routes.mjs'
 import session from 'express-session';
 import 'dotenv/config'
 import createMemoryStore from 'memorystore'
+import fileUpload from 'express-fileupload'
 
 const MemoryStore = createMemoryStore(session)
 
@@ -18,6 +19,8 @@ const sessionConf = {
 
 
 const app = express()
+
+app.use(fileUpload());
 
 app.use(express.static('public'))
 

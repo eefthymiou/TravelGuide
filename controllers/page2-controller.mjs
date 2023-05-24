@@ -1,8 +1,7 @@
 // import * as model from `./model/${process.env.MODEL}/${process.env.MODEL}.mjs`;
 import { get } from 'mongoose';
 import * as model from '../model/mongodb/mongodb.mjs';
-import multer from 'multer';
-import path from 'path';
+import fs from 'fs';
 
 import { Page2Element} from '../public/scripts/page2Element.js';
 import { ReviewElement } from '../public/scripts/reviewElement.js';
@@ -18,21 +17,6 @@ async function getAvgRating(reviews) {
 
     return avgRating;
 }
-
-// Configure storage and file naming
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '../public/images'); // Specify the destination folder where the uploaded files will be stored
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname)); // Set the filename of the uploaded file
-    }
-  });
-  
-// Create the multer middleware
-const upload = multer({ storage: storage });
-
 
 export async function createPage2(req, res) {
     const id = req.query.id;
@@ -59,8 +43,8 @@ export async function createPage2(req, res) {
     const admin = true;
 
     // images paths
-    const image1 =  new imageElement(1,"../images/beaches.jpg","Παραλία Πορί","Παραλία Πορί",true);
-    const image2 =  new imageElement(2,"../images/acc.jpg","Παραλία Πορί","Παραλία Πορί",false);
+    const image1 =  new imageElement(1,"../images/beaches.jpg","Παραλία Πορί","Παραλία Πορί");
+    const image2 =  new imageElement(2,"../images/acc.jpg","Παραλία Πορί","Παραλία Πορί");
     const images = [image1,image2]
 
     page2Element.images = images;
@@ -155,7 +139,6 @@ export async function updatePage2(req,res) {
             req.body.imagesPath,
             req.body.imagesAlt,
             req.body.imagesTitle,
-            req.body.imagesActive
         );
         page2Element.images.push(image);
     }
@@ -165,28 +148,31 @@ export async function updatePage2(req,res) {
                 req.body.imagesId[i],
                 req.body.imagesPath[i],
                 req.body.imagesTitle[i],
-                req.body.imagesAlt[i],
-                req.body.imagesActive[i]
+                req.body.imagesAlt[i]
             );
             page2Element.images.push(image);
         }
     }
+    
+    
+    try {
+        const {images} = req.files;
 
-    upload.single('image')(req,res,function(err) {
-        if (err) {
-            console.log(err);
+        const path = 'public/images/' + images.name;
+        try {
+            await fs.access(path);
         }
-        if (req.file){
-            console.log(req.file);
+        catch (error) {
+            console.log('does not exist');
+            await images.mv(path);
         }
-        else {
-            // No file was uploaded
-            console.log('No file uploaded.');
-        }
-    });
+    }
+    catch (error) {
+        console.log(error);
+    }
+    
     
     const admin = true;
-    
     
     
     try {

@@ -1,5 +1,5 @@
     <div class="container">
-        <form id="myForm" {{#if admin}} action="/page2" method="post" {{/if}}>
+        <form id="myForm" {{#if admin}} action="/page2" method="post" enctype = 'multipart/form-data'{{/if}}>
             <fieldset class="m-3">
                 {{#if admin}}
                     <input type="hidden" name="id" value="{{id}}">
@@ -23,7 +23,7 @@
                 
                 <!-- import/preview photo -->
                 <div class="input-group mb-3 adminAction" id="importPhoto">
-                    <input type="file" class="form-control" id="inputGroupFile">
+                    <input name="images" type="file" class="form-control" id="inputGroupFile">
                     <button class="btn btn-outline-secondary" type="button" id="previewButton">Προβολή</button>
                 </div>
 
@@ -32,9 +32,9 @@
                     <div class="carousel-inner" id="imagesContainer">
                         <!-- images -->
                         {{#each images}}
-                            <div id="image{{this.id}}"class="carousel-item {{#if this.active}}active{{/if}}">
-                                <img name="images" src="{{this.path}}" alt="{{this.alt}}" title="{{this.title}}" class="d-block mb-3 mx-auto w-50 h-50 text-center"> 
-                            
+                            <div name="images" id="image{{this.id}}"class="carousel-item">
+                                <img src="{{this.path}}" alt="{{this.alt}}" title="{{this.title}}" class="d-block mb-3 mx-auto w-50 h-50 text-center"> 
+                                
                                 <div id="imageInfo{{this.id}}" class="ml-3 mr-3 mb-3 gap-2 adminAction" style="margin-left: 25%; margin-right: 25%;">
                                     <div class="row mb-3">
                                         <div class="col-auto">
@@ -55,7 +55,6 @@
                                 </div>
                                 <input type="hidden" name="imagesPath" value="{{this.path}}">
                                 <input type="hidden" name="imagesId" value="{{this.id}}">
-                                <input type="hidden" name="imagesActive" value="{{this.active}}">
 
 
                                 <div class="mb-3 gap-2 d-flex justify-content-center adminAction">
