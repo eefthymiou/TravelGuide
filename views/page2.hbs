@@ -32,7 +32,7 @@
                     <div class="carousel-inner" id="imagesContainer">
                         <!-- images -->
                         {{#each images}}
-                            <div name="images" id="image{{this.id}}"class="carousel-item">
+                            <div id="image{{this.id}}"class="carousel-item">
                                 <img src="{{this.path}}" alt="{{this.alt}}" title="{{this.title}}" class="d-block mb-3 mx-auto w-50 h-50 text-center"> 
                                 
                                 <div id="imageInfo{{this.id}}" class="ml-3 mr-3 mb-3 gap-2 adminAction" style="margin-left: 25%; margin-right: 25%;">
@@ -168,10 +168,11 @@
                         </div>
                 </div>
 
-                
+               
                 <!-- button add review -->
                 <button id="addReview" class="btn btn-primary mb-3 userAction">Πρόσθεσε Αξιολόγηση</button>
-                 
+                
+
                 <br><br><br>
         </fieldset> 
         </form>

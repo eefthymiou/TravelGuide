@@ -20,8 +20,6 @@ const sessionConf = {
 
 const app = express()
 
-app.use(fileUpload());
-
 app.use(express.static('public'))
 
 app.use(express.urlencoded({ extended: true }))
@@ -31,12 +29,12 @@ app.use(session(sessionConf));
 app.engine('hbs', engine({ extname: ".hbs" }))
 app.set('view engine', 'hbs')
 
+app.use(fileUpload());
+
 app.use("/", router)
 
 app.use((req, res) => {
     res.redirect("/mainpage")
 })
-
-// app.use(bodyparser.urlencoded({ extended: true }))
 
 export { app };

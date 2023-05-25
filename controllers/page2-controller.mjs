@@ -41,6 +41,7 @@ export async function createPage2(req, res) {
     const avgRating = await getAvgRating(page2Element.reviews);
 
     const admin = true;
+    const user = false;
 
     // images paths
     const image1 =  new imageElement(1,"../images/beaches.jpg","Παραλία Πορί","Παραλία Πορί");
@@ -62,6 +63,7 @@ export async function createPage2(req, res) {
             numOfReviews: page2Element.reviews.length,
             images: page2Element.images,
             admin: admin,
+            user: user,
             style: 'page2.css'});
     }
     catch (error) {
@@ -156,23 +158,28 @@ export async function updatePage2(req,res) {
     
     
     try {
-        const {images} = req.files;
-
-        const path = 'public/images/' + images.name;
+        const { images } = req.files;
+    
+       
+        const image = images;
+        const path = 'public/images/' + image.name;
+    
         try {
-            await fs.access(path);
-        }
-        catch (error) {
-            console.log('does not exist');
-            await images.mv(path);
+            fs.accessSync(path);
+            console.log('File already exists:', image.name);
+        } catch (error) {
+            console.log('File does not exist:', image.name);
+            image.mv(path);
+            console.log('File uploaded:', image.name);
         }
     }
     catch (error) {
         console.log(error);
     }
-    
-    
+
+
     const admin = true;
+    const user = false;
     
     
     try {
@@ -188,6 +195,7 @@ export async function updatePage2(req,res) {
             numOfReviews: page2Element.reviews.length,
             images: page2Element.images,
             admin: admin,
+            usesr: user,
             style: 'page2.css'});
     }
     catch (error) {
