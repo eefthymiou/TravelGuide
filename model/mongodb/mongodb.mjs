@@ -62,6 +62,16 @@ const userSchema = new mongoose.Schema({
 // Model for the user collection
 const User = mongoose.model('user', userSchema);
 
+// Schema for the review collection
+const reviewSchema = new mongoose.Schema({
+    date: Date,
+    score: Number,
+    text: String,
+    user_id: String
+});
+// Model for the review collection
+const Review = mongoose.model('review', reviewSchema);
+
 
 
 // ------------------------QUERIES-------------------------
