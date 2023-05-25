@@ -36,16 +36,22 @@ const locationSchema = new mongoose.Schema({
     title: String,
     main_text: String,
     texts : [String],
-    image_src: String,
-    image_alt: String,
-    image_title: String,
+    images : [String],
     map: String,
     reviews_ids: [String]
 });
 // Model for the location collection
 const Location = mongoose.model('location', locationSchema);
 
-
+// Schema for the image collection
+const imageSchema = new mongoose.Schema({
+    src: String,
+    alt: String,
+    title: String,
+});
+// Model for the image collection
+const Image = mongoose.model('image', imageSchema);
+    
 // Schema for the user collection
 const userSchema = new mongoose.Schema({
     username: String,
@@ -62,7 +68,14 @@ const User = mongoose.model('user', userSchema);
 // --------------------------------------------------------
 
 export let getLocations = async (category) => {
-    let locations = await Location.find({category:category}, {_id:1, title:1, main_text:1, image_src:1, image_alt:1, image_title:1, category:1}).lean();
+    let locations = await Location.find({category:category}, {_id:1, title:1, main_text:1, images:1, category:1}).lean();
+    //find 1st image of each location
+    for(let i=0; i<locations.length; i++){
+        let image = await Image.findOne({_id:locations[i].images[0]}, {_id:0, src:1, alt:1, title:1}).lean();
+        locations[i].image_src = image.src;
+        locations[i].image_alt = image.alt;
+        locations[i].image_title = image.title;
+    }
     return locations;
 }
 
