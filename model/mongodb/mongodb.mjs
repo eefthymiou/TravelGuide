@@ -133,3 +133,13 @@ export let isAdmin = async (userId) => {
     return admin.admin;
 }
 
+
+// ------------------------PAGE2-------------------------
+// --------------------------------------------------------
+
+export let findPage2ElementById = async (locationId) => {
+    let location = await Location.findOne({_id:locationId}, {_id:1, title:1, main_text:1, texts:1, images:1, map:1}).lean();
+    // let images = await Image.find({_id:{$in:location.images}}, {_id:0, src:1, alt:1, title:1}).lean();
+    // location.images = images;
+    return location;
+}

@@ -1,5 +1,3 @@
-// import * as model from `./model/${process.env.MODEL}/${process.env.MODEL}.mjs`;
-import { get } from 'mongoose';
 import * as model from '../model/mongodb/mongodb.mjs';
 import fs from 'fs';
 
@@ -55,8 +53,11 @@ async function getPage2Data(id){
 
 export async function createPage2(req, res) {
     const id = req.query.id;
+    console.log(req.query);
+    console.log(id);
     const page2Element = await getPage2Data(id);
-
+    // const element = await model.findPage2ElementById(id);
+    // console.log(element);
     // console.log(page2Element);
 
     try {
