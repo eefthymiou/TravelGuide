@@ -1,7 +1,5 @@
 
 let edit = false;
-let numOfReviews = 0;
-let numOfStars = 0;
 
 function autoIncrimentTextarea(){
     let elements = document.getElementsByTagName("textarea");
@@ -16,7 +14,6 @@ function autoIncrimentTextarea(){
         elements[i].style.fontStyle = "italic";
     }
 }
-
 
 function enableTextarea() {
     let elements = document.getElementsByClassName("adminInput");
@@ -42,604 +39,6 @@ function disableTextarea() {
     }
 }
 
-
-function addImage(pathImage,alt,title){
-    const fileInput = document.getElementById("inputGroupFile");
-    const divImages = document.getElementById("imagesContainer");
-    
-
-    const image = document.createElement("img");
-    image.className = "d-block mb-3 mx-auto w-50 h-50 text-center";
-    image.id = "image";
-   
-    if (pathImage == undefined){
-        let file = fileInput.files[0];
-        let fileType = file.type.toLowerCase();
-        if (fileType.indexOf("image/") == 0) {
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                image.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            alert("Please select an image file.");
-            return;
-        }
-    }
-    else{
-        // For the case of adding an image with js
-        image.src = pathImage;
-        if (title != "") {
-            image.title = title;
-        }
-        if (alt != "") {
-            image.alt = alt;
-        }
-    }
-    // from every image in the divImages remove the active class
-    const images = divImages.getElementsByClassName("carousel-item");
-    for (let i = 0; i < images.length; i++){
-        images[i].classList.remove("active");
-    }
-
-    const divImage = document.createElement("div");
-    divImage.className = "carousel-item active";
-
-    // create a div for edit and delete buttons
-    const divButtons = document.createElement("div");
-    divButtons.className = "gap-2 d-flex justify-content-center adminAction";
-
-    // create button for delete
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "mb-3 btn btn-danger adminAction";
-    deleteButton.innerText = "Διαγραφή Φωτογραφίας";
-
-    deleteButton.addEventListener("click", function() {
-        divImage.remove();
-    });
-
-    // create a modal for editing the image
-    const modal = document.createElement("div");
-    modal.className = "modal fade";
-    const modalId = `editModal-${Date.now()}`;
-    modal.id = modalId;
-    modal.tabIndex = "-1";
-    modal.setAttribute("aria-labelledby", "editModalLabel");
-    modal.setAttribute("aria-hidden", "true");
-
-    const editButton = document.createElement("button");
-    editButton.className = "mb-3 btn btn-warning adminAction";
-    editButton.innerText = "Επεξεργασία Φωτογραφίας";
-    editButton.setAttribute("data-bs-target", `#${modalId}`);
-    
-
-    editButton.addEventListener("click", function(event) {
-        // prevent the default action
-        event.preventDefault();
-    
-        // find the id of the button
-        let id = event.target.getAttribute("data-bs-target");
- 
-        // remove the first charachet from the id
-        id = id.substring(1);
-
-        // get the modal
-        const modal = document.getElementById(id);
-        
-        // show the modal if it exists
-        if (modal != null) {
-            const bootstrapModal = new bootstrap.Modal(modal);
-            bootstrapModal.show();
-        }
-        else{
-            console.log("modal is null")
-        }
-
-    });
-    
-    // create a modal dialog
-    const modalDialog = document.createElement("div");
-    modalDialog.className = "modal-dialog";
-
-    // create a modal content
-    const modalContent = document.createElement("div");
-    modalContent.className = "modal-content";
-
-    // create a modal header
-    const modalHeader = document.createElement("div");
-    modalHeader.className = "modal-header";
-
-    // create a modal title
-    const modalTitle = document.createElement("h5");
-    modalTitle.className = "modal-title";
-    modalTitle.id = "editModalLabel";
-    modalTitle.innerText = "Επεξεργασία Φωτογραφίας";
-
-    // create a button for closing the modal
-    const closeButton = document.createElement("button");
-    closeButton.className = "btn-close";
-    closeButton.addEventListener("click", function() {
-        // prevent the default action
-        event.preventDefault();
-
-        const modal = event.target.closest(".modal");
-        const bootstrapModal = bootstrap.Modal.getInstance(modal);
-        bootstrapModal.hide();
-    });
-
-    // create a modal body
-    const modalBody = document.createElement("div");
-    modalBody.className = "modal-body";
-
-    // create a modal footer
-    const modalFooter = document.createElement("div");
-    modalFooter.className = "modal-footer";
-    
-    // create a button for modal save
-    const modalSaveButton = document.createElement("button");
-    modalSaveButton.className = "btn btn-primary";
-    modalSaveButton.innerText = "Αποθήκευση";
-
-    // create a form for the modal
-    const modalForm = document.createElement("form");
-    modalForm.className = "row g-3";
-
-    // create a div for the title input
-    const titleDiv = document.createElement("div");
-    titleDiv.className = "col-md-12";
-
-    // create a label for the title input
-    const titleLabel = document.createElement("label");
-    titleLabel.className = "form-label";
-    titleLabel.innerText = "Τίτλος Φωτογραφίας";
-
-    // create a input for the title
-    const titleInput = document.createElement("input");
-    titleInput.className = "form-control";
-    titleInput.type = "text";
-    titleInput.id = "titleInput";
-    titleInput.placeholder = "Τίτλος Φωτογραφίας";
-    titleInput.value = image.title;
-
-    // create a div for the alt input
-    const altDiv = document.createElement("div");
-    altDiv.className = "col-md-12";
-    
-    // create a label for the alt input
-    const altLabel = document.createElement("label");
-    altLabel.className = "form-label";
-    altLabel.innerText = "Περιγραφή Φωτογραφίας";
-    
-    // create a input for the alt
-    const altInput = document.createElement("input");
-    altInput.className = "form-control";
-    altInput.type = "text";
-    altInput.id = "altInput";
-    altInput.placeholder = "Περιγραφή Φωτογραφίας";
-    altInput.value = image.alt;
-
-
-
-    // add event listener for saving the changes
-    modalSaveButton.addEventListener("click", function() {
-        // prevent the default action
-        event.preventDefault();
-        
-        // get the values from the inputs
-        const title = document.getElementById("titleInput").value;
-        const alt = document.getElementById("altInput").value;
-
-        // set the values to the image
-        image.title = title;
-        image.alt = alt;
-
-        // the button is inside the modal
-        // so we need to find the modal
-        const modal = event.target.closest(".modal");
-        const bootstrapModal = bootstrap.Modal.getInstance(modal);
-        bootstrapModal.hide();
-    });
-
-    // add elements to modalForm
-    titleDiv.appendChild(titleLabel);
-    titleDiv.appendChild(titleInput);
-    altDiv.appendChild(altLabel);
-    altDiv.appendChild(altInput);
-    modalForm.appendChild(titleDiv);
-    modalForm.appendChild(altDiv);
-
-    // add elements to modalBody
-    modalBody.appendChild(modalForm);
-
-    // add elements to modalHeader
-    modalHeader.appendChild(modalTitle);
-    modalHeader.appendChild(closeButton);
-
-    // add elements to modalFooter
-    modalFooter.appendChild(modalSaveButton);
-
-    // add elements to modalContent
-    modalContent.appendChild(modalHeader);
-    modalContent.appendChild(modalBody);
-    modalContent.appendChild(modalFooter);
-
-    // add elements to modalDialog
-    modalDialog.appendChild(modalContent);
-
-    // add elements to modal
-    modal.appendChild(modalDialog);
-    
-    // append buttons to divButtons
-    divButtons.appendChild(editButton);
-    divButtons.appendChild(deleteButton);
-
-    // append elements
-    divImage.appendChild(image);
-    divImage.appendChild(divButtons);
-    divImage.appendChild(modal);
-
-    // add divImage to divImages
-    divImages.appendChild(divImage);
-}
-
-
-
-    
-function addTitle(title){
-    // find the element with id title
-    const titleElement = document.getElementById("title");
-    // add the title to the element
-    titleElement.value = title;
-}
-
-function addDescription(description){
-    // find the element with id description
-    const descriptionElement = document.getElementById("description");
-    // add the description to the element
-    descriptionElement.value = description;
-}
-
-function addReviewF(userName,reviewText=undefined,reviewRating=undefined,reviewDone=false) {
-    const container = document.getElementById("reviewContainer");
-
-    // Create a new div for the review (card)
-    const newDiv = document.createElement("div");
-    newDiv.className = "card m-2";
-
-    // create div for row
-    const newRow = document.createElement("div");
-    newRow.className = "row";
-
-    // create div for col-md-3
-    const newCol1 = document.createElement("div");
-    newCol1.className = "col-md-3";
-
-    // create div for col-md-3 d-flex align-items-center h-100
-    const newCol2 = document.createElement("div");
-    newCol2.className = "d-flex align-items-center h-100";
-
-    // create p element for user name
-    const newP = document.createElement("p");
-    newP.className = "card-text mx-auto";
-    newP.innerText = userName;
-
-    // create div
-    const newCol3 = document.createElement("div");
-    newCol3.className = "col";
-
-    // create div for card-body
-    const newCardBody = document.createElement("div");
-    newCardBody.className = "card-body";
-
-    const ratingDiv = document.createElement("div");
-    ratingDiv.className = "star_rating";
-    ratingDiv.dataset.isRated = "false";    
-    const allStars = [];
-
-    for (let i = 1; i <= 5; i++) {
-        const ratingButton = document.createElement("button");
-        ratingButton.classList.add("star");
-        ratingButton.dataset.rating = i;
-        ratingButton.innerHTML = "&#9734;";
-    
-        ratingButton.addEventListener("click", function() {
-            // prevent the default action
-            event.preventDefault();
-            
-            ratingDiv.dataset.isRated = "true"; 
-            ratingDiv.style.border = "none";
-            ratingDiv.dataset.rating = this.dataset.rating;
-            
-            
-            // set the stars which are before the selected star to be filled
-            allStars.forEach((star) => {
-                if (star.dataset.rating <= this.dataset.rating) {
-                    star.innerHTML = "&#9733;";
-                    star.style.color = "#1F4591";
-                } else {
-                    star.innerHTML = "&#9734;";
-                    star.style.color = "grey";
-                }
-            });
-        });
-
-        ratingButton.addEventListener("mouseover", function() {
-            if (ratingDiv.dataset.isRated == "true") return
-            // prevent the default action
-            event.preventDefault();
-
-            allStars.forEach((star) => {
-                if (star.dataset.rating <= this.dataset.rating) {
-                    star.innerHTML = "&#9733;";
-                    star.style.color = "#1F4591";
-                } else {   
-                    star.innerHTML = "&#9734;";
-                    star.style.color = "grey";
-                }
-            });
-        });
-
-        ratingButton.addEventListener("mouseout", function() {
-            if (ratingDiv.dataset.isRated == "true") return
-            
-            // prevent the default action
-            event.preventDefault();
-
-            allStars.forEach((star) => {
-                star.innerHTML = "&#9734;";
-            });
-        });
-        
-    
-        allStars.push(ratingButton);
-        ratingDiv.appendChild(ratingButton);
-    }
-
-    if (reviewRating!=undefined){
-        console.log(reviewRating)
-        for (ratingButton of allStars) {
-            if (ratingButton.dataset.rating == reviewRating) {
-                // press the button
-                ratingButton.click();
-                ratingDiv.dataset.isRated = "true";
-            }
-        }
-    }
-
-    // create input element for review
-    const inputReviewText = document.createElement("textarea");
-    inputReviewText.className = "form-control";
-    inputReviewText.type = "text";
-    inputReviewText.id = "inputReviewText";
-    inputReviewText.placeholder = "Γράψτε το σχόλιό σας εδώ";
-    if (reviewText!=undefined) inputReviewText.value = reviewText;
-    inputReviewText.autocomplete = "off";
-    inputReviewText.style.fontStyle = "italic";
-    inputReviewText.disabled = false;
-    inputReviewText.style.resize = "none";
-
-    // create p element for date
-    const newP3 = document.createElement("p");
-    newP3.className = "card-text";
-
-    // create small element for date
-    const reviewDate = document.createElement("small");
-    reviewDate.className = "text-body-secondary";
-    reviewDate.textContent = "Ημερομηνία Δημοσίευσης: "
-    const today2 = new Date();
-    const daysDiff = Math.round((today2.getTime() - today2.getTime()) / (1000 * 60 * 60 * 24));
-    if (daysDiff === 0) {
-        reviewDate.textContent += "Σήμερα";
-    } else if (daysDiff === 1) {
-        reviewDate.textContent += "Χθες";
-    } else if (daysDiff === 2) {
-        reviewDate.textContent += "Προχθές";
-    } else {
-        reviewDate.textContent += `${daysDiff} ημέρες πριν`;
-    }
-    // hide the content of the reviewDate element
-    reviewDate.style.display = "none";
-
-    // append elements
-    newP3.appendChild(reviewDate);
-    newCol2.appendChild(newP);
-    newCol1.appendChild(newCol2);
-    newCardBody.appendChild(ratingDiv);
-    newCardBody.appendChild(inputReviewText);
-    newCardBody.appendChild(newP3);
-    newCol3.appendChild(newCardBody);
-    newRow.appendChild(newCol1);
-    newRow.appendChild(newCol3);
-    newDiv.appendChild(newRow);
-    container.appendChild(newDiv);
-
-    // Create a new div element
-    const rowButtons = document.createElement("div");
-    rowButtons.className = "gap-2 d-flex justify-content-center";
-
-    // Create a new button element
-    const saveButton = document.createElement("button");
-    saveButton.className = "btn btn-success mb-3";
-    saveButton.innerText = "Υποβολή";
-
-    // eventListener for save button
-    saveButton.addEventListener("click", function() {
-        // Prevent the default action
-        event.preventDefault();
-        
-        // Check if the user has entered a rating
-        if ( ratingDiv.dataset.isRated === "false" ) {
-            ratingDiv.style.border = "1px solid red";
-            return;
-        }
-
-        // Check if the user has entered a review
-        if (inputReviewText.value === "") {
-            // remove the inputReviewText element from the DOM
-            inputReviewText.remove();
-        }
-        else {
-            // set the input elements to diasabled
-            inputReviewText.style.height = (inputReviewText.scrollHeight) + "px";
-            inputReviewText.disabled = true;
-            // append the final_review_text class to the inputReviewText element
-            inputReviewText.classList.add("final_review_text");  
-        }
-
-    
-        // block the rating buttons
-        allStars.forEach((star) => {
-            star.disabled = true;
-        });
-        
-        // add the review to the total reviews
-        numOfReviews++;
-        console.log(ratingDiv.dataset.rating);
-        numOfStars += parseInt(ratingDiv.dataset.rating);
-        totalReviews.innerHTML = "Αξιολογήσεις (" + numOfReviews + ")";
-        avgRating.innerHTML = (numOfStars/numOfReviews).toFixed(1) + "&#9733";
-        
-        // unhide the reviewDate element
-        reviewDate.style.display = "block";
-
-        // set white background
-        inputReviewText.style.backgroundColor = "white";
-
-        // remove the border
-        inputReviewText.style.border = "none";
-
-        // remove thw save button
-        rowButtons.removeChild(saveButton);
-        // remove the cansel button
-        rowButtons.removeChild(canselButton);
-
-        // get the value of the rating
-
-    });
-
-    
-
-    // Create a new button element
-    const canselButton = document.createElement("button");
-    canselButton.className = "btn btn-danger mb-3";
-    canselButton.innerText = "Ακύρωση";
-    
-    // Append the button to the div
-    rowButtons.appendChild(saveButton);
-    rowButtons.appendChild(canselButton);
-
-    // eventListener for delete button
-    canselButton.addEventListener("click", function() {
-        // Prevent the default action
-        event.preventDefault();
-
-        // remove the div
-        container.removeChild(newDiv);
-        rowButtons.remove();
-    });
-
-    // Append the div to the container
-    container.appendChild(rowButtons);
-
-    // if review is done, press the save button
-    if (reviewDone) {
-        saveButton.click();
-    }
-
-}
-
-addReview.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-
-    // get the username 
-    username = "me"
-    // Check if user has already written a review
-
-    // Call the function to add a new review
-    // reviewText,reviewRating,userName
-    addReviewF(username);
-
-    // go to the bottom of the list of reviews
-    const container = document.getElementById("reviewContainer");
-  
-    // animate the scroll smoothly
-    container.scrollTo({
-        top: container.scrollHeight,
-        behavior: "smooth"
-    });
-
-    // go to the bottom of the page 
-    window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth"
-    });
-
-});
-
-function addInfoF(text=""){
-    const container = document.getElementById("container");
-
-    // Check if any of the existing textarea elements are empty
-    let textareas = container.querySelectorAll("textarea");
-    for (let i = 0; i < textareas.length; i++) {
-        if (textareas[i].value.trim() === "") {
-            alert("Please fill in all text areas before adding a new one.");
-            return; // Exit the function without creating a new div
-        }
-    }
-
-    // Create a new div element
-    const newRow = document.createElement("div");
-    newRow.className = "mb-3";
-
-    // Create a new textarea element
-    const newTextarea = document.createElement("textarea");
-    newTextarea.className = "form-control adminInput mb-3 editMode";
-    newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
-    newTextarea.value = text;
-    newTextarea.name = "info";
-    
-    // Create a new delete button element
-    const newDeleteButton = document.createElement("button");
-    newDeleteButton.className = "btn btn-danger adminAction";
-    newDeleteButton.innerText = "Διαγραφή";
-
-    newDeleteButton.addEventListener("click", function() {
-        // Prevent the default action
-        event.preventDefault();
-
-        // Remove the div from the container
-        container.removeChild(newRow);
-    });
-    // Add the textarea, delete button, newLinBreak to the div
-    newRow.appendChild(newTextarea);
-    newRow.appendChild(newDeleteButton);
-    
-    // Add the div, delete button, and line break to the container
-    container.appendChild(newRow);
-
-    // Call the autoIncrimentTextarea function
-    autoIncrimentTextarea()
-}
-
-addInfo.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-    // Call the addInofrmation function
-    addInfoF()
-    // Call the autoIncrimentTextarea function
-    autoIncrimentTextarea()
-});
-
-function hideGuestAction(){
-    // hide guest action
-    elements = document.getElementsByClassName("guestAction");
-    for (let i = 0; i < elements.length; i++){
-        elements[i].style.display = "none";
-    }
-}
-
 function hideAdminAction() {
     let elements = document.getElementsByClassName("adminAction");
     for (let i = 0; i < elements.length; i++){
@@ -653,7 +52,6 @@ function showAdminAction() {
         elements[i].style.display = "";
     }
 }
-
 
 function nonEditMode(){
     try {
@@ -678,8 +76,6 @@ function nonEditMode(){
 
 }
 
-
-
 function editMode(){
     // unhide save button
     saveButton.style.display = "";
@@ -695,19 +91,6 @@ function editMode(){
 
     // show admin action
     showAdminAction()
-}
-
-
-function hideUserAction(){
-    let elements = document.getElementsByClassName("userAction");
-    for (let i = 0; i < elements.length; i++){
-        elements[i].style.display = "none";
-    }
-}
-
-
-function hideEditButton(){
-    editButton.style.display = "none";
 }
 
 
@@ -828,52 +211,36 @@ function setValues(){
     }
 }   
 
-
-// get button with class star
-const star = document.querySelectorAll(".star")
-// for all starts add event listener
-for (var i = 0; i < star.length; i++) {
-    star[i].addEventListener("click", function() {
-        // prevent default action
-        event.preventDefault()
-    })
+function removeStarButtonDefaultAction(){
+    // get button with class star
+    const star = document.querySelectorAll(".star")
+    // for all starts add event listener
+    for (var i = 0; i < star.length; i++) {
+        star[i].addEventListener("click", function() {
+            // prevent default action
+            event.preventDefault()
+        })
+    }
 }
 
-function handlersForEditButton(){
-    try {        
-        editButton.addEventListener("click", function() {
-            // Prevent the default action
-            event.preventDefault();
-        
-            // is edit variable is false enable the textareas
-            if (!edit){
-                // change mode to edit mode
-                editMode()
-            }
-        
-            edit = !edit;
-        });
+function setOneImageActive() {
+    try{
+        const divImages = document.getElementsByClassName("carousel-item");
+        divImages[0].classList.add("active");
     }
-    catch (err){
-        // do nothing
+    catch (error){
+        // pass
     }
+
 }
 
 
 function main(){
-
-    if (true) {
-        handlersForEditButton()
-    }
-
-    console.log("starts");
+    setOneImageActive();
+    removeStarButtonDefaultAction()
     disableTextarea()
     autoIncrimentTextarea()
     nonEditMode()
 }
-
-
-
-
 
 main()

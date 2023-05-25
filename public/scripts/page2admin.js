@@ -30,7 +30,63 @@ for (let i = 0; i < deleteImageButton.length; i++) {
     });
 }
 
-function addMap(location){
+function addInfoF(text=""){
+    const container = document.getElementById("container");
+
+    // Check if any of the existing textarea elements are empty
+    let textareas = container.querySelectorAll("textarea");
+    for (let i = 0; i < textareas.length; i++) {
+        if (textareas[i].value.trim() === "") {
+            alert("Please fill in all text areas before adding a new one.");
+            return; // Exit the function without creating a new div
+        }
+    }
+
+    // Create a new div element
+    const newRow = document.createElement("div");
+    newRow.className = "mb-3";
+
+    // Create a new textarea element
+    const newTextarea = document.createElement("textarea");
+    newTextarea.className = "form-control adminInput mb-3 editMode";
+    newTextarea.placeholder = "Πρόσθεσε επιπλέον πληροφορίες. Π.χ. Πρόσβαση, Ιστορια.";
+    newTextarea.value = text;
+    newTextarea.name = "info";
+    
+    // Create a new delete button element
+    const newDeleteButton = document.createElement("button");
+    newDeleteButton.className = "btn btn-danger adminAction";
+    newDeleteButton.innerText = "Διαγραφή";
+
+    newDeleteButton.addEventListener("click", function() {
+        // Prevent the default action
+        event.preventDefault();
+
+        // Remove the div from the container
+        container.removeChild(newRow);
+    });
+    // Add the textarea, delete button, newLinBreak to the div
+    newRow.appendChild(newTextarea);
+    newRow.appendChild(newDeleteButton);
+    
+    // Add the div, delete button, and line break to the container
+    container.appendChild(newRow);
+
+    // Call the autoIncrimentTextarea function
+    autoIncrimentTextarea()
+}
+
+addInfo.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+    // Call the addInofrmation function
+    addInfoF()
+    // Call the autoIncrimentTextarea function
+    autoIncrimentTextarea()
+});
+
+
+function addMap(map){
     // get the map container
     const mapContainer = document.getElementById("map-container-google-1");
 
@@ -38,11 +94,11 @@ function addMap(location){
     const iframe = mapContainer.getElementsByTagName("iframe")[0];
 
     // set the src attribute of the iframe
-    iframe.src = `https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    iframe.src = `https://maps.google.com/maps?q=${map}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 
     // change the location of the map for the database
     const mapLocation = document.getElementById("mapLocation");
-    mapLocation.value = `https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    mapLocation.value = `https://maps.google.com/maps?q=${map}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 }
 
 
@@ -108,10 +164,9 @@ function addImage() {
 
     const image = document.createElement("img");
     image.className = "d-block mb-3 mx-auto w-50 h-50 text-center";
-    
-    const file = fileInput.files[0];
-    console.log(file);
 
+    const file = fileInput.files[0];
+    
     const fileType = file.type.toLowerCase();
     if (fileType.indexOf("image/") == 0) {
         let reader = new FileReader();
@@ -124,25 +179,7 @@ function addImage() {
         return;
     }
 
-    const imagesPath = document.createElement("input");
-    imagesPath.type = "hidden";
-    imagesPath.name = "imagesPath";
-    imagesPath.value = "../images/"+file.name;
-    
-    const imagesId = document.createElement("input");
-    imagesId.type = "hidden";
-    imagesId.name = "imagesId";
-    imagesId.value = getNewImageId(); 
-    divImage.id = "image" + imagesId.value;
 
-    const imagesActive = document.createElement("input");
-    imagesActive.type = "hidden";
-    imagesActive.name = "imagesActive";
-    imagesActive.value = "false";
-
-    divImage.appendChild(imagesPath);
-    divImage.appendChild(imagesId);
-    divImage.appendChild(imagesActive);
     divImage.appendChild(image);
 
 
@@ -169,7 +206,6 @@ function addImage() {
     inputTitle.type = "text";
     inputTitle.name = "imagesTitle";
     inputTitle.placeholder = "Τίτλος";
-    inputTitle.id = "imageTitle" + imagesId.value;
     col2.appendChild(inputTitle);
 
     row1.appendChild(col1);
@@ -194,7 +230,6 @@ function addImage() {
     inputAlt.type = "text";
     inputAlt.name = "imagesAlt";
     inputAlt.placeholder = "Εναλλακτικό κείμενο";
-    inputAlt.id = "imageAlt" + imagesId.value;
     col4.appendChild(inputAlt);
 
     row2.appendChild(col3);
@@ -222,50 +257,27 @@ previewButton.addEventListener("click", function() {
 
     console.log("previewButton clicked");
     addImage()
-
 });
 
-function saveImageChanges() {
-    const divImages = document.getElementsByClassName("carousel-item");
-
-    for (let i = 0; i < divImages.length; i++) {
-        const divImage = divImages[i];
-        // get the id of the image
-        const imageId = divImage.id;
-        // remove the "image" from the id
-        const id = imageId.replace("image", "");
-        // find the element with id="imageTitle+id"
-        const imageTitle = document.getElementById("imageTitle" + id);
-        // find the element with id="imageAlt+id"
-        const imageAlt = document.getElementById("imageAlt" + id);
-        const image = divImage.getElementsByTagName("img")[0];
-        image.title = imageTitle.value;
-        image.alt = imageAlt.value;
-    }
-}
                 
 saveButton.addEventListener("click", function() {
     // Prevent the default action
     event.preventDefault();
-
-    console.log("saveButton clicked");
-
-    saveImageChanges();
 
     document.getElementById("myForm").submit();
 }
 );
 
 
+editButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
 
+    // is edit variable is false enable the textareas
+    if (!edit){
+        // change mode to edit mode
+        editMode()
+    }
 
-function setOneImageActive() {
-    const divImages = document.getElementsByClassName("carousel-item");
-    divImages[0].classList.add("active");
-}
-
-
-function main() {
-    setOneImageActive();
-}
-main()
+    edit = !edit;
+});

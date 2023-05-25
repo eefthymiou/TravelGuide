@@ -1,5 +1,7 @@
     <div class="container">
-        <form id="myForm" {{#if admin}} action="/page2" method="post" enctype = 'multipart/form-data'{{/if}}>
+        <form id="myForm" 
+            {{#if admin}} action="/page2" method="post" enctype = 'multipart/form-data'{{/if}}
+            {{#if user}} action="/page2" method="post" enctype = 'multipart/form-data'{{/if}}>
             <fieldset class="m-3">
                 {{#if admin}}
                     <input type="hidden" name="id" value="{{id}}">
@@ -24,14 +26,16 @@
                 <!-- import/preview photo -->
                 <div class="input-group mb-3 adminAction" id="importPhoto">
                     <input name="images" type="file" class="form-control" id="inputGroupFile">
-                    <button class="btn btn-outline-secondary" type="button" id="previewButton">Προβολή</button>
+                    <button type="submit" class="btn btn-outline-secondary" type="button" id="previewButton">Προβολή</button>
                 </div>
+                
 
                 <!--images container-->
                 <div id="carouselImages" class="carousel slide mb-3 justify-content-center" data-bs-ride="carousel">
                     <div class="carousel-inner" id="imagesContainer">
                         <!-- images -->
                         {{#each images}}
+                            
                             <div id="image{{this.id}}"class="carousel-item">
                                 <img src="{{this.path}}" alt="{{this.alt}}" title="{{this.title}}" class="d-block mb-3 mx-auto w-50 h-50 text-center"> 
                                 
@@ -41,7 +45,7 @@
                                             <label for="imageTitle{{this.id}}" class="form-label" >Τίτλος:</label>
                                         </div>
                                         <div class="col">
-                                            <input name="imagesTitle" id="imageTitle{{this.id}}" class="form-control adminInput editMode" type="text" placeholder="Τίτλος" value="{{this.title}}" disabled>
+                                            <input id="imageTitle{{this.id}}" class="form-control adminInput editMode" type="text" placeholder="Τίτλος" value="{{this.title}}" disabled>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -49,12 +53,10 @@
                                             <label for="imageAlt{{this.id}}" class="form-label">Εναλλακτικό κείμενο:</label>
                                         </div>
                                         <div class="col">
-                                            <input name="imagesAlt" id="imageAlt{{this.id}}" class="form-control adminInput editMode" type="text" placeholder="Εναλλακτικό κείμενο" value="{{this.alt}}" disabled>
+                                            <input id="imageAlt{{this.id}}" class="form-control adminInput editMode" type="text" placeholder="Εναλλακτικό κείμενο" value="{{this.alt}}" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" name="imagesPath" value="{{this.path}}">
-                                <input type="hidden" name="imagesId" value="{{this.id}}">
 
 
                                 <div class="mb-3 gap-2 d-flex justify-content-center adminAction">
@@ -66,15 +68,16 @@
                         
                          
                     </div>
-                    
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                    {{#if images}}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    {{/if}}
                 </div>
                     
 
@@ -94,7 +97,7 @@
                 
                 <!--Google map-->
                 <h4>Χάρτης</h4>
-                <!-- input element for google search location -->
+                <!-- input element for google search map -->
                 <div class="row adminAction mb-3" style="justify-content: space-between;">
                     <div class="col">
                         <input id="searchLocation" class="form-control" type="text" placeholder="Αναζήτηση Τοποθεσίας">
@@ -106,16 +109,16 @@
                                 
 
                 <div id="map-container-google-1" class="mb-3 z-depth-1-half map-container d-flex justify-content-center">
-                    <iframe class="map" src={{location}} frameborder="0" allowfullscreen></iframe>
-                    <input id="mapLocation" type="hidden" name="location" value="{{location}}">
+                    <iframe class="map" src={{map}} frameborder="0" allowfullscreen></iframe>
+                    <input id="mapLocation" type="hidden" name="map" value="{{map}}">
                 </div>
                 
                 <!-- reviews -->
+                
                 <div class="container">
                     <div class="row">
-                        <input type="hidden" name="numOfReviews" value="{{numOfReviews}}">
-                        <div id="totalReviews" class="col">Αξιολογήσεις ({{numOfReviews}})</div>
-                        <div id="avgRating" class="col">{{avgRating}} &#9733;</div>
+                        <div id="totalReviews" class="col" value="{{numOfReviews}}">Αξιολογήσεις ({{numOfReviews}})</div>
+                        <div id="avgRating" class="col" value="{{avgRating}}">{{avgRating}} &#9733;</div>
                     </div>
                 </div>
                 
@@ -124,11 +127,6 @@
                         {{#each reviews}}
                         {{!-- new Div --}}
                         <div class="card m-2">
-                            <input type="hidden" name="reviewsScore" value="{{this.score}}">
-                            <input type="hidden" name="reviewsId" value="{{this.id}}">
-                            <input type="hidden" name="reviewsUserId" value="{{this.user_id}}">
-                            <input type="hidden" name="reviewsText" value="{{this.text}}">
-                            
                             {{!-- new Row --}}
                             <div class="row">
                                 {{!-- new Col1 --}}
@@ -168,25 +166,25 @@
                         </div>
                 </div>
 
-               
-                <!-- button add review -->
-                <button id="addReview" class="btn btn-primary mb-3 userAction">Πρόσθεσε Αξιολόγηση</button>
-                
+                {{#if user}}
+                    <!-- button add review -->
+                    <button id="addReview" class="btn btn-primary mb-3">Πρόσθεσε Αξιολόγηση</button>
+                {{/if}}
 
                 <br><br><br>
         </fieldset> 
         </form>
     </div>
     
-    {{#if admin}}
-        <script>
-            const form = document.getElementById('myForm');
-            const idValue = "{{id}}";
-            form.action = "/page2?id=" + idValue;
-        </script>
-    {{/if}}
+    <script>
+        const form = document.getElementById('myForm');
+        const idValue = "{{id}}";
+        form.action = "/page2?id=" + idValue;
+    </script>
 
+    {{#if admin}}<script src="/scripts/page2Admin.js"></script>{{/if}}
+    {{#if user}}<script src="/scripts/page2User.js"></script>{{/if}}
+    
     <script src="/scripts/page2.js"></script>
-    <script src="/scripts/page2Admin.js"></script>
 
 
