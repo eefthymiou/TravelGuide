@@ -9,6 +9,7 @@ import { isAsyncFunction } from 'util/types';
 const admin = true;
 const user = false;
 
+
 async function getAvgRating(reviews) {
     let sum = 0;
     for (let i = 0; i < reviews.length; i++) {
@@ -51,31 +52,43 @@ async function getPage2Data(id){
     return page2Element;
 }
 
+
 export async function createPage2(req, res) {
     const id = req.query.id;
-    console.log(req.query);
-    console.log(id);
-    const page2Element = await getPage2Data(id);
-    // const element = await model.findPage2ElementById(id);
-    // console.log(element);
-    // console.log(page2Element);
+
+    // if (await model.hasDoneRegistration(req.session.username)) {
+    //     if (await model.isAdmin(req.session.username)) {
+    //         const admin = true;
+    //         const user = false;
+    //     }
+    //     else {
+    //         const admin = false;
+    //         const user = true;
+    //     }
+
+    // }
+
+    
+    const element = await model.findPage2ElementById(id);
+    console.log(element);
+    const avgRating = await getAvgRating(element.reviews);
+ 
 
     try {
         res.render('page2', {
             username:req.session.username,
-            id : req.query.id,
-            title: page2Element.title,
-            description: page2Element.description, 
-            info: page2Element.info, 
-            map: page2Element.map, 
-            reviews: page2Element.reviews,
-            avgRating: page2Element.avgRating,
-            numOfReviews: page2Element.reviews.length,
-            images: page2Element.images,
+            title: element.title,
+            description: element.main_text,
+            info: element.texts, 
+            map: element.map, 
+            reviews: element.reviews,
+            avgRating: avgRating,
+            numOfReviews: element.reviews.length,
+            images: element.images,
             admin: admin,
             user: user,
             style: 'page2.css'});
-    }
+    }   
     catch (error) {
         res.send(error);
     }

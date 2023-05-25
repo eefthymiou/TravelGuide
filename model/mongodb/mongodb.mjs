@@ -40,6 +40,7 @@ const locationSchema = new mongoose.Schema({
     map: String,
     reviews_ids: [String]
 });
+
 // Model for the location collection
 const Location = mongoose.model('location', locationSchema);
 
@@ -133,13 +134,25 @@ export let isAdmin = async (userId) => {
     return admin.admin;
 }
 
+export let hasDoneRegistration = async (userId) => {
+    // if exist return true
+    const status = await User.findOne({_id:userId}, {_id:1}).lean();
+    if(status){
+        return true;
+    }
+    return false;
+}
+
+
 
 // ------------------------PAGE2-------------------------
 // --------------------------------------------------------
 
 export let findPage2ElementById = async (locationId) => {
     let location = await Location.findOne({_id:locationId}, {_id:1, title:1, main_text:1, texts:1, images:1, map:1}).lean();
-    // let images = await Image.find({_id:{$in:location.images}}, {_id:0, src:1, alt:1, title:1}).lean();
-    // location.images = images;
+    let images = await Image.find({_id:{$in:location.images}}, {_id:0, src:1, alt:1, title:1}).lean();
+    location.images = images;
+    let reviews = await Review.find({_id:{$in:location.reviews_ids}}, {_id:1, date:1, score:1, text:1, user_id:1}).lean();
+    location.reviews = reviews;
     return location;
 }
