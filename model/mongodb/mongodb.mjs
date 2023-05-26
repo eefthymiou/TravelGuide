@@ -38,7 +38,7 @@ const locationSchema = new mongoose.Schema({
     texts : [String],
     images : [String],
     map: String,
-    reviews_ids: [String]
+    reviews_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 });
 
 // Model for the location collection
@@ -65,10 +65,10 @@ const User = mongoose.model('user', userSchema);
 
 // Schema for the review collection
 const reviewSchema = new mongoose.Schema({
-    date: Date,
+    date: String,
     score: Number,
     text: String,
-    user_id: String
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 // Model for the review collection
 const Review = mongoose.model('review', reviewSchema);
@@ -149,10 +149,38 @@ export let hasDoneRegistration = async (userId) => {
 // --------------------------------------------------------
 
 export let findPage2ElementById = async (locationId) => {
-    let location = await Location.findOne({_id:locationId}, {_id:1, title:1, main_text:1, texts:1, images:1, map:1}).lean();
+    let location = await Location.findOne({_id:locationId}, {_id:1, title:1, main_text:1, texts:1, images:1, map:1, reviews_ids:1 }).lean();
     let images = await Image.find({_id:{$in:location.images}}, {_id:0, src:1, alt:1, title:1}).lean();
     location.images = images;
-    let reviews = await Review.find({_id:{$in:location.reviews_ids}}, {_id:1, date:1, score:1, text:1, user_id:1}).lean();
-    location.reviews = reviews;
+    const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
+    // for each review_id in locations find the review
+    let reviews_ids = [];
+    for (let i=0; i<numOfReviews; i++){
+        const review = await Review.findOne({_id:{$in:location.reviews_ids[i]}}, {_id:1, date:1, score:1, text:1, user_id:1}).lean();
+        reviews_ids.push(review);
+    }
+    location.reviews_ids = reviews_ids;
+    
+    location.numOfReviews = numOfReviews;
     return location;
+}
+
+export let addReview = async (locationId, userId, score, text ,date) => {
+    // find the user from the database with userId
+    const user = await User.findOne({_id:userId}, {_id:1}).lean();
+    if(!user){
+        throw Error('Δεν υπάρχει χρήστης με αυτό το id.');
+    }
+    console.log(user._id);
+    let review = new Review({date: date, score:score, text:text, user_id:user._id});
+    // save the review
+    await review.save();
+
+    // find the location
+    let location = await Location.findOne({_id:locationId}, {_id:0, reviews_ids:1}).lean();
+    // add the review id to the location
+    location.reviews_ids.push(review._id);
+    // update the location
+    await Location.updateOne({_id:locationId}, {reviews_ids:location.reviews_ids});
+
 }

@@ -1,10 +1,9 @@
     <div class="container">
         <form id="myForm" 
-            {{#if admin}} action="/page2" method="post" enctype = 'multipart/form-data'{{/if}}
-            {{#if user}} action="/page2" method="post" enctype = 'multipart/form-data'{{/if}}>
+            {{#if admin}} action="/page2?category={{category}}&id={{id}}" method="post" enctype = 'multipart/form-data'{{/if}}
+            {{#if user}} action="/page2?category={{category}}&id={{id}}" method="post" enctype = 'multipart/form-data'{{/if}}>
             <fieldset class="m-3">
                 {{#if admin}}
-                    <input type="hidden" name="id" value="{{id}}">
                     <div class="d-flex justify-content-end align-items-center">
                         <!-- edit button -->
                         <button id="editButton" class="btn btn-warning m-3">Επεξεργασία</button>
@@ -117,8 +116,8 @@
                 
                 <div class="container">
                     <div class="row">
-                        <div id="totalReviews" class="col" value="{{numOfReviews}}">Αξιολογήσεις ({{numOfReviews}})</div>
-                        <div id="avgRating" class="col" value="{{avgRating}}">{{avgRating}} &#9733;</div>
+                        <div id="totalReviews" class="col">Αξιολογήσεις ({{numOfReviews}})</div>
+                        <div id="avgRating" class="col">{{avgRating}} &#9733;</div>
                     </div>
                 </div>
                 
@@ -135,7 +134,7 @@
                                     <div class="d-flex align-items-center h-100">
                                         <div class="card-text mx-auto">
                                             {{!-- user name --}}
-                                            {{this.user_id}}
+                                            {{this.username}}
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +155,7 @@
                                             <textarea class="form-control final_review_text" style="background-color:white" placeholder="Γράψε το σχόλιο σας εδώ" autocomplete="off" disabled>{{this.text}}</textarea>
                                         {{/if}}
                                         <div class="card-text">
-                                            <div class="small text-body-secondary" style="display:block">Ημερομηνία Δημοσίευσης: {{this.date}}</div>
+                                            <div class="small text-body-secondary" style="display:block">{{this.date}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -175,12 +174,6 @@
         </fieldset> 
         </form>
     </div>
-    
-    <script>
-        const form = document.getElementById('myForm');
-        const idValue = "{{id}}";
-        form.action = "/page2?id=" + idValue;
-    </script>
 
     {{#if admin}}<script src="/scripts/page2Admin.js"></script>{{/if}}
     {{#if user}}<script src="/scripts/page2User.js"></script>{{/if}}

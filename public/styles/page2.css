@@ -70,7 +70,7 @@ body{
     border-style: solid;
     border-width: 2px;
     max-height:400px;
-
+    overflow-x: hidden;
     color:#1F4591
 }
 

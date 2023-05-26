@@ -1,24 +1,51 @@
 import * as model from '../model/mongodb/mongodb.mjs';
 import fs from 'fs';
 
+
 import { Page2Element} from '../public/scripts/page2Element.js';
 import { ReviewElement } from '../public/scripts/reviewElement.js';
 import { imageElement } from '../public/scripts/imageElement.js';
 import { isAsyncFunction } from 'util/types';
 
-const admin = true;
-const user = false;
+const admin = false;
+const user = true;
 
-
-async function getAvgRating(reviews) {
+function getAvgRating(reviews) {
     let sum = 0;
     for (let i = 0; i < reviews.length; i++) {
         const review = reviews[i]; 
-        sum += Math.max.apply(null, review.score);
+        sum += review.score;
     }
     const avgRating = (sum / reviews.length).toFixed(1);;
 
     return avgRating;
+}
+
+function getArrayScore(score){
+    let arrayScore = [];
+    for (let i=1; i<=score; i++) {
+        arrayScore.push(i);
+    }
+    for (let i=score+1; i<=5; i++) {
+        arrayScore.push(0);
+    }
+    return arrayScore;
+}
+
+async function fixElementForHbs(element){
+    let avgRating = 0;
+
+    avgRating = getAvgRating(element.reviews_ids);
+    for (let i=0; i<element.numOfReviews; i++) {
+     
+        const userId = element.reviews_ids[i].user_id;
+        const username = await model.getUsername(userId);
+        element.reviews_ids[i].username = username;
+        // fix reviews score for hbs
+        element.reviews_ids[i].score = getArrayScore(element.reviews_ids[i].score);
+    }
+    element.avgRating = avgRating;
+    return element;
 }
 
 async function getPage2Data(id){
@@ -39,7 +66,7 @@ async function getPage2Data(id){
     page2Element.reviews = [review1];
 
     // calculate the average rating
-    const avgRating = await getAvgRating(page2Element.reviews);
+    const avgRating = getAvgRating(page2Element.reviews);
 
     // images paths
     const image1 =  new imageElement(1,"../images/beaches.jpg","Παραλία Πορί","Παραλία Πορί");
@@ -51,7 +78,6 @@ async function getPage2Data(id){
     
     return page2Element;
 }
-
 
 export async function createPage2(req, res) {
     const id = req.query.id;
@@ -69,21 +95,24 @@ export async function createPage2(req, res) {
     // }
 
     
-    const element = await model.findPage2ElementById(id);
+    let element = await model.findPage2ElementById(id);
     console.log(element);
-    const avgRating = await getAvgRating(element.reviews);
- 
+    element = await fixElementForHbs(element);
+
+    console.log(element);
 
     try {
         res.render('page2', {
             username:req.session.username,
+            id: id,
+            category: element.category,
             title: element.title,
             description: element.main_text,
             info: element.texts, 
             map: element.map, 
-            reviews: element.reviews,
-            avgRating: avgRating,
-            numOfReviews: element.reviews.length,
+            reviews: element.reviews_ids,
+            avgRating: element.avgRating,
+            numOfReviews: element.reviews_ids.length,
             images: element.images,
             admin: admin,
             user: user,
@@ -153,13 +182,33 @@ async function updatePage2ForAdmin(req,res) {
 }
 
 async function updatePage2ForUser(req,res) {
-    
+    const id = req.query.id;
+    try {
+        const reviewScore = req.body.reviewsScore;
+        const reviewText = req.body.reviewsText;
+        const reviewDate = req.body.reviewsDate;
+        const user_id = req.session.user;
+
+        // append review to database
+        try {
+            await model.addReview(id,user_id,reviewScore,reviewText,reviewDate);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    catch (error){
+        console.log("none review");
+    }
 }
 
 
 export async function updatePage2(req,res) {
+    console.log("update page2");
+    const id = req.query.id;
+    console.log(id);
     console.log(req.body);
-    // update data
+
     if (admin){
         await updatePage2ForAdmin(req,res);
     }
@@ -167,28 +216,30 @@ export async function updatePage2(req,res) {
         await updatePage2ForUser(req,res);
     }
 
-    // get the new data of page2 from database
-    const page2Element = new Page2Element(1);
-    const avgRating = 0;
-    // render page
-    
+    // get the updated element
+    let element = await model.findPage2ElementById(id);
+    console.log(element);
+    element = await fixElementForHbs(element);
+
     try {
         res.render('page2', {
             username:req.session.username,
-            id : req.query.id,
-            title: page2Element.title,
-            description: page2Element.description, 
-            info: page2Element.info, 
-            map: page2Element.map, 
-            reviews: page2Element.reviews,
-            avgRating: avgRating,
-            numOfReviews: page2Element.reviews.length,
-            images: page2Element.images,
+            id: id,
+            category: element.category,
+            title: element.title,
+            description: element.main_text,
+            info: element.texts, 
+            map: element.map, 
+            reviews: element.reviews_ids,
+            avgRating: element.avgRating,
+            numOfReviews: element.reviews_ids.length,
+            images: element.images,
             admin: admin,
             user: user,
             style: 'page2.css'});
-    }
+    }   
     catch (error) {
         res.send(error);
     }
+    
 }

@@ -178,26 +178,6 @@ function addReviewF() {
             star.disabled = true;
         });
         
-        // add the review to the total reviews
-        const avgRating = document.getElementById("avgRating");
-        const totalReviews = document.getElementById("totalReviews");        
-        // get the value of totalReviews
-        let totalReviewsValue = parseInt(totalReviews.getAttribute('value'));
-        // get the rating of the review
-        let reviewRating = ratingDiv.dataset.rating;
-        let avgRatingValue = parseInt(reviewRating);
-        // if calculate the new avgRating value
-        if (totalReviewsValue > 0) {
-            let avgRatingValue = parseFloat(avgRating.getAttribute('value'));
-            avgRatingValue = (avgRatingValue * totalReviewsValue + parseInt(reviewRating)) / (totalReviewsValue + 1);
-        }
-        
-        avgRating.setAttribute('value', avgRatingValue);
-        avgRating.innerHTML = avgRatingValue.toFixed(1) + "&#9733;";
-
-        totalReviews.setAttribute('value', totalReviewsValue + 1);
-        totalReviews.textContent = "Αξιολογήσεις (" + (totalReviewsValue + 1) + ")";
-
         // unhide the reviewDate element
         reviewDate.style.display = "block";
 
@@ -213,6 +193,7 @@ function addReviewF() {
         rowButtons.removeChild(canselButton);
 
         // create elements for the server side
+        let reviewRating = ratingDiv.dataset.rating;
         const reviewsScore = document.createElement("input");
         reviewsScore.type = "hidden";
         reviewsScore.name = "reviewsScore";
