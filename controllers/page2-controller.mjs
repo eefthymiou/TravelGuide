@@ -7,8 +7,8 @@ import { ReviewElement } from '../public/scripts/reviewElement.js';
 import { imageElement } from '../public/scripts/imageElement.js';
 import { isAsyncFunction } from 'util/types';
 
-const admin = false;
-const user = true;
+const admin = true;
+const user = false;
 
 function getAvgRating(reviews) {
     let sum = 0;
@@ -124,49 +124,27 @@ export async function createPage2(req, res) {
 };
 
 async function updatePage2ForAdmin(req,res) {
-    const page2Element = new Page2Element(
-        req.body.id,
-        req.body.title,
-        req.body.description,
-    );
+    try {
+        const id = req.query.id;
+        const title = req.body.title;
+        const main_text = req.body.description;
+        const texts = req.body.info;
+        const map = req.body.map;
+        
+        await model.saveChangesLocation(id,title,main_text,texts,map);
+    }
+    catch (error) {
+        console.log(error);
+    }
+   
 
-    try {
-        if (typeof req.body.info == "string") {
-            page2Element.info = [req.body.info];
-        }
-        else {
-            page2Element.info = req.body.info;
-        }
-    }
-    catch (error) {
-        page2Element.info = [];
-    }
-    
-    try {
-        page2Element.map = req.body.map;
-    }
-    catch (error) {
-        page2Element.map = "";
-    }
-
-    // images 
-    try {
-        const image = new imageElement(
-            req.body.imagesAlt,
-            req.body.imagesTitle,
-        );
-        page2Element.images.push(image);
-    }
-    catch (error) {
-        console.log("none images");
-    }
-    
     try {
         const { images } = req.files;
     
         const image = images;
-        const path = 'public/images/' + image.name;
-    
+        console.log(req.query.category);
+        const path = 'public/images/' + req.query.category + '/' + image.name;
+        console.log(path);
         try {
             fs.accessSync(path);
             console.log('File already exists:', image.name);
@@ -174,10 +152,19 @@ async function updatePage2ForAdmin(req,res) {
             console.log('File does not exist:', image.name);
             image.mv(path);
             console.log('File uploaded:', image.name);
+            try {
+                const src = "../images/" + req.query.category + "/" + image.name;
+                console.log(req.body.imagesTitle);
+                await model.addImage(req.query.id,src,req.body.imagesAlt,req.body.imagesTitle);
+            }
+            catch {
+                console.log(error);
+            }
+
         }
     }
     catch (error) {
-        console.log("none image");
+        console.log("no image");
     }
 }
 
@@ -218,14 +205,14 @@ export async function updatePage2(req,res) {
 
     // get the updated element
     let element = await model.findPage2ElementById(id);
-    console.log(element);
+    // console.log(element);
     element = await fixElementForHbs(element);
 
     try {
         res.render('page2', {
             username:req.session.username,
             id: id,
-            category: element.category,
+            category: req.query.category,
             title: element.title,
             description: element.main_text,
             info: element.texts, 

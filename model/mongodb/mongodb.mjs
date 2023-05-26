@@ -36,7 +36,7 @@ const locationSchema = new mongoose.Schema({
     title: String,
     main_text: String,
     texts : [String],
-    images : [String],
+    images : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }],
     map: String,
     reviews_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 });
@@ -149,9 +149,17 @@ export let hasDoneRegistration = async (userId) => {
 // --------------------------------------------------------
 
 export let findPage2ElementById = async (locationId) => {
-    let location = await Location.findOne({_id:locationId}, {_id:1, title:1, main_text:1, texts:1, images:1, map:1, reviews_ids:1 }).lean();
-    let images = await Image.find({_id:{$in:location.images}}, {_id:0, src:1, alt:1, title:1}).lean();
+    let location = await Location.findOne({_id:locationId}, {_id:1, category:1, title:1, main_text:1, texts:1, images:1, map:1, reviews_ids:1 }).lean();
+    
+    const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
+    // for each image_id in locations find the image
+    let images = [];
+    for (let i=0; i<numOfImages; i++){
+        const image = await Image.findOne({_id:{$in:location.images[i]}}, {_id:0, src:1, alt:1, title:1}).lean();
+        images.push(image);
+    }
     location.images = images;
+    
     const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
     // for each review_id in locations find the review
     let reviews_ids = [];
@@ -171,7 +179,7 @@ export let addReview = async (locationId, userId, score, text ,date) => {
     if(!user){
         throw Error('Δεν υπάρχει χρήστης με αυτό το id.');
     }
-    console.log(user._id);
+    // create the review
     let review = new Review({date: date, score:score, text:text, user_id:user._id});
     // save the review
     await review.save();
@@ -183,4 +191,23 @@ export let addReview = async (locationId, userId, score, text ,date) => {
     // update the location
     await Location.updateOne({_id:locationId}, {reviews_ids:location.reviews_ids});
 
+}
+
+export let saveChangesLocation = async (locationId, title, main_text, texts, map) => {
+    // update the location
+    await Location.updateOne({_id:locationId}, {title:title, main_text:main_text, texts:texts, map:map});
+
+}
+
+export let addImage = async (locationId, src, alt, title) => {
+    // create image
+    let image = new Image({src:src, alt:alt, title:title});
+    // save image
+    await image.save();
+    // find the location
+    let location = await Location.findOne({_id:locationId}, {_id:0, images:1}).lean();
+    // add the image id to the location
+    location.images.push(image._id);
+    // update the location
+    await Location.updateOne({_id:locationId}, {images:location.images});
 }
