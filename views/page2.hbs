@@ -59,7 +59,7 @@
 
 
                                 <div class="mb-3 gap-2 d-flex justify-content-center adminAction">
-                                    <button class="deleteImageButton mb-3 btn btn-danger adminAction">Διαγραφή Φωτογραφίας</button>
+                                    <button id={{this._id}} class="deleteImageButton mb-3 btn btn-danger adminAction">Διαγραφή Φωτογραφίας</button>
                                 </div>
 
                             </div>
@@ -93,7 +93,7 @@
                 <!-- add parapraph button -->
                 <button id="addInfo" class="btn btn-primary mb-3 adminAction">Πρόσθεσε Κουτί πληροφορίων</button>
                 
-                
+                <br><br>
                 <!--Google map-->
                 <h4>Χάρτης</h4>
                 <!-- input element for google search map -->
@@ -112,9 +112,9 @@
                     <input id="mapLocation" type="hidden" name="map" value="{{map}}">
                 </div>
                 
+                <br><br>
                 <!-- reviews -->
-                
-                <div class="container">
+                <div class="container mt-3">
                     <div class="row">
                         <div id="totalReviews" class="col">Αξιολογήσεις ({{numOfReviews}})</div>
                         <div id="avgRating" class="col">{{avgRating}} &#9733;</div>
@@ -169,8 +169,6 @@
                     <!-- button add review -->
                     <button id="addReview" class="btn btn-primary mb-3">Πρόσθεσε Αξιολόγηση</button>
                 {{/if}}
-
-                <br><br><br>
         </fieldset> 
         </form>
     </div>

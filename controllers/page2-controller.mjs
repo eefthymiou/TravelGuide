@@ -7,13 +7,18 @@ import path from 'path';
 
 function getAvgRating(reviews) {
     let sum = 0;
-    for (let i = 0; i < reviews.length; i++) {
-        const review = reviews[i]; 
-        sum += review.score;
+    if (reviews.length === 0) {
+        return "-";
     }
-    const avgRating = (sum / reviews.length).toFixed(1);;
-
-    return avgRating;
+    else {
+        for (let i = 0; i < reviews.length; i++) {
+            const review = reviews[i]; 
+            sum += review.score;
+        }
+        const avgRating = (sum / reviews.length).toFixed(1);;
+    
+        return avgRating;
+    }
 }
 
 function getArrayScore(score){
@@ -56,6 +61,39 @@ async function createPage2ForAdmin(res,req){
         console.log(error);
     }
 
+}
+
+export async function deleteImage(req,res) {
+    const id = req.query.id;
+    const category = req.query.category;
+    const imageId = req.query.imageId;
+
+    try {
+        let src = await model.deleteImage(id, imageId);
+        let basePath = 'public/images/' + req.query.category + '/';
+        let filename = src.split('/').pop();
+        const filePath = path.join(basePath, filename); 
+        try {
+            fs.accessSync(filePath);
+            console.log('File exists:', filename);
+
+            // Delete the file
+            fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error('Error deleting file:', err);
+            } else {
+                console.log('File deleted successfully:', filename);
+            }
+            });
+        }
+        catch (error) {
+            console.log('File does not exist:', filename);
+        }
+        res.redirect('/page2?id=' + id + '&category=' + category);
+    }
+    catch (error){
+        console.log(error);
+    }
 }
 
 export async function deletePage2(req,res){

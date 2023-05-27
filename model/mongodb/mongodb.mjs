@@ -158,7 +158,7 @@ export let findPage2ElementById = async (locationId) => {
     // for each image_id in locations find the image
     let images = [];
     for (let i=0; i<numOfImages; i++){
-        const image = await Image.findOne({_id:{$in:location.images[i]}}, {_id:0, src:1, alt:1, title:1}).lean();
+        const image = await Image.findOne({_id:{$in:location.images[i]}}, {_id:1, src:1, alt:1, title:1}).lean();
         images.push(image);
     }
     location.images = images;
@@ -254,4 +254,17 @@ export let deleteLocation = async (locationId) => {
     // delete the location
     await Location.deleteOne({_id:locationId});
     return srcs;
+}
+
+export let deleteImage = async (locationId, imageId) => {
+    // find the image and delete it
+    const image = await Image.findOne({_id:imageId}, {_id:0, src:1}).lean();
+    await Image.deleteOne({_id:imageId});
+    // find the location
+    let location = await Location.findOne({_id:locationId}, {_id:0, images:1}).lean();
+    // delete the image id from the location
+    location.images = location.images.filter(id => id != imageId);
+    // update the location
+    await Location.updateOne({_id:locationId}, {images:location.images});
+    return image.src;
 }

@@ -6,27 +6,16 @@ for (let i = 0; i < deleteImageButton.length; i++) {
         // prevent the default action
         event.preventDefault();
 
-        // get the id of deletetImageButton
-        const id = event.target.id;
-        // remove the deleteImageButton from the id
-        const imageId = id.replace("deleteImageButton", "");
-        
-        // ge the element with id image
-        const imageDiv = document.getElementById("image" + imageId);
-        console.log(imageDiv);
+        // get the id of the delete button
+        let imageId = deleteImageButton[i].id;
 
-        // remove from the dom the imageDiv
-        imageDiv.remove();
+        const form = document.getElementById("myForm");
+        const id = form.getAttribute("data-id");
+        const category = form.getAttribute("data-category");
 
-        // set as active another image
-        const imagesContainer = document.getElementById("imagesContainer");
-        // get the elelements inside the imagesContainer
-        const images = imagesContainer.children;
-        // get the first image
-        const firstImage = images[0];
-        // set the first image as active
-        firstImage.classList.add("active");
-
+        form.method = "POST";
+        form.action = `/page2/deleteImage?id=${id}&category=${category}&imageId=${imageId}`;
+        form.submit();
     });
 }
 
@@ -245,6 +234,28 @@ function addImage() {
     const deleteButton = document.createElement("button");
     deleteButton.className = "deleteImageButton mb-3 btn btn-danger adminAction";
     deleteButton.innerText = "Διαγραφή Φωτογραφίας";
+
+    deleteButton.addEventListener("click", function() {
+        // prevent the default action
+        event.preventDefault();
+
+        // get the div parent of the deleteButton
+        const imageDiv = event.target.parentElement.parentElement;
+
+        // remove the parent from the dom
+        imageDiv.remove();
+
+        // find the input element for the file
+        const fileInput = document.getElementById("inputGroupFile");
+        // reset the value of the file input
+        fileInput.value = "";
+
+        // if there are image in the imagesContainer set the first as active
+        if (divImages.children.length > 0) {
+            divImages.children[0].classList.add("active");
+        }
+        
+    });
 
     divButton.appendChild(deleteButton);
     divImage.appendChild(divButton);
