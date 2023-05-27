@@ -159,26 +159,36 @@ export let hasDoneRegistration = async (userId) => {
 
 export let findPage2ElementById = async (locationId) => {
     let location = await Location.findOne({_id:locationId}, {_id:1, category:1, title:1, main_text:1, texts:1, images:1, map:1, reviews_ids:1 }).lean();
-    
-    const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
-    // for each image_id in locations find the image
-    let images = [];
-    for (let i=0; i<numOfImages; i++){
-        const image = await Image.findOne({_id:{$in:location.images[i]}}, {_id:1, src:1, alt:1, title:1}).lean();
-        images.push(image);
+    try {
+        const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
+        // for each image_id in locations find the image
+        let images = [];
+        for (let i=0; i<numOfImages; i++){
+            const image = await Image.findOne({_id:{$in:location.images[i]}}, {_id:1, src:1, alt:1, title:1}).lean();
+            images.push(image);
+        }
+        location.images = images;
+        }
+    catch (error) {
+        location.images = [];
     }
-    location.images = images;
     
-    const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
-    // for each review_id in locations find the review
-    let reviews_ids = [];
-    for (let i=0; i<numOfReviews; i++){
-        const review = await Review.findOne({_id:{$in:location.reviews_ids[i]}}, {_id:1, date:1, score:1, text:1, user_id:1}).lean();
-        reviews_ids.push(review);
+    try {
+        const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
+        // for each review_id in locations find the review
+        let reviews_ids = [];
+        for (let i=0; i<numOfReviews; i++){
+            const review = await Review.findOne({_id:{$in:location.reviews_ids[i]}}, {_id:1, date:1, score:1, text:1, user_id:1}).lean();
+            reviews_ids.push(review);
+        }
+        location.reviews_ids = reviews_ids;
+        location.numOfReviews = numOfReviews;
     }
-    location.reviews_ids = reviews_ids;
-    
-    location.numOfReviews = numOfReviews;
+    catch (error){
+        location.reviews_ids = [];
+        location.numOfReviews = 0;
+    }
+
     return location;
 }
 
@@ -243,22 +253,32 @@ export let deleteLocation = async (locationId) => {
     // get the num of images
     let srcs = [];
     let image;
-    const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
-    for(let i=0; i<numOfImages; i++){
-        // find the image
-        image = await Image.findOne({_id:location.images[i]}, {_id:0, src:1}).lean();
-        // add the src to the array
-        srcs.push(image.src);
-        await Image.deleteOne({_id:location.images[i]});
+    try {
+        const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
+        for(let i=0; i<numOfImages; i++){
+            // find the image
+            image = await Image.findOne({_id:location.images[i]}, {_id:0, src:1}).lean();
+            // add the src to the array
+            srcs.push(image.src);
+            await Image.deleteOne({_id:location.images[i]});
+        }
     }
-    // delete the reviews
-    const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
-    for(let i=0; i<numOfReviews; i++){
-        await Review.deleteOne({_id:location.reviews_ids[i]});
+    catch (error){
+        // pass
     }
-    
-    // delete the location
-    await Location.deleteOne({_id:locationId});
+
+    try {
+        // delete the reviews
+        const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
+        for(let i=0; i<numOfReviews; i++){
+            await Review.deleteOne({_id:location.reviews_ids[i]});
+        }
+        // delete the location
+        await Location.deleteOne({_id:locationId});
+    }
+    catch (error){
+        // pas
+    }
     return srcs;
 }
 
