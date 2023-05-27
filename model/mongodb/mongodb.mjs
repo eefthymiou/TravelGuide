@@ -173,6 +173,20 @@ export let findPage2ElementById = async (locationId) => {
     return location;
 }
 
+export let createLocation = async (category) => {
+    let location = new Location({
+        category:category, 
+        title:"", 
+        main_text:" ", 
+        texts:[], 
+        images:[], 
+        map:"https://maps.google.com/maps?q=Κουφονήσια&t=&z=13&ie=UTF8&iwloc=&output=embed", 
+        reviews_ids:[]
+    });
+    await location.save();
+    return location._id;
+}
+
 export let addReview = async (locationId, userId, score, text ,date) => {
     // find the user from the database with userId
     const user = await User.findOne({_id:userId}, {_id:1}).lean();

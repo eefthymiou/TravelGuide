@@ -268,6 +268,13 @@ saveButton.addEventListener("click", function() {
 }
 );
 
+deleteButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // get the id of the location
+});
+
 
 editButton.addEventListener("click", function() {
     // Prevent the default action

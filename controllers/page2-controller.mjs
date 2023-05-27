@@ -37,7 +37,6 @@ async function fixElementForHbs(element){
 
     avgRating = getAvgRating(element.reviews_ids);
     for (let i=0; i<element.numOfReviews; i++) {
-     
         const userId = element.reviews_ids[i].user_id;
         const username = await model.getUsername(userId);
         element.reviews_ids[i].username = username;
@@ -79,8 +78,20 @@ async function getPage2Data(id){
     return page2Element;
 }
 
+async function createPage2ForAdmin(res,req){
+    try {
+        const category = res.query.category;
+        const locationId = await model.createLocation(category);
+        return locationId;
+    }   
+    catch (error){
+        console.log(error);
+    }
+
+}
+
 export async function createPage2(req, res) {
-    const id = req.query.id;
+    let id = req.query.id;
 
     // if (await model.hasDoneRegistration(req.session.username)) {
     //     if (await model.isAdmin(req.session.username)) {
@@ -93,12 +104,13 @@ export async function createPage2(req, res) {
     //     }
 
     // }
-
-    
+    if (id === "add"){
+        id = await createPage2ForAdmin(req,res);
+        console.log(id);
+    }
     let element = await model.findPage2ElementById(id);
-    console.log(element);
     element = await fixElementForHbs(element);
-
+    
     console.log(element);
 
     try {
