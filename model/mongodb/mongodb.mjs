@@ -225,3 +225,30 @@ export let addImage = async (locationId, src, alt, title) => {
     // update the location
     await Location.updateOne({_id:locationId}, {images:location.images});
 }
+
+export let deleteLocation = async (locationId) => {
+    // find the location
+    let location = await Location.findOne({_id:locationId}, {_id:0, images:1, reviews_ids:1}).lean();
+    
+    // delete the images
+    // get the num of images
+    let srcs = [];
+    let image;
+    const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
+    for(let i=0; i<numOfImages; i++){
+        // find the image
+        image = await Image.findOne({_id:location.images[i]}, {_id:0, src:1}).lean();
+        // add the src to the array
+        srcs.push(image.src);
+        await Image.deleteOne({_id:location.images[i]});
+    }
+    // delete the reviews
+    const numOfReviews = await Review.countDocuments({_id: {$in: location.reviews_ids}});
+    for(let i=0; i<numOfReviews; i++){
+        await Review.deleteOne({_id:location.reviews_ids[i]});
+    }
+    
+    // delete the location
+    await Location.deleteOne({_id:locationId});
+    return srcs;
+}

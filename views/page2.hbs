@@ -1,7 +1,7 @@
     <div class="container">
         <form id="myForm" 
-            {{#if admin}} action="/page2?category={{category}}&id={{id}}" method="post" enctype = 'multipart/form-data'{{/if}}
-            {{#if user}} action="/page2?category={{category}}&id={{id}}" method="post" enctype = 'multipart/form-data'{{/if}}>
+            {{#if admin}} enctype = 'multipart/form-data' data-id="{{id}}" data-category="{{category}}"{{/if}}
+            {{#if user}} action="/page2?category={{category}}&id={{id}}" method="post" enctype = 'multipart/form-data' {{/if}}>
             <fieldset class="m-3">
                 {{#if admin}}
                     <div class="d-flex justify-content-end align-items-center">
@@ -177,7 +177,6 @@
 
     {{#if admin}}<script src="/scripts/page2Admin.js"></script>{{/if}}
     {{#if user}}<script src="/scripts/page2User.js"></script>{{/if}}
-    
     <script src="/scripts/page2.js"></script>
 
 

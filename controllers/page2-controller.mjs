@@ -1,14 +1,9 @@
 import * as model from '../model/mongodb/mongodb.mjs';
 import fs from 'fs';
+import path from 'path';
 
-
-import { Page2Element} from '../public/scripts/page2Element.js';
-import { ReviewElement } from '../public/scripts/reviewElement.js';
-import { imageElement } from '../public/scripts/imageElement.js';
-import { isAsyncFunction } from 'util/types';
-
-const admin = true;
-const user = false;
+// const admin = true;
+// const user = false;
 
 function getAvgRating(reviews) {
     let sum = 0;
@@ -32,6 +27,8 @@ function getArrayScore(score){
     return arrayScore;
 }
 
+
+
 async function fixElementForHbs(element){
     let avgRating = 0;
 
@@ -47,36 +44,7 @@ async function fixElementForHbs(element){
     return element;
 }
 
-async function getPage2Data(id){
-    // find the data from the database for the given id
-    // const page2Element = await model.findPage2ElementById(id);
-    const page2Element = new Page2Element(0,"beach");
-    page2Element.title = "Παραλία Πορί";
-    page2Element.description = "Η παραλία Πορί έχει μια απίστευτη ομορφιά που καθηλώνει τον επισκέπτη. Αποτελείται από λευκή άμμο με σμαραγδένια νερά και είναι τεράστια σε μήκος. Θεωρείται μια από τις κορυφαίες παραλίες των Κυκλάδων.";
-    page2Element.info = [
-        "info1",
-        "info2",
-        "info3"
-    ];
-    page2Element.map = "https://maps.google.com/maps?q=ΠαραλίαΠορίΚουφονήσια&t=&z=13&ie=UTF8&iwloc=&output=embed";
 
-    const review1 = new ReviewElement(0,"john",5,"Πολύ ωραία παραλία! Την συστήνω ανεπιφύλακτα!");
-
-    page2Element.reviews = [review1];
-
-    // calculate the average rating
-    const avgRating = getAvgRating(page2Element.reviews);
-
-    // images paths
-    const image1 =  new imageElement(1,"../images/beaches.jpg","Παραλία Πορί","Παραλία Πορί");
-    const image2 =  new imageElement(2,"../images/acc.jpg","Παραλία Πορί","Παραλία Πορί");
-    const images = [image1,image2]
-
-    page2Element.images = images;
-    page2Element.avgRating = avgRating;
-    
-    return page2Element;
-}
 
 async function createPage2ForAdmin(res,req){
     try {
@@ -90,20 +58,62 @@ async function createPage2ForAdmin(res,req){
 
 }
 
+export async function deletePage2(req,res){
+    const id = req.query.id;
+    const category = req.query.category;
+    try {
+        const srcs = await model.deleteLocation(id);
+        let basePath = 'public/images/' + req.query.category + '/';
+        let filename;
+
+        for (let i = 0; i < srcs.length; i++) {
+        filename = srcs[i].split('/').pop();
+        const filePath = path.join(basePath, filename);
+
+        try {
+            fs.accessSync(filePath);
+            console.log('File exists:', filename);
+
+            // Delete the file
+            fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error('Error deleting file:', err);
+            } else {
+                console.log('File deleted successfully:', filename);
+            }
+            });
+        } catch (error) {
+            console.log('File does not exist:', filename);
+        }
+        }
+        res.redirect('/page1?category=' + category);
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+
 export async function createPage2(req, res) {
     let id = req.query.id;
+    let admin = false;
+    let user = false;
 
-    // if (await model.hasDoneRegistration(req.session.username)) {
-    //     if (await model.isAdmin(req.session.username)) {
-    //         const admin = true;
-    //         const user = false;
-    //     }
-    //     else {
-    //         const admin = false;
-    //         const user = true;
-    //     }
-
-    // }
+    try {
+        if (await model.hasDoneRegistration(req.session.user)) {
+            if (await model.isAdmin(req.session.user)) {
+                admin = true;
+                user = false;
+            }
+            else {
+                admin = false;
+                user = true;
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+    
     if (id === "add"){
         id = await createPage2ForAdmin(req,res);
         console.log(id);
@@ -205,8 +215,26 @@ async function updatePage2ForUser(req,res) {
 export async function updatePage2(req,res) {
     console.log("update page2");
     const id = req.query.id;
-    console.log(id);
     console.log(req.body);
+
+    let admin = false;
+    let user = false;
+
+    try {
+        if (await model.hasDoneRegistration(req.session.user)) {
+            if (await model.isAdmin(req.session.user)) {
+                admin = true;
+                user = false;
+            }
+            else {
+                admin = false;
+                user = true;
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
 
     if (admin){
         await updatePage2ForAdmin(req,res);
