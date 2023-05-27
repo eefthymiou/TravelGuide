@@ -83,6 +83,9 @@ export let getLocations = async (category) => {
     //find 1st image of each location
     for(let i=0; i<locations.length; i++){
         let image = await Image.findOne({_id:locations[i].images[0]}, {_id:0, src:1, alt:1, title:1}).lean();
+        if (image == null) {
+            image = {src: "../images/default.jpg", alt: "No image available", title: "No image available"};
+        }
         locations[i].image_src = image.src;
         locations[i].image_alt = image.alt;
         locations[i].image_title = image.title;
