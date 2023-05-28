@@ -234,6 +234,19 @@ function setOneImageActive() {
 
 }
 
+editButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // is edit variable is false enable the textareas
+    if (!edit){
+        // change mode to edit mode
+        editMode()
+    }
+
+    edit = !edit;
+});
+
 
 function main(){
     setOneImageActive();
