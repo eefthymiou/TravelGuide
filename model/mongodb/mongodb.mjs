@@ -236,6 +236,7 @@ export let saveChangesLocation = async (locationId, title, main_text, texts, map
 }
 
 export let addImage = async (locationId, src, alt, title) => {
+    console.log("ADD IMAGE!!!!!!!!!!!!!!!!!");
     // create image
     let image = new Image({src:src, alt:alt, title:title});
     // save image
