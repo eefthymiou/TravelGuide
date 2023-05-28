@@ -159,6 +159,7 @@ export let hasDoneRegistration = async (userId) => {
 
 export let findPage2ElementById = async (locationId) => {
     let location = await Location.findOne({_id:locationId}, {_id:1, category:1, title:1, main_text:1, texts:1, images:1, map:1, reviews_ids:1 }).lean();
+    console.log(location);
     try {
         const numOfImages = await Image.countDocuments({_id: {$in: location.images}});
         // for each image_id in locations find the image

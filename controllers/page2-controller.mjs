@@ -159,7 +159,7 @@ export async function createPage2(req, res) {
     let element = await model.findPage2ElementById(id);
     element = await fixElementForHbs(element);
     
-    console.log(element);
+    // console.log(element);
 
     try {
         res.render('page2', {
@@ -253,7 +253,6 @@ async function updatePage2ForUser(req,res) {
 export async function updatePage2(req,res) {
     console.log("update page2");
     const id = req.query.id;
-    console.log(req.body);
 
     let admin = false;
     let user = false;
