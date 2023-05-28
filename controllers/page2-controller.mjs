@@ -281,6 +281,7 @@ export async function updatePage2(req,res) {
     }
 
     // get the updated element
+    console.log(id);
     let element = await model.findPage2ElementById(id);
     // console.log(element);
     element = await fixElementForHbs(element);
