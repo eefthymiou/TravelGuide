@@ -109,6 +109,7 @@ export let emailExists = async (email) => {
 
 export let userExists = async (email, password) => {
     let user = await User.findOne({email:email}, {_id:1, password:1}).lean();
+    if(!user){return null;}
     let result = await bcrypt.compare(password, user.password);
     console.log(result);
     if (result) {
