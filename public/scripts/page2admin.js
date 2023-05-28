@@ -1,3 +1,5 @@
+import { autoIncrimentTextarea } from "./page2.js";
+
 // get the element with class deleteImageButton
 const deleteImageButton = document.getElementsByClassName("deleteImageButton");
 // add event listener to all the elements with class deleteImageButton
@@ -105,21 +107,6 @@ searchButton.addEventListener("click", function() {
     }
     addMap(searchInput);
 });
-
-
-function getNewImageId(){
-    // get the imagesContainer
-    const imagesContainer = document.getElementById("imagesContainer");
-    // get the children of imagesContainer
-    const images = imagesContainer.children;
-    // get the last image
-    const lastImage = images[images.length - 1];
-    // get the id of the last image
-    const lastImageId = lastImage.id;
-    // get the id of the new image
-    const newImageId = parseInt(lastImageId.replace("image", "")) + 1;
-    return newImageId;
-}
 
 // find all the infoDeleteButtons
 const infoDeleteButtons = document.getElementsByClassName("infoDeleteButton");
