@@ -271,27 +271,4 @@ previewButton.addEventListener("click", function() {
 });
 
                 
-saveButton.addEventListener("click", function() {
-    // Prevent the default action
-    event.preventDefault();
-    const form = document.getElementById("myForm");
-    const id = form.getAttribute("data-id");
-    const category = form.getAttribute("data-category");
-    form.action = `/page2/?id=${id}&category=${category}`;
-    form.method = "POST";
-    form.submit();
-}
-);
-deleteButton.addEventListener("click", function() {
-    event.preventDefault();
-  
-    const form = document.getElementById("myForm");
-    const id = form.getAttribute("data-id");
-    const category = form.getAttribute("data-category");
-
-
-    form.method = "POST";
-    form.action = `/page2/delete?id=${id}&category=${category}`;
-    form.submit();
-});
 
