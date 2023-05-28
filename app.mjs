@@ -25,6 +25,13 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
 app.use(session(sessionConf));
+// Middleware to reset session timer on each interaction
+app.use((req, res, next) => {
+    if (req.session) {
+       req.session.expires = Date.now() + sessionConf.cookie.maxAge;
+    }
+    next();
+ });
 
 app.engine('hbs', engine({ extname: ".hbs" }))
 app.set('view engine', 'hbs')
