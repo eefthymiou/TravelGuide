@@ -135,6 +135,7 @@ export async function createPage2(req, res) {
     let id = req.query.id;
     let admin = false;
     let user = false;
+    let guest = false;
 
     try {
         if (await model.hasDoneRegistration(req.session.user)) {
@@ -151,6 +152,10 @@ export async function createPage2(req, res) {
     catch (error) {
         console.log(error);
     }
+    if (admin === false && user === false) {
+        guest = true;
+    }
+
     
     if (id === "add"){
         id = await createPage2ForAdmin(req,res);
@@ -176,6 +181,7 @@ export async function createPage2(req, res) {
             images: element.images,
             admin: admin,
             user: user,
+            guest: guest,
             style: 'page2.css'});
     }   
     catch (error) {
@@ -191,6 +197,9 @@ async function updatePage2ForAdmin(req,res) {
         const texts = req.body.info;
         const map = req.body.map;
         
+        if (main_text === "") {
+            main_text = " ";
+        }
         await model.saveChangesLocation(id,title,main_text,texts,map);
     }
     catch (error) {
@@ -256,6 +265,7 @@ export async function updatePage2(req,res) {
 
     let admin = false;
     let user = false;
+    let guest = false;
 
     try {
         if (await model.hasDoneRegistration(req.session.user)) {
@@ -271,6 +281,9 @@ export async function updatePage2(req,res) {
     }
     catch (error) {
         console.log(error);
+    }
+    if (admin === false && user === false) {
+        guest = true;
     }
 
     if (admin){
@@ -301,6 +314,7 @@ export async function updatePage2(req,res) {
             images: element.images,
             admin: admin,
             user: user,
+            guest: guest,
             style: 'page2.css'});
     }   
     catch (error) {

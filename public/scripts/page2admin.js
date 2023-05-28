@@ -254,5 +254,176 @@ previewButton.addEventListener("click", function() {
     addImage()
 });
 
+
+let edit = false;
+
+function autoIncrimentTextarea(){
+    let elements = document.getElementsByTagName("textarea");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].style.height = "auto";
+        elements[i].style.height = (elements[i].scrollHeight) + "px";
+        // hide scrollbars
+        elements[i].style.overflow = "hidden";
+        // justify text
+        elements[i].style.textAlign = "justify";
+        // italic style 
+        elements[i].style.fontStyle = "italic";
+    }
+}
+
+function enableTextarea() {
+    let elements = document.getElementsByClassName("adminInput");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].disabled = false;
+        // remove non edit mode class
+        elements[i].classList.remove("nonEditMode");
+        // add edit mode class
+        elements[i].classList.add("editMode");
+    }
+}
+  
+function disableTextarea() {
+    let elements = document.getElementsByClassName("adminInput");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].disabled = true;
+        // not resizable
+        elements[i].style.resize = "none";
+        // remove edit mode class
+        elements[i].classList.remove("editMode");
+        // add non edit mode class
+        elements[i].classList.add("nonEditMode");
+    }
+}
+
+function hideAdminAction() {
+    let elements = document.getElementsByClassName("adminAction");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].style.display = "none";
+    }
+}
+
+function showAdminAction() {
+    const elements = document.getElementsByClassName("adminAction");
+    for (let i = 0; i < elements.length; i++){
+        elements[i].style.display = "";
+    }
+}
+
+function nonEditMode(){
+    try {
+        // hide save button
+        saveButton.style.display = "none";
+
+        // hide delete button
+        deleteButton.style.display = "none";
+
+        // unhide edit button
+        editButton.style.display = "";
+    }
+    catch (err){
+        // do nothing
+    }
+
+    // disable the textareas
+    disableTextarea()
+    
+    // hide admin action
+    hideAdminAction()
+
+}
+
+function editMode(){
+    // unhide save button
+    saveButton.style.display = "";
+
+    // unhide delete button
+    deleteButton.style.display = "";
+
+    // hide edit button
+    editButton.style.display = "none";
+
+    // enable the textareas
+    enableTextarea()
+
+    // show admin action
+    showAdminAction()
+}
+
+
+function removeStarButtonDefaultAction(){
+    // get button with class star
+    const star = document.querySelectorAll(".star")
+    // for all starts add event listener
+    for (var i = 0; i < star.length; i++) {
+        star[i].addEventListener("click", function() {
+            // prevent default action
+            event.preventDefault()
+        })
+    }
+}
+
+function setOneImageActive() {
+    try{
+        const divImages = document.getElementsByClassName("carousel-item");
+        divImages[0].classList.add("active");
+    }
+    catch (error){
+        // pass
+    }
+
+}
+
+editButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+
+    // is edit variable is false enable the textareas
+    if (!edit){
+        // change mode to edit mode
+        editMode()
+    }
+
+    edit = !edit;
+});
+
+
+
+saveButton.addEventListener("click", function() {
+    // Prevent the default action
+    event.preventDefault();
+    autoIncrimentTextarea();
+    const form = document.getElementById("myForm");
+    const id = form.getAttribute("data-id");
+    const category = form.getAttribute("data-category");
+    form.action = `/page2/?id=${id}&category=${category}`;
+    form.method = "POST";
+    form.submit();
+}
+);
+
+deleteButton.addEventListener("click", function() {
+    event.preventDefault();
+  
+    const form = document.getElementById("myForm");
+    const id = form.getAttribute("data-id");
+    const category = form.getAttribute("data-category");
+
+
+    form.method = "POST";
+    form.action = `/page2/delete?id=${id}&category=${category}`;
+    form.submit();
+});
+
+
+function main(){
+    setOneImageActive();
+    removeStarButtonDefaultAction()
+    disableTextarea()
+    autoIncrimentTextarea()
+    nonEditMode()
+}
+
+main()
+
                 
 
