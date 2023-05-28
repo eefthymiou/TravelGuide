@@ -252,6 +252,7 @@ editButton.addEventListener("click", function() {
 saveButton.addEventListener("click", function() {
     // Prevent the default action
     event.preventDefault();
+    autoIncrimentTextarea();
     const form = document.getElementById("myForm");
     const id = form.getAttribute("data-id");
     const category = form.getAttribute("data-category");

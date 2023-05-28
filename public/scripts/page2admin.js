@@ -1,4 +1,4 @@
-import { autoIncrimentTextarea } from "./page2.js";
+
 
 // get the element with class deleteImageButton
 const deleteImageButton = document.getElementsByClassName("deleteImageButton");
@@ -63,8 +63,7 @@ function addInfoF(text=""){
     // Add the div, delete button, and line break to the container
     container.appendChild(newRow);
 
-    // Call the autoIncrimentTextarea function
-    autoIncrimentTextarea()
+
 }
 
 addInfo.addEventListener("click", function() {
@@ -72,8 +71,6 @@ addInfo.addEventListener("click", function() {
     event.preventDefault();
     // Call the addInofrmation function
     addInfoF()
-    // Call the autoIncrimentTextarea function
-    autoIncrimentTextarea()
 });
 
 
